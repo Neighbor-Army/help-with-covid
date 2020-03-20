@@ -9,7 +9,7 @@ const Nav = ({setAuthTab}) => {
       <div className="left-nav">
         <Link href="/">
           <a>
-            Neighborhood Army
+            Neighbor Army
           </a>
         </Link>
       </div>
