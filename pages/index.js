@@ -9,6 +9,7 @@ import Nav from '../components/layout/Nav'
 import logout from '../utils/auth/logout'
 import '../styles/global.scss'
 import "../components/layout/Nav.scss";
+import ComingSoon from '../components/layout/ComingSoon'
 
 
 const Index = props => {
@@ -20,7 +21,8 @@ const Index = props => {
   return (
     <div>
       <Nav authTab={authTab} setAuthTab={setAuthTab}/>
-      <p>Hi there!</p>
+      <ComingSoon />
+      {/* <p>Hi there!</p>
       {!AuthUser ? (
         <p>
           Logged inlinelock
@@ -29,7 +31,7 @@ const Index = props => {
         <div>
           Logged Out
         </div>
-      )}
+      )} */}
     </div>
   )
 }

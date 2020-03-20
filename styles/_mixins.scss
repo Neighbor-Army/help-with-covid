@@ -28,7 +28,7 @@
     text-align: center;
     text-decoration: none;
     font: 14px/100% Arial, Helvetica, sans-serif;
-    padding: 1em 2em 1em;
+    padding: 1em 2em;
     font-weight: 400;
     font-family: $font-family;
     text-shadow: 0 1px 1px rgba(0,0,0,.3);
@@ -38,12 +38,12 @@
     color: $text_color !important;
     border: solid 1px darken($color, 18%);
     background: $color;
-    @include gradient(saturate($color, 15%), darken($color, 25%));
+    @include gradient(saturate($color, 4%), darken($color, 2%));
   
     &:hover {
       text-decoration: none;
-      background: darken($color, 10%);
-      @include gradient(saturate($color, 5%), darken($color, 25%));
+      background: darken($color, 14%);
+      @include gradient(saturate($color, 4%), darken($color, 2%));
     }
   
     &:active {
