@@ -1,5 +1,5 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
 
 const Example = props => {
   return (
@@ -8,17 +8,17 @@ const Example = props => {
         This page is static because it does not fetch any data or include the
         authed user info.
       </p>
-      <Link href={'/'}>
+      <Link href={"/"}>
         <a>Home</a>
       </Link>
     </div>
-  )
-}
+  );
+};
 
-Example.displayName = 'Example'
+Example.displayName = "Example";
 
-Example.propTypes = {}
+Example.propTypes = {};
 
-Example.defaultProps = {}
+Example.defaultProps = {};
 
-export default Example
+export default Example;

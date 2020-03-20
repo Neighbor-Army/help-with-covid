@@ -1,12 +1,12 @@
-import commonMiddleware from '../../utils/middleware/commonMiddleware'
-import { verifyIdToken } from '../../utils/auth/firebaseAdmin'
+import commonMiddleware from "../../utils/middleware/commonMiddleware";
+import { verifyIdToken } from "../../utils/auth/firebaseAdmin";
 
 const handler = (req, res) => {
   if (!req.body) {
-    return res.status(400)
+    return res.status(400);
   }
 
-  const { token } = req.body
+  const { token } = req.body;
 
   // Here, we decode the user's Firebase token and store it in a cookie. Use
   // express-session (or similar) to store the session data server-side.
@@ -22,16 +22,16 @@ const handler = (req, res) => {
   // requests in a serverless context.
   return verifyIdToken(token)
     .then(decodedToken => {
-      req.session.decodedToken = decodedToken
-      req.session.token = token
-      return decodedToken
+      req.session.decodedToken = decodedToken;
+      req.session.token = token;
+      return decodedToken;
     })
     .then(decodedToken => {
-      return res.status(200).json({ status: true, decodedToken })
+      return res.status(200).json({ status: true, decodedToken });
     })
     .catch(error => {
-      return res.status(500).json({ error })
-    })
-}
+      return res.status(500).json({ error });
+    });
+};
 
-export default commonMiddleware(handler)
+export default commonMiddleware(handler);

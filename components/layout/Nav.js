@@ -2,15 +2,12 @@ import React from "react";
 import Link from "next/link";
 import "./Nav.scss";
 
-
-const Nav = ({setAuthTab}) => {
+const Nav = ({ setAuthTab }) => {
   return (
     <div className="nav">
       <div className="left-nav">
         <Link href="/">
-          <a>
-            Neighbor Army
-          </a>
+          <a>Neighbor Army</a>
         </Link>
       </div>
       {/* <div className="center-nav">

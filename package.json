@@ -5,7 +5,8 @@
     "dev": "NODE_ENV=development next dev",
     "build": "NODE_ENV=production next build",
     "start": "NODE_ENV=production next start",
-    "deploy": "next export && firebase deploy"
+    "deploy": "next export && firebase deploy",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\""
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
@@ -26,5 +27,8 @@
     "sass": "^1.26.3",
     "styled-components": "^5.0.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "prettier": "^1.19.1"
+  },
+  "license": "MIT"
 }
