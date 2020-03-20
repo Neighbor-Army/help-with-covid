@@ -1,0 +1,88 @@
+@import "base";
+@import "variables";
+@import "mixins";
+
+// Fonts
+@import url("https://use.typekit.net/she4pxn.css");
+@import url("https://use.typekit.net/gbg1rsf.css");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap");
+
+h1{
+    font-size: $h1;
+    font-weight: 600;
+    font-family: $font-family;
+    line-height: $h1 + 1;
+}
+
+h2{
+    font-size: $h2;
+    font-weight: 500;
+    font-family: $font-family;
+    line-height: $h2 + 1;
+
+}
+
+h3{
+    font-size: $h3;
+    font-weight: 500;
+    font-family: $font-family;
+    line-height: $h3 + 1;
+
+}
+
+
+h4{
+    font-size: $h4;
+    font-weight: 400;
+    font-family: $font-family;
+    line-height: $h4 + 1;
+
+}
+
+h5{
+    font-size: $h5;
+    font-weight: 400;
+    font-family: $font-family;
+    line-height: $h5 + 1;
+
+}
+
+p, a{
+    font-size: 1.1rem;
+    font-weight: 300;
+    font-family: $font-family;
+    line-height: 1.8rem;
+
+}
+
+a{
+    color: $secondary-color;
+    font-weight: 400;
+}
+
+a:hover{
+    color: darken($secondary-color, 4%)
+}
+
+a::selection{
+    background-color: $primary-color;
+}
+
+input, textarea{
+    @include box-shadow(1px, 1px, 5px,  rgba(0, 0, 0, 0.2));
+    @include rounded(.18em);
+    margin: 10px 0px;
+    padding: 8px 10px;
+    min-width: 180px;
+    font-size: .8rem;
+    font-weight: 300;
+    font-family: $font-family;
+
+    &::placeholder{
+        font-size: .9rem;
+        font-weight: 200;
+        font-family: $font-family;
+    }
+}
+
+

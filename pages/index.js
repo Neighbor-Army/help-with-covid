@@ -1,58 +1,35 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import { get } from 'lodash/object'
 import Link from 'next/link'
 import Router from 'next/router'
 import withAuthUser from '../utils/pageWrappers/withAuthUser'
 import withAuthUserInfo from '../utils/pageWrappers/withAuthUserInfo'
+import Nav from '../components/layout/Nav'
 import logout from '../utils/auth/logout'
+import '../styles/global.scss'
+import "../components/layout/Nav.scss";
+
 
 const Index = props => {
   const { AuthUserInfo, data } = props
   const AuthUser = get(AuthUserInfo, 'AuthUser', null)
   const { favoriteFood } = data
+  const [authTab, setAuthTab] = useState("");
 
   return (
     <div>
+      <Nav authTab={authTab} setAuthTab={setAuthTab}/>
       <p>Hi there!</p>
       {!AuthUser ? (
         <p>
-          You are not signed in.{' '}
-          <Link href={'/auth'}>
-            <a>Sign in</a>
-          </Link>
+          Logged inlinelock
         </p>
       ) : (
         <div>
-          <p>You're signed in. Email: {AuthUser.email}</p>
-          <p
-            style={{
-              display: 'inlinelock',
-              color: 'blue',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-            }}
-            onClick={async () => {
-              try {
-                await logout()
-                Router.push('/auth')
-              } catch (e) {
-                console.error(e)
-              }
-            }}
-          >
-            Log out
-          </p>
+          Logged Out
         </div>
       )}
-      <div>
-        <Link href={'/example'}>
-          <a>Another example page</a>
-        </Link>
-      </div>
-      <div>
-        <div>Your favorite food is {favoriteFood}.</div>
-      </div>
     </div>
   )
 }

@@ -41,15 +41,4 @@ CustomDocument.getInitialProps = async ctx => {
   return { ...initialProps, AuthUserInfo }
 }
 
-CustomDocument.propTypes = {
-  AuthUserInfo: PropTypes.shape({
-    AuthUser: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      emailVerified: PropTypes.bool.isRequired,
-    }),
-    token: PropTypes.string,
-  }).isRequired,
-}
-
 export default CustomDocument
