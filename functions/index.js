@@ -18,10 +18,8 @@ app.get("/", function(req, res) {
   res.json({ message: "hooray! welcome to our api!" });
 });
 
-//this endpoint uses the shortID to identify query for packages
-//not the long id
 app.get("/task/:id", async function(req, res) {
-  const result = await onfleet.tasks.get(req.params.id, "shortId");
+  const result = await onfleet.tasks.get(req.params.id);
   res.json(result);
 });
 
@@ -39,6 +37,16 @@ app.post("/task", async function(req, res) {
     notes: req.body.notes,
     autoAssign: { mode: "distance" }
   });
+  res.json(results);
+});
+
+app.patch("/task/:id", async function(req, res) {
+  const results = onfleet.tasks.update(req.params.id, req.body);
+  res.json(results);
+});
+
+app.delete("/task/:id", async function(req, res) {
+  const results = onfleet.tasks.deleteOne(req.params.id);
   res.json(results);
 });
 
