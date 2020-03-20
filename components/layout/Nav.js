@@ -26,7 +26,9 @@ const Nav = ({setAuthTab}) => {
       </div> */}
 
       <div className="right-nav">
+        <a href="/auth">
           <button onClick={()=> setAuthTab("login")}>Log In</button>
+          </a>
           <button onClick={()=> setAuthTab("register")} className="signup">Sign Up</button>
       </div>
     </div>
