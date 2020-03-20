@@ -5,14 +5,12 @@ const cors = require("cors");
 const app = express(); // define our app using express
 const bodyParser = require("body-parser");
 const neighborhood = require("./helpers/neighborhood");
-const onfleet = require("./helpers/onfleet");
-// configure app to use bodyParser()
-// this will let us get the data from a POST
+const task = require("./helpers/onfleet/task");
+const Onfleet = require("@onfleet/node-onfleet");
+const onfleet = new Onfleet(process.env.ONFLEET_KEY);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
-// ROUTES FOR OUR API
-// =============================================================================
 
 /*
 address: {
@@ -36,7 +34,7 @@ app.get("/", async function(req, res) {
 });
 
 app.get("/task/:id", async function(req, res) {
-  const result = await onfleet.getTask(req.param.id);
+  const result = await task.getTask(req.param.id);
   res.json(result);
 });
 
@@ -50,7 +48,7 @@ app.post("/task", async function(req, res) {
     zipcode: address.postalCode
   });
   console.log(neighborhoodName);
-  const results = await onfleet.createTask(
+  const results = await task.createTask(
     req.body.address,
     req.body.person,
     req.body.notes
@@ -59,13 +57,29 @@ app.post("/task", async function(req, res) {
 });
 
 app.patch("/task/:id", async function(req, res) {
-  const results = await onfleet.updateTask(req.params.id, req.query.body);
+  const results = await task.updateTask(req.params.id, req.query.body);
   res.json(results);
 });
 
 app.delete("/task/:id", async function(req, res) {
-  const results = onfleet.deleteTask(req.param.id);
+  const results = task.deleteTask(req.param.id);
   res.json(results);
+});
+
+app.post("/team", async function(req, res) {
+  const address = req.body.address;
+  const neighborhoodData = await neighborhood.getNeighborhood({
+    streetAddress: address.number + " " + address.street,
+    unit: address.apartment,
+    city: address.city,
+    state: address.state,
+    zipcode: address.postalCode
+  });
+  console.log(neighborhoodData);
+
+  onfleet.teams.create({
+    name: neighborhoodData.short_name + "-" + neighborhoodData.id
+  });
 });
 
 // more routes for our API will happen here
