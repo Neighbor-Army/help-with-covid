@@ -1,47 +1,39 @@
-# Example: Firebase authentication with a serverless API
+# Getting Started
 
-## How to use
-
-### Using `create-next-app`
-
-Execute [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) with [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) or [npx](https://github.com/zkat/npx#readme) to bootstrap the example:
+## Clone the repo
 
 ```bash
-npx create-next-app --example with-firebase-authentication-serverless with-firebase-authentication-serverless-app
-# or
-yarn create next-app --example with-firebase-authentication-serverless with-firebase-authentication-serverless-app
+git clone https://github.com/Neighbor-Army/help-with-covid
 ```
 
-### Download manually
+## Environment Variables
 
-Download the example:
+-   Ask for an invitation to the `#engineering-data` channel in Slack and find the `.env` file.
+-   Check the `.env.example` file in the repo as reference
+-   Add your `.env` file to the root directory of the repo
+
+## Installation
 
 ```bash
-curl https://codeload.github.com/zeit/next.js/tar.gz/canary | tar -xz --strip=2 next.js-canary/examples/with-firebase-authentication-serverless
-cd with-firebase-authentication-serverless
+yarn install
 ```
 
-Set up Firebase:
+This will install the dependencies for both the front-end & backend.
 
-- Create a project at the [Firebase console](https://console.firebase.google.com/).
-- Get your account credentials from the Firebase console at _Project settings > Service accounts_, where you can click on _Generate new private key_ and download the credentials as a json file. It will contain keys such as `project_id`, `client_email` and `client_id`. Set them as environment variables in the `.env` file at the root of this project.
-- Get your authentication credentials from the Firebase console under _Project settings > General> Your apps_ Add a new web app if you don't already have one. Under _Firebase SDK snippet_ choose _Config_ to get the configuration as JSON. It will include keys like `apiKey`, `authDomain` and `databaseUrl`. Set the appropriate environment variables in the `.env` file at the root of this project.
-- Set the environment variables `SESSION_SECRET_CURRENT` and `SESSION_SECRET_PREVIOUS` in the `.env` file. (These are used by [`cookie-session`](https://github.com/expressjs/cookie-session/#secret).]
-
-Install it and run:
+## Run the Servers
 
 ```bash
-npm install
-npm run dev
-# or
-yarn
-yarn dev
+yarn install && yarn dev:all
 ```
 
-Deploy it to the cloud with [ZEIT Now](https://zeit.co/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+`yarn dev:all` will start both the front-end & back-end server.
 
-After deploying, copy the deployment URL and navigate to your Firebase project's Authentication tab. Scroll down in the page to "Authorized domains" and add that URL to the list.
+### Start only Frontend Server
 
-## The idea behind the example
+`yarn dev` will start just the frontend server
 
-This example includes Firebase authentication and serverless [API routes](https://nextjs.org/docs/api-routes/introduction). On login, the app calls `/api/login`, which stores the user's info (their decoded Firebase token) in a cookie so that it's available server-side in `getInitialProps`. On logout, the app calls `/api/logout` to destroy the cookie.
+### Start the Backend Server
+
+The backend is broken up into two parts. There is the firebase functions which are serverless functions that allow us to deploy our own APIs. Then there's OnFleet which is our task handling system.
+
+`cd functions && yarn serve` will start just the backend server.
