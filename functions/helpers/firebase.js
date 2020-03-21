@@ -2,7 +2,7 @@ const firebase = require("firebase");
 // Required for side-effects
 require("firebase/firestore");
 firebase.initializeApp({
-    apiKey: "AIzaSyB1MuZ5caX7Q8to5bhytlOz2-iF-frC_1c",
+    apiKey: process.env.FIREBASE_PUBLIC_API_KEY,
     authDomain: "http://neighbor-army.firebaseapp.com/",
     projectId: "neighbor-army"
 });
