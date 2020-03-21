@@ -40,6 +40,6 @@ The backend is broken up into two parts. There is the firebase functions which a
 
 ## Architecture
 
-![Architecture 1](https://raw.githubusercontent.com/neighbor-army/help-with-covid/develop/docs/images/architecture-1.png)
+![Architecture 2](https://raw.githubusercontent.com/neighbor-army/help-with-covid/develop/docs/images/architecture-2.png)
 
-![Architecture 2](https://raw.githubusercontent.com/neighbor-army/help-with-covid/develop/docs/images/architecture-1.png)
+![Architecture 1](https://raw.githubusercontent.com/neighbor-army/help-with-covid/develop/docs/images/architecture-1.png)
