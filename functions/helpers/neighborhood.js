@@ -7,8 +7,9 @@ const getNeighborhood = async address => {
         "@" +
         Date.now() +
         ".com";
-    return axios
-        .post("https://nextdoor.com/ajax/account/validate/", {
+    const res = await axios.post(
+        "https://nextdoor.com/ajax/account/validate/",
+        {
             address: {
                 street_address: address.streetAddress,
                 unit: address.unit,
@@ -18,22 +19,15 @@ const getNeighborhood = async address => {
                 residence_id: null
             },
             email_address: randEmail
-        })
-        .catch(function(error) {
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                console.log(error.request);
-            } else {
-                console.log("Error", error.message);
-            }
-            console.log(error.config);
-        })
-        .then(function(response) {
-            return response.data.context.neighborhood;
-        });
+        }
+    );
+    const neighborhood = res.data.context.neighborhood;
+    if (!neighborhood) {
+        const error = new Error("Neighborhood is null");
+        error.statusCode = 418;
+        throw error;
+    }
+    return neighborhood;
 };
 
 module.exports = {

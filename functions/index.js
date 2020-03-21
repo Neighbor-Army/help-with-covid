@@ -39,22 +39,26 @@ app.get("/task/:id", async function(req, res) {
     res.json(result);
 });
 
-app.post("/task", async function(req, res) {
+app.post("/task", async function(req, res, next) {
     const address = req.body.address;
-    const neighborhoodName = await neighborhood.getNeighborhood({
-        streetAddress: address.number + " " + address.street,
-        unit: address.apartment,
-        city: address.city,
-        state: address.state,
-        zipcode: address.postalCode
-    });
-    console.log(neighborhoodName);
-    const results = await task.createTask(
-        req.body.address,
-        req.body.person,
-        req.body.notes
-    );
-    res.json(results);
+    try {
+        const neighborhoodName = await neighborhood.getNeighborhood({
+            streetAddress: address.number + " " + address.street,
+            unit: address.apartment,
+            city: address.city,
+            state: address.state,
+            zipcode: address.postalCode
+        });
+        console.log(neighborhoodName);
+        const results = await task.createTask(
+            req.body.address,
+            req.body.person,
+            req.body.notes
+        );
+        res.json(results);
+    } catch (error) {
+        next(error);
+    }
 });
 
 app.patch("/task/:id", async function(req, res) {
@@ -83,7 +87,7 @@ app.post("/team", async function(req, res) {
         .create({
             name: neighborhoodID
         })
-        .catch(function(response) {
+        .catch(function() {
             res.status(409).send("Team already exists");
         })
         .then(function(response) {
@@ -97,7 +101,13 @@ app.post("/team", async function(req, res) {
         });
 });
 
-app.get("/team", async function(req, res) {});
+// app.get("/team", async function(req, res) {});
+
+app.use((err, req, res) => {
+    return res.status(err.statusCode || 500).json({
+        message: err.message || "Something went wrong call Mikis 318-929-0221"
+    });
+});
 
 // more routes for our API will happen here
 exports.widgets = functions.https.onRequest(app);
