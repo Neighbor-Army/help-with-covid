@@ -1,0 +1,23 @@
+@import "../../../styles/variables";
+
+
+.formik-text-input-container {
+    display: inline-block;
+    font-family: $font-family;
+    input[type=text].text-input {
+        min-width: auto;
+        border: 1px solid transparent;
+        box-sizing: border-box;
+        &.error {
+            color :red;
+            border: 1px solid red;
+        }
+    }
+    .input-feedback {
+        line-height: 0.8em;
+        height: 0.8rem;
+        color: red;
+        font-weight: lighter;
+        font-size: 0.8rem;
+    }
+}

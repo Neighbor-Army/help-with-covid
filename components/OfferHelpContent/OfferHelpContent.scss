@@ -1,0 +1,61 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.offer-help-content {
+    // height: calc(100vh - #{$header-nav-height});
+    background: $background;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+
+    &__header-wrap {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        padding-bottom: 60px;
+
+        p {
+            padding-top: 30px;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+    }
+
+    &__form-box {
+      max-width: 700px;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      margin: 0 auto;
+
+      .formik-text-input-container {
+        width: 100%;
+        &.half {
+          width: 48%;
+          &:nth-child(2) {
+            margin-left: 4%;
+          }
+        }
+      }
+
+      input[type=text].text-input {
+        width: 100%;
+
+      }
+
+      button[type=submit] {
+        float:right;
+      }
+    }
+
+    &__footnote {
+        transform: translateX(-50%);
+        left: 50%;
+
+        a {
+            text-decoration: underline;
+        }
+    }
+}
