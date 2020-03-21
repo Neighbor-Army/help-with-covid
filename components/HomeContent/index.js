@@ -38,11 +38,11 @@ const HomeContent = () => {
                 </a>
                 {", "}
                 <a
-                    href="https://www.openfleet.com"
+                    href="https://www.onfleet.com"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    OpenFleet
+                    OnFleet
                 </a>
                 , and amazing volunteers
             </p>
