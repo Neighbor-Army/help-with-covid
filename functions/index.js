@@ -8,6 +8,7 @@ const neighborhood = require("./helpers/neighborhood");
 const task = require("./helpers/onfleet/task");
 const Onfleet = require("@onfleet/node-onfleet");
 const onfleet = new Onfleet(process.env.ONFLEET_KEY);
+const firebase = require("./helpers/firebase");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
@@ -66,7 +67,7 @@ app.delete("/task/:id", async function(req, res) {
     res.json(results);
 });
 
-app.post("/team", async function(req) {
+app.post("/team", async function(req, res) {
     const address = req.body.address;
     const neighborhoodData = await neighborhood.getNeighborhood({
         streetAddress: address.number + " " + address.street,
@@ -76,11 +77,27 @@ app.post("/team", async function(req) {
         zipcode: address.postalCode
     });
     console.log(neighborhoodData);
-
-    onfleet.teams.create({
-        name: neighborhoodData.short_name + "-" + neighborhoodData.id
-    });
+    const name = neighborhoodData.short_name.replace("/", "-");
+    const neighborhoodID = neighborhoodData.id;
+    onfleet.teams
+        .create({
+            name: neighborhoodID
+        })
+        .catch(function(response) {
+            res.status(409).send("Team already exists");
+        })
+        .then(function(response) {
+            const id = response.id;
+            firebase.writeNewTeam(name, id, neighborhoodID);
+            res.status(200).json({
+                onFleetID: id,
+                name: name,
+                neighborhoodID: neighborhoodID
+            });
+        });
 });
+
+app.get("/team", async function(req, res) {});
 
 // more routes for our API will happen here
 exports.widgets = functions.https.onRequest(app);
