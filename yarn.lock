@@ -7609,11 +7609,6 @@ react-firebaseui@4.1.0:
   dependencies:
     firebaseui "^4.1.0"
 
-react-form@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-form/-/react-form-4.0.1.tgz#f442adae7142261a6650a63001c49827e4317ca5"
-  integrity sha512-vhsCuBLZJYjm6vd8TBxIhIWeB/8Jg4mmmiR3Zj+1zIGBM39qJf1CLqekadLp0J9NeW0EsZxUnBtbmEnMeZ/7Pw==
-
 react-hook-form@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-5.1.1.tgz#f5ca03343d18b1c437b2343914d10f9cfe9aa333"
