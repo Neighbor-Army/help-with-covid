@@ -1,0 +1,56 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.home-content {
+    height: calc(100vh - #{$header-nav-height});
+    background: $background;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+
+    &__header-wrap {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        padding-bottom: 60px;
+
+        p {
+            padding-top: 30px;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+    }
+
+    &__cta-row {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0 auto;
+
+        > div {
+            display: flex;
+            a {
+                margin: 0 15px 30px;
+                font-size: 1.2rem;
+                @include button($primary-color, $snow-white);
+                font-weight: 400;
+                padding: 10px 15px;
+                border: 2px solid black;
+                border-radius: 6px;
+            }
+        }
+    }
+
+    &__footnote {
+        position: absolute;
+        bottom: 50px;
+        transform: translateX(-50%);
+        left: 50%;
+
+        a {
+            text-decoration: underline;
+        }
+    }
+}
