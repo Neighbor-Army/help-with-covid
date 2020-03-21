@@ -11,9 +11,6 @@
         "lint": "eslint .",
         "postinstall": "cd functions && yarn install"
     },
-    "engines": {
-        "node": "12"
-    },
     "dependencies": {
         "@onfleet/node-onfleet": "^1.0.5",
         "@zeit/next-css": "^1.0.1",
