@@ -13,33 +13,33 @@ initFirebase();
 export const AuthUserInfoContext = React.createContext(createAuthUserInfo());
 
 export const useAuthUserInfo = () => {
-  return React.useContext(AuthUserInfoContext);
+    return React.useContext(AuthUserInfoContext);
 };
 
 // Returns a Firebase JS SDK user object.
 export const useFirebaseAuth = () => {
-  const [state, setState] = useState(() => {
-    const user = firebase.auth().currentUser;
-    return {
-      initializing: !user,
-      user
-    };
-  });
+    const [state, setState] = useState(() => {
+        const user = firebase.auth().currentUser;
+        return {
+            initializing: !user,
+            user
+        };
+    });
 
-  function onChange(user) {
-    setState({ initializing: false, user });
+    function onChange(user) {
+        setState({ initializing: false, user });
 
-    // Call server to update session.
-    setSession(user);
-  }
+        // Call server to update session.
+        setSession(user);
+    }
 
-  useEffect(() => {
-    // Listen for auth state changes.
-    const unsubscribe = firebase.auth().onAuthStateChanged(onChange);
+    useEffect(() => {
+        // Listen for auth state changes.
+        const unsubscribe = firebase.auth().onAuthStateChanged(onChange);
 
-    // Unsubscribe to the listener when unmounting.
-    return () => unsubscribe();
-  }, []);
+        // Unsubscribe to the listener when unmounting.
+        return () => unsubscribe();
+    }, []);
 
-  return state;
+    return state;
 };
