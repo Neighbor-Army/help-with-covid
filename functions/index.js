@@ -66,7 +66,7 @@ app.delete("/task/:id", async function(req, res) {
     res.json(results);
 });
 
-app.post("/team", async function(req, res) {
+app.post("/team", async function(req) {
     const address = req.body.address;
     const neighborhoodData = await neighborhood.getNeighborhood({
         streetAddress: address.number + " " + address.street,

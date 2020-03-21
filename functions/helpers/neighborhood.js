@@ -1,5 +1,5 @@
 const axios = require("axios").default;
-getNeighborhood = async address => {
+const getNeighborhood = async address => {
     const randEmail =
         Math.random()
             .toString(36)

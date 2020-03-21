@@ -1,7 +1,7 @@
 const Onfleet = require("@onfleet/node-onfleet");
 const onfleet = new Onfleet(process.env.ONFLEET_KEY);
 
-createTask = async (address, person, notes) => {
+const createTask = async (address, person, notes) => {
     console.log(address);
     console.log(person);
 
@@ -13,15 +13,15 @@ createTask = async (address, person, notes) => {
     });
 };
 
-deleteTask = async id => {
+const deleteTask = async id => {
     return await onfleet.tasks.deleteOne(id);
 };
 
-getTask = async id => {
+const getTask = async id => {
     return await onfleet.tasks.get(id);
 };
 
-updateTask = async (id, body) => {
+const updateTask = async (id, body) => {
     return await onfleet.tasks.update(id, body);
 };
 
