@@ -6,6 +6,7 @@ const addEmailToList = async email => {
         method: "PUT",
         url: "/v3/marketing/contacts",
         body: {
+            list_ids: [process.env.SENDGRID_MARKETING_LIST_ID],
             contacts: [
                 {
                     email: email
