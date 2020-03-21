@@ -1,8 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { routes } from "@/constants";
 import Link from "next/link";
 import "./Nav.scss";
 
-const Nav = () => {
+const Nav = ({ setAuthTab }) => {
     return (
         <div className="nav">
             <div className="left-nav">
@@ -10,25 +12,25 @@ const Nav = () => {
                     <a>Neighbor Army</a>
                 </Link>
             </div>
-            {/* <div className="center-nav">
-        <ul>
-          {links.map(({ key, href, label }) => (
-            <li key={key}>
-              <Link href={href}>
-                <a>{label}</a>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div> */}
-
             <div className="right-nav">
-                {/* <a href="/auth">
-          <button onClick={()=> setAuthTab("login")}>Log In</button>
-          </a>
-          <button onClick={()=> setAuthTab("register")} className="signup">Sign Up</button> */}
+                <a href={routes.LOG_IN}>
+                    <button onClick={() => setAuthTab("login")}>Log In</button>
+                </a>
+                <a href={routes.SIGN_UP}>
+                    <button
+                        onClick={() => setAuthTab("register")}
+                        className="signup"
+                    >
+                        Sign Up
+                    </button>
+                </a>
             </div>
         </div>
     );
 };
+
+Nav.propTypes = {
+    setAuthTab: PropTypes.func
+};
+
 export default Nav;

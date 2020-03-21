@@ -1,5 +1,5 @@
 require("./env.js");
-
+const path = require("path");
 const withSass = require("@zeit/next-sass");
 const withCSS = require("@zeit/next-css");
 
@@ -15,6 +15,8 @@ module.exports = withCSS(
                     }
                 }
             });
+
+            config.resolve.alias["@"] = path.join(__dirname, "./");
 
             return config;
         },
