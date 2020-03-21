@@ -8,20 +8,18 @@
       -moz-box-shadow: $top $left $blur $color;
       box-shadow: $top $left $blur $color;
     }
-  }
-  
-  @mixin text-field {
-   display: inline-block;
+}
+
+@mixin text-field {
+    display: inline-block;
     outline: none;
     text-decoration: none;
     font: 14px/100% Arial, Helvetica, sans-serif;
-    padding: .5em;
-    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    padding: 0.5em;
     @include rounded();
-    @include box-shadow(0, 1px, 2px, rgba(0, 0, 0, 0.2));
-  }
-  
-  @mixin button($color: $red, $text_color: $white) {
+}
+
+@mixin button($color: $red, $text_color: $white) {
     display: inline-block;
     outline: none;
     cursor: pointer;

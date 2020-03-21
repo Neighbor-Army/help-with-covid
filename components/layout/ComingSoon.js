@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ComingSoon.scss";
 import { FaGithub } from "react-icons/fa";
 import { FaSlack } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 
 const ComingSoon = () => {
+    const [emailValue, setEmailValue] = useState("");
+
+    const onSubmit = () => {
+        console.log("We are submitting the form now with value", emailValue);
+    };
+
     return (
         <div className="coming-soon">
             <div className="coming-soon-header-wrap">
@@ -17,6 +23,24 @@ const ComingSoon = () => {
                 <button className="request-help">Request Help</button>
                 <button className="offer-help">Offer Help</button>
             </div> */}
+            </div>
+            <div className="email_form">
+                <input
+                    type="text"
+                    name="email_address"
+                    id="email_address"
+                    placeholder="Email address"
+                    value={emailValue}
+                    onChange={event => {
+                        setEmailValue(event.target.value);
+                    }}
+                />
+                <input
+                    type="submit"
+                    value="Notify Me"
+                    onMouseDown={onSubmit}
+                    onClick={onSubmit}
+                />
             </div>
             <div className="coming-soon-footer-wrap">
                 <p style={{ paddingRight: "25px" }}>Get involved.</p>

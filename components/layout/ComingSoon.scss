@@ -2,66 +2,78 @@
 @import "../../styles/mixins";
 
 .coming-soon {
-  height: calc(100vh - 85px);
-  background: $background;
-  margin: 0 auto;
-
-
-  .coming-soon-header-wrap {
-    width: 700px;
+    height: calc(100vh - 85px);
+    background: $background;
     margin: 0 auto;
-    text-align: center;
-    padding-top: 90px;
-    padding-bottom: 60px;
 
-    h1{
-        padding-bottom: 50px;
-        font-size: 72px;
-        font-weight: 800;
-    }
+    .coming-soon-header-wrap {
+        width: 700px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 90px;
+        padding-bottom: 60px;
 
-    p{
-      font-size: 24px;
-      line-height: 1.4;
-      font-weight: 400;
-    }
-  }
-  .coming-soon-CTA{
-    margin: 20px;
-      .request-help{
-          @include button($primary-color,$snow-white);
-          margin: 10px;
-          min-width: 155px;
-      }
-
-      .offer-help{
-        @include button($background,$primary-color);
-        margin: 10px;
-        min-width: 155px;
-    }
-
-      
-  }
-
-  .coming-soon-footer-wrap {
-    width: 700px;
-    margin: 0 auto;
-    padding-top: 40px;
-    display: flex;
-    justify-content: space-between;
-
-    a{
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-
-        button{
-            @include button($background, $secondary-color);
-            font-weight: 400;
-            padding: 10px 15px;
-            border: 1.5px solid $secondary-color;
-            border-radius: 6px;
+        h1 {
+            padding-bottom: 50px;
+            font-size: 72px;
+            font-weight: 800;
         }
-        
+
+        p {
+            font-size: 24px;
+            line-height: 1.4;
+            font-weight: 400;
+        }
     }
-  }
+    .coming-soon-CTA {
+        margin: 20px;
+        .request-help {
+            @include button($primary-color, $snow-white);
+            margin: 10px;
+            min-width: 155px;
+        }
+
+        .offer-help {
+            @include button($background, $primary-color);
+            margin: 10px;
+            min-width: 155px;
+        }
+    }
+
+    .coming-soon-footer-wrap {
+        width: 700px;
+        margin: 0 auto;
+        padding-top: 40px;
+        display: flex;
+        justify-content: space-between;
+
+        a {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+
+            button {
+                @include button($background, $secondary-color);
+                font-weight: 400;
+                padding: 10px 15px;
+                border: 1.5px solid $secondary-color;
+                border-radius: 6px;
+            }
+        }
+    }
+
+    .email_form {
+        display: flex;
+        width: 700px;
+        margin: 0 auto;
+
+        input[type="text"] {
+            @include text-field();
+            margin-right: 1em;
+            color: #333;
+        }
+
+        input[type="submit"] {
+            @include button(#000, $snow-white);
+        }
+    }
 }
