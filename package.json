@@ -2,10 +2,11 @@
     "name": "with-firebase-auth-serverless",
     "version": "1.0.0",
     "scripts": {
-        "dev": "NODE_ENV=development concurrently --kill-others \"next dev\" \"cd functions && yarn serve\"",
+        "dev": "next dev",
         "build": "NODE_ENV=production next build",
         "start": "NODE_ENV=production next start",
         "deploy": "next export && firebase deploy",
+        "dev:all": "NODE_ENV=development concurrently --kill-others \"yarn dev\" \"cd functions && yarn serve\"",
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
         "lint": "eslint .",
         "postinstall": "cd functions && yarn install"
