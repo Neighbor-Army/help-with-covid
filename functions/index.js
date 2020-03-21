@@ -30,56 +30,56 @@ person: {
 */
 
 app.get("/", async function(req, res) {
-  res.json({ message: "hooray! welcome to our api!" });
+    res.json({ message: "hooray! welcome to our api!" });
 });
 
 app.get("/task/:id", async function(req, res) {
-  const result = await task.getTask(req.param.id);
-  res.json(result);
+    const result = await task.getTask(req.param.id);
+    res.json(result);
 });
 
 app.post("/task", async function(req, res) {
-  const address = req.body.address;
-  const neighborhoodName = await neighborhood.getNeighborhood({
-    streetAddress: address.number + " " + address.street,
-    unit: address.apartment,
-    city: address.city,
-    state: address.state,
-    zipcode: address.postalCode
-  });
-  console.log(neighborhoodName);
-  const results = await task.createTask(
-    req.body.address,
-    req.body.person,
-    req.body.notes
-  );
-  res.json(results);
+    const address = req.body.address;
+    const neighborhoodName = await neighborhood.getNeighborhood({
+        streetAddress: address.number + " " + address.street,
+        unit: address.apartment,
+        city: address.city,
+        state: address.state,
+        zipcode: address.postalCode
+    });
+    console.log(neighborhoodName);
+    const results = await task.createTask(
+        req.body.address,
+        req.body.person,
+        req.body.notes
+    );
+    res.json(results);
 });
 
 app.patch("/task/:id", async function(req, res) {
-  const results = await task.updateTask(req.params.id, req.query.body);
-  res.json(results);
+    const results = await task.updateTask(req.params.id, req.query.body);
+    res.json(results);
 });
 
 app.delete("/task/:id", async function(req, res) {
-  const results = task.deleteTask(req.param.id);
-  res.json(results);
+    const results = task.deleteTask(req.param.id);
+    res.json(results);
 });
 
-app.post("/team", async function(req, res) {
-  const address = req.body.address;
-  const neighborhoodData = await neighborhood.getNeighborhood({
-    streetAddress: address.number + " " + address.street,
-    unit: address.apartment,
-    city: address.city,
-    state: address.state,
-    zipcode: address.postalCode
-  });
-  console.log(neighborhoodData);
+app.post("/team", async function(req) {
+    const address = req.body.address;
+    const neighborhoodData = await neighborhood.getNeighborhood({
+        streetAddress: address.number + " " + address.street,
+        unit: address.apartment,
+        city: address.city,
+        state: address.state,
+        zipcode: address.postalCode
+    });
+    console.log(neighborhoodData);
 
-  onfleet.teams.create({
-    name: neighborhoodData.short_name + "-" + neighborhoodData.id
-  });
+    onfleet.teams.create({
+        name: neighborhoodData.short_name + "-" + neighborhoodData.id
+    });
 });
 
 // more routes for our API will happen here
