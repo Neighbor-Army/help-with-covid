@@ -37,3 +37,9 @@ yarn install && yarn dev:all
 The backend is broken up into two parts. There is the firebase functions which are serverless functions that allow us to deploy our own APIs. Then there's OnFleet which is our task handling system.
 
 `cd functions && yarn serve` will start just the backend server.
+
+## Architecture
+
+![Architecture 1](https://raw.githubusercontent.com/neighbor-army/help-with-covid/develop/docs/images/architecture-1.png)
+
+![Architecture 2](https://raw.githubusercontent.com/neighbor-army/help-with-covid/develop/docs/images/architecture-1.png)
