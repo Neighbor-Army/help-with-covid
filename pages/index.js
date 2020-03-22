@@ -7,7 +7,6 @@ import Nav from "../components/layout/Nav";
 import "../styles/global.scss";
 import "../components/layout/Nav.scss";
 import HomeContent from "../components/HomeContent";
-import RequestHelp from "../components/HomeContent";
 
 const Index = () => {
     const [authTab, setAuthTab] = useState("");
@@ -16,7 +15,7 @@ const Index = () => {
         <div>
             <Nav authTab={authTab} setAuthTab={setAuthTab} />
             <HomeContent />
-            
+
             {/* <p>Hi there!</p>
       {!AuthUser ? (
         <p>

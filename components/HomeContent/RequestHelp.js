@@ -7,7 +7,8 @@ const RequestHelp = () => {
             <div className="request-help__header-wrap">
                 <h1 className="hero-text">Call or Text (800) 300-6500</h1>
                 <p>
-                    Please call or text us. You will be prompted with a few short questions and we will call you ASAP.
+                    Please call or text us. You will be prompted with a few
+                    short questions and we will call you ASAP.
                 </p>
             </div>
             <p className="request-help__footnote">
@@ -17,7 +18,7 @@ const RequestHelp = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Twillio
+                    Twilio
                 </a>
                 {", "}
                 <a
