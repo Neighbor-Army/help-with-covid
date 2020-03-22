@@ -39,10 +39,22 @@ const createTeam = async (neighborhoodData) => {
     return results;
 };
 
+const createWorker = async (teamId, name, phone) => {
+    console.log(teamId);
+    console.log(name);
+    console.log(phone);
+    return onfleet.workers.create({
+        name: name,
+        phone: phone,
+        teams: [teamId.toString()]
+    });
+};
+
 module.exports = {
     createTask,
     deleteTask,
     getTask,
     updateTask,
-    createTeam
+    createTeam,
+    createWorker
 };
