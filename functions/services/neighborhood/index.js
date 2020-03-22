@@ -1,12 +1,14 @@
-const axios = require("axios").default;
+const axios = require("axios");
+
+const getRandomEmail =
+    Math.random()
+        .toString(36)
+        .substring(2, 15) +
+    "@" +
+    Date.now() +
+    ".com";
+
 const getNeighborhood = async address => {
-    const randEmail =
-        Math.random()
-            .toString(36)
-            .substring(2, 15) +
-        "@" +
-        Date.now() +
-        ".com";
     const res = await axios.post(
         "https://nextdoor.com/ajax/account/validate/",
         {
@@ -18,7 +20,7 @@ const getNeighborhood = async address => {
                 zip_code: address.zipcode,
                 residence_id: null
             },
-            email_address: randEmail
+            email_address: getRandomEmail
         }
     );
     const neighborhood = res.data.context.neighborhood;
