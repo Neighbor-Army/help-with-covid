@@ -101,7 +101,10 @@ router.post("/worker", async function (req, res, next) {
             name,
             phone
         );
-        await sendgridService.addEmailToList(req.body.email);
+        await sendgridService.addEmailToList(
+            req.body.email,
+            process.env.SENDGRID_VOLUNTEERS_LIST_ID
+        );
         res.status(200).json(results);
     } catch (error) {
         next(error);
@@ -110,7 +113,10 @@ router.post("/worker", async function (req, res, next) {
 
 router.post("/email", async function (req, res) {
     console.log(req.body.email);
-    const result = await sendgridService.addEmailToList(req.body.email);
+    const result = await sendgridService.addEmailToList(
+        req.body.email,
+        process.env.SENDGRID_MARKETING_LIST_ID
+    );
     res.status(result.statusCode).send();
 });
 module.exports = router;
