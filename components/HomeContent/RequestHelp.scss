@@ -1,0 +1,75 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.request-help {
+    height: calc(100vh - #{$header-nav-height});
+    background: $background;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+
+    &__header-wrap {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+        padding-bottom: 60px;
+        margin-top: 170px;
+
+        h1{
+            font-size: 36px;
+            @media (max-width: 840px) {
+                font-size: 28px;
+             }
+             @media (max-width: 480px) {
+                font-size: 19px;
+             }
+        }
+
+        p {
+            padding-top: 10px;
+            margin: 0 auto;
+            max-width: 600px;
+
+            @media (max-width: 800px) {
+                font-size: 14px;
+                max-width: 400px;
+             }
+             @media (max-width: 480px) {
+                font-size: 12px;
+                max-width: 300px;
+             }
+        }
+    }
+
+
+
+    &__footnote {
+        position: absolute;
+        bottom: 10px;
+        font-size: 1rem;
+        width: 100%;
+        left: 0;
+        text-align: center;
+        @media (max-width: 800px) {
+            font-size: .9rem;
+
+         }
+         @media (max-width: 480px) {
+            font-size: .4rem;
+
+         }
+        a {
+            text-decoration: underline;
+            @media (max-width: 800px) {
+                font-size: .9rem;
+    
+             }
+             @media (max-width: 480px) {
+                font-size: .4rem;
+    
+             }
+        }
+    }
+}

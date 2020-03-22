@@ -29,6 +29,7 @@ const dotEnvFiles = [
 dotEnvFiles.forEach(dotenvFile => {
     if (fs.existsSync(dotenvFile)) {
         // eslint-disable-next-line global-require
+        console.log("Found .env file at ", dotenvFile);
         require("dotenv").config({
             path: dotenvFile
         });

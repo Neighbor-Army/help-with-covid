@@ -1,5 +1,4 @@
 const axios = require("axios");
-
 const getRandomEmail =
     Math.random()
         .toString(36)

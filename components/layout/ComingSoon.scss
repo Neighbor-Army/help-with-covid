@@ -2,58 +2,119 @@
 @import "../../styles/mixins";
 
 .coming-soon {
-  height: calc(100vh - 85px);
-  background: $background;
-  margin: 0 auto;
-
-
-  .coming-soon-header-wrap {
-    width: 600px;
+    height: calc(100vh - 85px);
+    background: $background;
     margin: 0 auto;
-    text-align: center;
-    padding-top: 120px;
-    padding-bottom: 60px;
 
-    h1{
-        padding-bottom: 10px;
-    }
-  }
-  .coming-soon-CTA{
-    margin: 20px;
-      .request-help{
-          @include button($primary-color,$snow-white);
-          margin: 10px;
-          min-width: 155px;
-      }
+    .coming-soon-header-wrap {
+        width: 700px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 90px;
+        padding-bottom: 60px;
 
-      .offer-help{
-        @include button($background,$primary-color);
-        margin: 10px;
-        min-width: 155px;
-    }
+       
 
-      
-  }
+        h1 {
+            padding-bottom: 50px;
+            font-size: 72px;
+            font-weight: 800;
 
-  .coming-soon-footer-wrap {
-    width: 500px;
-    margin: 0 auto;
-    padding-top: 40px;
-    display: flex;
-    justify-content: space-between;
+         
 
-    a{
-        margin-bottom: 15px;
-        font-size: 1.2rem;
-
-        button{
-            @include button($primary-color, $snow-white);
-            font-weight: 400;
-            padding: 10px 15px;
-            border: 2px solid black;
-            border-radius: 6px;
+           
         }
-        
+
+        p {
+            font-size: 24px;
+            line-height: 1.4;
+            font-weight: 400;
+        }
     }
-  }
+    .coming-soon-CTA {
+        margin: 20px;
+        .request-help {
+            @include button($primary-color, $snow-white);
+            margin: 10px;
+            min-width: 155px;
+        }
+
+        .offer-help {
+            @include button($background, $primary-color);
+            margin: 10px;
+            min-width: 155px;
+        }
+    }
+
+    .coming-soon-footer-wrap {
+        width: 700px;
+        margin: 0 auto;
+        padding-top: 40px;
+        display: flex;
+        justify-content: space-between;
+
+        a {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+
+            button {
+                @include button($background, $secondary-color);
+                font-weight: 400;
+                padding: 10px 15px;
+                border: 1.5px solid $secondary-color;
+                border-radius: 6px;
+
+        
+            }
+        }
+    }
+
+    .email_form {
+        width: 700px;
+        margin: 0 auto;
+        height: 35px;
+        text-align: center;
+        margin-bottom: 120px;
+
+        input[type="text"] {
+            @include text-field();
+            color: #333;
+            width: 400px;
+            height: 100%;
+            @include rounded(0.07em);
+            padding: 0px 10px;
+            min-width: 180px;
+            font-size: 0.8rem;
+            font-weight: 300;
+            font-family: $font-family;
+            @include box-shadow(0, 0px, 3px, rgba(0, 0, 0, 0.2));
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            &::placeholder {
+                font-size: 0.9rem;
+                font-weight: 200;
+                font-family: $font-family;
+                color: black;
+                
+              
+            }
+            &:placeholder{
+              color: black;
+            }
+        }
+
+        button {
+          @include button($primary-color, $snow-white);
+          background: $primary-color;
+          font-weight: 400;
+          padding: 0px 10px;
+          height: 100%;
+          font-size: .8rem;
+          border-radius: 0;
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+          
+          // line-height: .5;
+        }
+    }
 }
