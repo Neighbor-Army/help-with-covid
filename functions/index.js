@@ -9,6 +9,7 @@ const task = require("./helpers/onfleet/task");
 const Onfleet = require("@onfleet/node-onfleet");
 const onfleet = new Onfleet(process.env.ONFLEET_KEY);
 const firebase = require("./helpers/firebase");
+const sendgrid = require("./helpers/sendgrid");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
@@ -99,6 +100,12 @@ app.post("/team", async function(req, res) {
                 neighborhoodID: neighborhoodID
             });
         });
+});
+
+app.post("/email", async function(req, res) {
+    console.log(req.body.email);
+    const result = await sendgrid.addEmailToList(req.body.email);
+    res.status(result.statusCode).send();
 });
 
 // app.get("/team", async function(req, res) {});
