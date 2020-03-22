@@ -89,6 +89,25 @@ router.get("/team/:id", async function (req, res, next) {
     return res.json(team);
 });
 
+router.post("/worker", async function (req, res, next) {
+    const phone = req.body.phone;
+    const name = req.body.name;
+    const neighborhoodId = req.body.neighborhoodID;
+    const neighborhoodData = await firebaseService.getTeam(neighborhoodId);
+    const onfleetTeamId = neighborhoodData.OnFleetID;
+    try {
+        const results = await onFleetService.createWorker(
+            onfleetTeamId,
+            name,
+            phone
+        );
+        await sendgridService.addEmailToList(req.body.email);
+        res.status(200).json(results);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post("/email", async function (req, res) {
     console.log(req.body.email);
     const result = await sendgridService.addEmailToList(req.body.email);
