@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import "./Nav.scss";
 
-const Nav = ({ setAuthTab }) => {
+const Nav = () => {
     return (
         <div className="nav">
             <div className="left-nav">

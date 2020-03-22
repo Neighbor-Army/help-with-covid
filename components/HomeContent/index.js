@@ -16,11 +16,14 @@ const HomeContent = () => {
             <div className="home-content__cta-row">
                 <div>
                     {/* TODO: add button styles from style guide */}
-                    <Link href={routes.REQUEST_HELP}><button>Request Help</button></Link>
+                    <Link href={routes.REQUEST_HELP}>
+                        <button>Request Help</button>
+                    </Link>
                     <br />
-                    <Link href={routes.OFFER_HELP}><button className="offer-help">Offer Help</button></Link>
+                    <Link href={routes.OFFER_HELP}>
+                        <button className="offer-help">Offer Help</button>
+                    </Link>
                 </div>
-                
             </div>
             <p className="home-content__footnote">
                 Powered by the generosity of{" "}
