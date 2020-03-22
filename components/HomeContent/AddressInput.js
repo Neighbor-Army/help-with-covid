@@ -147,5 +147,4 @@ AddressInput.propTypes = {
     address: PropTypes.string,
     setAddress: PropTypes.func,
     setAddressArray: PropTypes.func
-
 };

@@ -11,9 +11,13 @@ const offerHelp = () => {
         <div>
             <Nav />
             {!success ? (
-                <OfferHelp setSuccess={setSuccess} setNeighborhood={setNeighborhood} neighborhood={neighborhood}/>
+                <OfferHelp
+                    setSuccess={setSuccess}
+                    setNeighborhood={setNeighborhood}
+                    neighborhood={neighborhood}
+                />
             ) : (
-                <VolunteerConfirmation neighborhood={neighborhood}/>
+                <VolunteerConfirmation neighborhood={neighborhood} />
             )}
         </div>
     );

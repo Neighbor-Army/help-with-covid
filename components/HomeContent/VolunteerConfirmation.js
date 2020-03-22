@@ -6,8 +6,8 @@ const VolunteerConfirmation = ({ neighborhood }) => {
     return (
         <div className="volunteer-confirmation">
             <div className="volunteer-confirmation__header-wrap">
-                <h1 className="hero-text">Please confirm your neighborhood</h1>
-                <h3>{neighborhood.short_name}</h3>
+                <h1 className="hero-text">Please confirm your locale</h1>
+                <h2>{neighborhood.short_name}</h2>
                 <button>Confirm</button>
             </div>
             <p className="volunteer-confirmation__footnote">

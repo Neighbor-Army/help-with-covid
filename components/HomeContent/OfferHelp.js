@@ -92,7 +92,6 @@ const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
                     })}
                 ></input>
 
-
                 <input
                     placeholder="Phone Number"
                     name="phone"
