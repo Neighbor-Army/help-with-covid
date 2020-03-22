@@ -27,8 +27,8 @@ firebase-debug.log
 # Local dotenv files. We're following the file structure used in
 # create-react-app and documented in the Ruby dotenv:
 # https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
-.env
-.env.local
+.env.*
+!.env.example
 database-debug.log
 firestore-debug.log
 pubsub-debug.log
