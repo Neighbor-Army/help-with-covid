@@ -44,6 +44,18 @@ router.delete("/task/:id", async function (req, res) {
     res.json(results);
 });
 
+router.post("/neighborhood", async function (req, res) {
+    const address = req.body.address;
+    const neighborhoodData = await neighborhoodService.getNeighborhood({
+        streetAddress: address.number + " " + address.street,
+        unit: address.apartment,
+        city: address.city,
+        state: address.state,
+        zipcode: address.postalCode
+    });
+    return res.json(neighborhoodData);
+});
+
 router.post("/team", async function (req, res, next) {
     const address = req.body.address;
     const neighborhoodData = await neighborhoodService.getNeighborhood({
