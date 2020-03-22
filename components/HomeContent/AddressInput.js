@@ -4,7 +4,7 @@ import loadScript from "../../utils/loadScript";
 import PropTypes from "prop-types";
 import "./AddressInput.scss";
 
-export default function AddressInput({ address, setAddress }) {
+export default function AddressInput({ address, setAddress, setAddressArray }) {
     // const [setSessionToken] = useState("");
     const [predictions, setPredictions] = useState([]);
     const [cursor, setCursor] = useState(0);
@@ -80,16 +80,16 @@ export default function AddressInput({ address, setAddress }) {
     };
 
     const fillAddress = (id, e) => {
-        var placesService = new google.maps.places.PlacesService(document.createElement("div"));
-        console.log(id);
-        placesService.getDetails(
-            { placeId: id },
-            function(results, status) {
-                console.log("status", status);
-                console.log(results);
-                setAddress(results.formatted_address);
-            }
+        var placesService = new google.maps.places.PlacesService(
+            document.createElement("div")
         );
+        console.log(id);
+        placesService.getDetails({ placeId: id }, function(results, status) {
+            console.log("status", status);
+            console.log(results);
+            setAddress(results.formatted_address);
+            setAddressArray(results.address_components);
+        });
         e.preventDefault();
         setPredictions([]);
     };
@@ -145,5 +145,7 @@ export default function AddressInput({ address, setAddress }) {
 
 AddressInput.propTypes = {
     address: PropTypes.string,
-    setAddress: PropTypes.func
+    setAddress: PropTypes.func,
+    setAddressArray: PropTypes.func
+
 };

@@ -7,19 +7,55 @@ import axios from "axios";
 
 const AddressInput = dynamic(() => import("./AddressInput"), { ssr: false });
 
-const OfferHelp = ({ setSuccess }) => {
+const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
     const { register, handleSubmit, errors, reset } = useForm();
     const [address, setAddress] = useState("");
+    const [addressArray, setAddressArray] = useState([]);
+
+    console.log(neighborhood.id);
 
     const onSubmit = async data => {
-        axios
-            .post("", { data })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
-        console.log("environment variables", process.env);
-        console.log(data);
-        reset();
-        setSuccess(true);
+        console.log(data, "data");
+        let arr = {
+            address: {
+                state: addressArray[5].long_name,
+                postalCode: addressArray[7].long_name,
+                country: addressArray[6].long_name,
+                city: addressArray[3].long_name,
+                street: addressArray[0].long_name,
+                number: addressArray[1].long_name
+            }
+        };
+        var result = {};
+        try {
+            const res = await axios.post(
+                "https://us-central1-neighbor-army.cloudfunctions.net/widgets/neighborhood",
+                arr
+            );
+            result = res;
+            setNeighborhood(res.data);
+            reset();
+            setSuccess(true);
+        } catch (err) {
+            console.log(err);
+        }
+        try {
+            console.log(result);
+            const volunteer = {
+                phone: data.phone,
+                name: data.name,
+                email: data.email,
+                neighborhoodID: result.data.id
+            };
+            console.log(volunteer);
+            const res = await axios.post(
+                "https://us-central1-neighbor-army.cloudfunctions.net/widgets/worker",
+                volunteer
+            );
+            console.log(res);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -42,15 +78,25 @@ const OfferHelp = ({ setSuccess }) => {
                 <input
                     placeholder="Name"
                     name="name"
-                    ref={register({ required: true, maxLength: 20 })}
+                    ref={register({ required: true, maxLength: 30 })}
+                ></input>
+                {errors.email && (
+                    <p className="form__error">Please enter a valid email</p>
+                )}
+                <input
+                    placeholder="Email"
+                    name="email"
+                    ref={register({
+                        required: true,
+                        pattern: /^\S+@\S+\.\S+$/
+                    })}
                 ></input>
 
-                {errors.phone && (
-                    <p className="form__error">Please enter a valid phone</p>
-                )}
+
                 <input
                     placeholder="Phone Number"
                     name="phone"
+                    type="tel"
                     ref={register({
                         required: true,
                         pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
@@ -59,6 +105,7 @@ const OfferHelp = ({ setSuccess }) => {
 
                 <div className="address-divider">
                     <AddressInput
+                        setAddressArray={setAddressArray}
                         address={address}
                         setAddress={setAddress}
                         className="address"
@@ -110,7 +157,13 @@ const OfferHelp = ({ setSuccess }) => {
 };
 
 OfferHelp.propTypes = {
-    setSuccess: PropTypes.func
+    setSuccess: PropTypes.func,
+    setNeighborhood: PropTypes.func,
+    neighborhood: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string
+        })
+    )
 };
 
 export default OfferHelp;

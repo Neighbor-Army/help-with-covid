@@ -5,14 +5,15 @@ import VolunteerConfirmation from "../components/HomeContent/VolunteerConfirmati
 
 const offerHelp = () => {
     const [success, setSuccess] = useState(false);
+    const [neighborhood, setNeighborhood] = useState([]);
 
     return (
         <div>
             <Nav />
             {!success ? (
-                <OfferHelp setSuccess={setSuccess} />
+                <OfferHelp setSuccess={setSuccess} setNeighborhood={setNeighborhood} neighborhood={neighborhood}/>
             ) : (
-                <VolunteerConfirmation />
+                <VolunteerConfirmation neighborhood={neighborhood}/>
             )}
         </div>
     );

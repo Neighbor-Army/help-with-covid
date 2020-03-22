@@ -1,15 +1,14 @@
 import React from "react";
 import "./VolunteerConfirmation.scss";
+import PropTypes from "prop-types";
 
-const VolunteerConfirmation = () => {
+const VolunteerConfirmation = ({ neighborhood }) => {
     return (
         <div className="volunteer-confirmation">
             <div className="volunteer-confirmation__header-wrap">
-                <h1 className="hero-text">Calling All Neighborhood Warriors</h1>
-                <p>
-                    Let’s fight as a community. We will flatten the curve and
-                    work together to find those that are in the most of need.
-                </p>
+                <h1 className="hero-text">Please confirm your neighborhood</h1>
+                <h3>{neighborhood.short_name}</h3>
+                <button>Confirm</button>
             </div>
             <p className="volunteer-confirmation__footnote">
                 Powered by the generosity of{" "}
@@ -32,6 +31,14 @@ const VolunteerConfirmation = () => {
             </p>
         </div>
     );
+};
+
+VolunteerConfirmation.propTypes = {
+    neighborhood: PropTypes.arrayOf(
+        PropTypes.shape({
+            short_name: PropTypes.string
+        })
+    )
 };
 
 export default VolunteerConfirmation;

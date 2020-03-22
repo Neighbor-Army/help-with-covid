@@ -40,6 +40,21 @@
                 max-width: 300px;
              }
         }
+        button{
+            @include button($primary-color, $snow-white);
+            background: $primary-color;
+            margin: 0 auto;
+            margin-top: 35px;
+            font-weight: 400;
+            padding: 7px 11px;
+            font-size: .8rem;
+            border-radius: 0;
+            border-radius: 6px;  
+            font-size: 1rem;
+            width: 100px;          
+            // line-height: .5;
+          
+        }
     }
 
     &__footnote {
