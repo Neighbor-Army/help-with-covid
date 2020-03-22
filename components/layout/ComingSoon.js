@@ -10,9 +10,9 @@ const ComingSoon = () => {
 
     const onSubmit = () => {
         axios
-            .post("url", {email: emailValue})
-            .then(res=> console.log(res))
-            .catch(err=> console.log(err));
+            .post("url", { email: emailValue })
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
         console.log("We are submitting the form now with value", emailValue);
     };
 
