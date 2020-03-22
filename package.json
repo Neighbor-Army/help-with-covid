@@ -34,6 +34,7 @@
         "react-dom": "^16.13.1",
         "react-firebaseui": "4.1.0",
         "react-hook-form": "^5.1.1",
+        "react-hooks-helper": "^1.6.0",
         "react-icons": "^3.9.0",
         "react-is": "^16.13.1",
         "sass": "^1.26.3",
