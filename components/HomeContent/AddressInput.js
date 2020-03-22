@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useState, useEffect, useRef } from "react";
 import loadScript from "../../utils/loadScript";
 import PropTypes from "prop-types";

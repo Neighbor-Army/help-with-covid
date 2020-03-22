@@ -9,7 +9,11 @@ const offerHelp = () => {
     return (
         <div>
             <Nav />
-            {!success ? <OfferHelp setSuccess={setSuccess}/> : <VolunteerConfirmation />}
+            {!success ? (
+                <OfferHelp setSuccess={setSuccess} />
+            ) : (
+                <VolunteerConfirmation />
+            )}
         </div>
     );
 };

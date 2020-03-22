@@ -1,7 +1,6 @@
 import React from "react";
 import "./VolunteerConfirmation.scss";
 
-
 const VolunteerConfirmation = () => {
     return (
         <div className="volunteer-confirmation">
