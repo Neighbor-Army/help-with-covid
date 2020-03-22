@@ -6,7 +6,7 @@ import withAuthUserInfo from "../utils/pageWrappers/withAuthUserInfo";
 import Nav from "../components/layout/Nav";
 import "../styles/global.scss";
 import "../components/layout/Nav.scss";
-import ComingSoon from "../components/layout/ComingSoon";
+import HomeContent from "../components/HomeContent";
 
 const Index = () => {
     const [authTab, setAuthTab] = useState("");
@@ -14,7 +14,7 @@ const Index = () => {
     return (
         <div>
             <Nav authTab={authTab} setAuthTab={setAuthTab} />
-            <ComingSoon />
+            <HomeContent />
             {/* <p>Hi there!</p>
       {!AuthUser ? (
         <p>

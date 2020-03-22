@@ -3,10 +3,9 @@
  *
  * All variables and most of the configuration is defined on this page. */
 
-
 /* Containers */
 
-$x-small: 600px;
+$x-small: 400px;
 $small: 800px;
 $medium: 1000px;
 $large: 1200px;
@@ -17,6 +16,9 @@ $mobile: $x-small;
 $tablet: $small;
 $desktop: $medium;
 
+/* Container dimensions */
+$header-nav-height: 75px;
+
 /* Colors */
 
 $background: rgb(249, 249, 249); 
@@ -26,9 +28,10 @@ $accent-color: #cdcdcd;
 $alternate-background: #fafafa;
 $alternate-color: #404040;
 $link-color: $primary-color;
+$link-color-secondary: #898989;
 $link-hover-color: darken($link-color, 15%);
 $highlight: #ffeea8;
-$error: #D33C40;
+$error: #d33c40;
 $bq-border: 16px solid #f0f0f0;
 $snow-white: #fff;
 
@@ -37,17 +40,22 @@ $snow-white: #fff;
 // Body font
 $font-size: 1rem;
 $body-font-size: 1rem;
+$hero-font-size: 72px;
 $font-style: normal;
 $font-variant: normal;
 $font-weight: normal;
 $font-color: #404040;
-$font-family: "sofia-pro", -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+$font-family: "sofia-pro", -apple-system, BlinkMacSystemFont, Helvetica Neue,
+    Helvetica, Arial, sans-serif;
 $line-height: 1.6;
+$hero-line-height: 84px;
 
 // Headings
 $heading-font-color: #404040;
 $heading-font-weight: 600;
-$heading-font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+$hero-font-weight: 900;
+$heading-font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue,
+    Helvetica, Arial, sans-serif;
 $heading-line-height: 1.2;
 
 // Mobile heading font size
@@ -85,7 +93,8 @@ $button-background: $primary-color;
 $button-background-hover: darken($button-background, 10%);
 $button-color: #ffffff;
 $button-font-weight: 600;
-$button-font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+$button-font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue,
+    Helvetica, Arial, sans-serif;
 $button-font-size: 1rem;
 $button-border-width: 1px;
 $button-border-style: solid;
@@ -111,8 +120,12 @@ $round-buttons: 40px;
 
 /* Forms */
 
-$forms: ('[type=color], [type=date], [type=datetime], [type=datetime-local], [type=email], [type=month], [type=number], [type=password], [type=search], [type=tel], [type=text], [type=url], [type=week], [type=time], select, textarea');
-$buttons: ('.button, a.button, button, [type=submit], [type=reset], [type=button]');
+$forms: (
+    "[type=color], [type=date], [type=datetime], [type=datetime-local], [type=email], [type=month], [type=number], [type=password], [type=search], [type=tel], [type=text], [type=url], [type=week], [type=time], select, textarea"
+);
+$buttons: (
+    ".button, a.button, button, [type=submit], [type=reset], [type=button]"
+);
 $input-background: transparent;
 $placeholder: darken($accent-color, 20%);
 $form-border: 1px solid #cdcdcd;
