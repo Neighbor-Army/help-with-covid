@@ -57,23 +57,58 @@
                 padding: 10px 15px;
                 border: 1.5px solid $secondary-color;
                 border-radius: 6px;
+
+        
             }
         }
     }
 
     .email_form {
-        display: flex;
         width: 700px;
         margin: 0 auto;
+        height: 35px;
+        text-align: center;
+        margin-bottom: 120px;
 
         input[type="text"] {
             @include text-field();
-            margin-right: 1em;
             color: #333;
+            width: 400px;
+            height: 100%;
+            @include rounded(0.07em);
+            padding: 0px 10px;
+            min-width: 180px;
+            font-size: 0.8rem;
+            font-weight: 300;
+            font-family: $font-family;
+            @include box-shadow(0, 0px, 3px, rgba(0, 0, 0, 0.2));
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            &::placeholder {
+                font-size: 0.9rem;
+                font-weight: 200;
+                font-family: $font-family;
+                color: black;
+                
+              
+            }
+            &:placeholder{
+              color: black;
+            }
         }
 
-        input[type="submit"] {
-            @include button(#000, $snow-white);
+        button {
+          @include button($primary-color, $snow-white);
+          background: $primary-color;
+          font-weight: 400;
+          padding: 0px 10px;
+          height: 100%;
+          font-size: .8rem;
+          border-radius: 0;
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+          
+          // line-height: .5;
         }
     }
 }

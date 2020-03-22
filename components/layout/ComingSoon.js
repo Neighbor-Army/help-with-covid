@@ -3,16 +3,22 @@ import "./ComingSoon.scss";
 import { FaGithub } from "react-icons/fa";
 import { FaSlack } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
+import axios from "axios";
 
 const ComingSoon = () => {
     const [emailValue, setEmailValue] = useState("");
 
     const onSubmit = () => {
+        axios
+            .post("url", {email: emailValue})
+            .then(res=> console.log(res))
+            .catch(err=> console.log(err));
         console.log("We are submitting the form now with value", emailValue);
     };
 
     return (
         <div className="coming-soon">
+            {console.log()}
             <div className="coming-soon-header-wrap">
                 <h1>We are Coming Soon</h1>
                 <p>
@@ -24,7 +30,7 @@ const ComingSoon = () => {
                 <button className="offer-help">Offer Help</button>
             </div> */}
             </div>
-            <div className="email_form">
+            <form className="email_form">
                 <input
                     type="text"
                     name="email_address"
@@ -35,13 +41,15 @@ const ComingSoon = () => {
                         setEmailValue(event.target.value);
                     }}
                 />
-                <input
+                <button
                     type="submit"
                     value="Notify Me"
                     onMouseDown={onSubmit}
                     onClick={onSubmit}
-                />
-            </div>
+                >
+                    Notify Me
+                </button>
+            </form>
             <div className="coming-soon-footer-wrap">
                 <p style={{ paddingRight: "25px" }}>Get involved.</p>
                 <a
@@ -72,7 +80,7 @@ const ComingSoon = () => {
                         <button
                             style={{ display: "flex", alignContent: "center" }}
                         >
-                            <IoIosMail />{" "}
+                            <IoIosMail />
                             <p
                                 style={{
                                     lineHeight: "1",
@@ -83,7 +91,7 @@ const ComingSoon = () => {
                                 Contact Email
                             </p>
                         </button>
-                    </a>{" "}
+                    </a>
                 </div>
                 <br />
                 <div style={{ display: "flex", alignContent: "center" }}>

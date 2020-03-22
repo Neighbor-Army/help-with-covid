@@ -68,21 +68,6 @@ a::selection{
     background-color: $primary-color;
 }
 
-input,
-textarea {
-    @include rounded(0.18em);
-    margin: 10px 0px;
-    padding: 8px 10px;
-    min-width: 180px;
-    font-size: 0.8rem;
-    font-weight: 300;
-    font-family: $font-family;
 
-    &::placeholder {
-        font-size: 0.9rem;
-        font-weight: 200;
-        font-family: $font-family;
-    }
-}
 
 
