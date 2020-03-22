@@ -16,6 +16,9 @@ export default function AddressInput({ address, setAddress }) {
     // const location = new google.maps.LatLng(43.3148, -85.6024); // Latitude, longtitude of Michigan
     // Get session token on first render
     /* eslint-disable */
+
+    var map = document.querySelector("#google-maps");
+
     useEffect(() => {
         document.querySelector("#google-maps");
         loadScript(
@@ -46,7 +49,7 @@ export default function AddressInput({ address, setAddress }) {
             alert(status);
             return;
         }
-
+        console.log(predictions);
         setPredictions(predictions);
     };
 
@@ -76,9 +79,18 @@ export default function AddressInput({ address, setAddress }) {
         }
     };
 
-    const fillAddress = (address, e) => {
+    const fillAddress = (id, e) => {
+        var placesService = new google.maps.places.PlacesService(document.createElement("div"));
+        console.log(id);
+        placesService.getDetails(
+            { placeId: id },
+            function(results, status) {
+                console.log("status", status);
+                console.log(results);
+                setAddress(results.formatted_address);
+            }
+        );
         e.preventDefault();
-        setAddress(address);
         setPredictions([]);
     };
 
@@ -98,32 +110,32 @@ export default function AddressInput({ address, setAddress }) {
                 <div ref={node} className="search_result_dropdown">
                     {predictions.length > 1 && address
                         ? predictions.map((prediction, i) => (
-                            <div key={i}>
-                                {cursor === i
-                                    ? () => setActive(true)
-                                    : () => setActive(false)}
-                                <div
-                                    key={prediction.id}
-                                    className={
-                                        cursor === i
-                                            ? "active search_result_dropdown_item"
-                                            : "search_result_dropdown_item"
-                                    }
-                                    style={{
-                                        width: "320px",
-                                        fontSize: ".8rem",
-                                        fontWeight: "300",
-                                        fontFamily: "sofia-pro",
-                                        padding: "12px"
-                                    }}
-                                    onClick={e =>
-                                        fillAddress(prediction.description, e)
-                                    }
-                                >
-                                    {prediction.description}
-                                </div>
-                            </div>
-                        ))
+                              <div key={i}>
+                                  {cursor === i
+                                      ? () => setActive(true)
+                                      : () => setActive(false)}
+                                  <div
+                                      key={prediction.id}
+                                      className={
+                                          cursor === i
+                                              ? "active search_result_dropdown_item"
+                                              : "search_result_dropdown_item"
+                                      }
+                                      style={{
+                                          width: "320px",
+                                          fontSize: ".8rem",
+                                          fontWeight: "300",
+                                          fontFamily: "sofia-pro",
+                                          padding: "12px"
+                                      }}
+                                      onClick={e =>
+                                          fillAddress(prediction.place_id, e)
+                                      }
+                                  >
+                                      {prediction.description}
+                                  </div>
+                              </div>
+                          ))
                         : null}
                 </div>
             </div>
