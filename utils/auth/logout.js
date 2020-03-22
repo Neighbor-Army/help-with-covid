@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import logger from "../logger/";
 
 export default async () => {
     return firebase
@@ -16,13 +17,13 @@ export default async () => {
                     );
                     elem.parentNode.removeChild(elem);
                 } catch (e) {
-                    console.error(e);
+                    logger.error(e);
                 }
             }
             return true;
         })
         .catch(e => {
-            console.error(e);
+            logger.error(e);
             return false;
         });
 };

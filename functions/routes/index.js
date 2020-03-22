@@ -1,3 +1,5 @@
+const logger = require("../../utils/logger/");
+
 const express = require("express");
 
 const neighborhoodService = require("../services/neighborhood");
@@ -22,7 +24,7 @@ router.post("/task", async function (req, res, next) {
             state: address.state,
             zipcode: address.postalCode
         });
-        console.log(neighborhoodName);
+        logger.debug({ neighborhoodName });
         const results = await onFleetService.createTask(
             req.body.address,
             req.body.person,
@@ -90,7 +92,7 @@ router.get("/team/:id", async function (req, res, next) {
 });
 
 router.post("/email", async function (req, res) {
-    console.log(req.body.email);
+    logger.debug({ email: req.body.email });
     const result = await sendgridService.addEmailToList(req.body.email);
     res.status(result.statusCode).send();
 });

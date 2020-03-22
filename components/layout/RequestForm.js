@@ -1,12 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import logger from "../../utils/logger/";
 
 const RequestForm = () => {
     const { register, handleSubmit, errors } = useForm();
 
     const onSubmit = async data => {
-        console.log(data);
+        logger.debug(data);
         axios
             .post(
                 "http://localhost:5001/neighbor-army/us-central1/widgets/task",
@@ -28,7 +29,7 @@ const RequestForm = () => {
                     notes: "notes"
                 }
             )
-            .then(data => console.log(data));
+            .then(data => logger.log(data));
     };
 
     return (
