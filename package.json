@@ -12,7 +12,7 @@
         "postinstall": "cd functions && yarn install"
     },
     "engines": {
-        "node": "12"
+        "node": "10"
     },
     "dependencies": {
         "@onfleet/node-onfleet": "^1.0.5",
