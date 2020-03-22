@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import loadScript from "../../utils/loadScript";
 import PropTypes from "prop-types";
+import "./AddressInput.scss";
 
 export default function AddressInput({ address, setAddress }) {
     // const [setSessionToken] = useState("");
@@ -109,11 +110,11 @@ export default function AddressInput({ address, setAddress }) {
                                             : "search_result_dropdown_item"
                                     }
                                     style={{
-                                        width: "550px",
-                                        fontSize: "1.6rem",
+                                        width: "320px",
+                                        fontSize: ".8rem",
                                         fontWeight: "300",
                                         fontFamily: "sofia-pro",
-                                        padding: "15px"
+                                        padding: "12px"
                                     }}
                                     onClick={e =>
                                         fillAddress(prediction.description, e)
