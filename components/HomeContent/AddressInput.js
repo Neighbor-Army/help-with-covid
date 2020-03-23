@@ -15,9 +15,8 @@ export default function AddressInput({ address, setAddress, setAddressArray }) {
     const google = window.google;
     // const location = new google.maps.LatLng(43.3148, -85.6024); // Latitude, longtitude of Michigan
     // Get session token on first render
-    /* eslint-disable */
 
-    var map = document.querySelector("#google-maps");
+    // var map = document.querySelector("#google-maps");
 
     useEffect(() => {
         document.querySelector("#google-maps");
@@ -28,7 +27,6 @@ export default function AddressInput({ address, setAddress, setAddressArray }) {
         );
     }, [document.querySelector("#google-maps")]);
 
-    /* eslint-enable */
     useEffect(() => {
         document.addEventListener("mousedown", handleClick, false);
         return () => {
