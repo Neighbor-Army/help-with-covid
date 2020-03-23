@@ -9,16 +9,16 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 const realtime = firebase.database();
-const writeNewTeam = (name, onfleetID, neighborhoodID) => {
-    return firestore.collection("teams").doc(neighborhoodID.toString()).set({
-        neighborhoodID: neighborhoodID,
-        name: name,
-        OnFleetID: onfleetID
+
+const writeNewTeam = (onfleetID, zipcode) => {
+    return firestore.collection("teams").doc(zipcode).set({
+        OnFleetID: onfleetID,
+        zipcode: zipcode
     });
 };
 
-const getTeam = async (id) => {
-    const document = await firestore.collection("teams").doc(id).get();
+const getTeam = async (zipcode) => {
+    const document = await firestore.collection("teams").doc(zipcode).get();
     return document.data();
 };
 
