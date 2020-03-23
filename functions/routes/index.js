@@ -1,4 +1,3 @@
-
 /*eslint no-undef: "warn"*/
 
 const logger = require("../../utils/logger/");
@@ -132,11 +131,7 @@ router.post("/worker", async function(req, res, next) {
 });
 
 router.post("/email", async function(req, res, next) {
-<<<<<<< HEAD
-    console.log(req.body.email);
-=======
     logger.debug(req.body.email);
->>>>>>> 1f2efec4d1912315185a000ddf785fd6240b66f6
     try {
         const result = await sendgridService.addEmailToList(
             req.body.email,
