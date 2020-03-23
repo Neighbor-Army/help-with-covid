@@ -2,7 +2,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const Payment = (props) => {
+const Payment = props => {
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = data => console.log("data", data);
     console.log(errors);
