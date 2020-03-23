@@ -27,6 +27,7 @@ const Contact = props => {
         <>
             <h3>Contact Info</h3>
             <form onSubmit={handleSubmit}>
+                {errors.name && 'First name is required'}
                 <input
                     type="text"
                     placeholder="name"
@@ -43,6 +44,7 @@ const Contact = props => {
                     onChange={handleChange}
                     ref={register({ required: true, maxLength: 12 })}
                 />
+                {errors.phone && 'phone number is required'}
                 <input
                     type="text"
                     placeholder="address"
@@ -51,6 +53,7 @@ const Contact = props => {
                     onChange={handleChange}
                     ref={register({ required: true })}
                 />
+                {errors.address && 'address is required'}
                 <input
                     type="text"
                     placeholder="apartment"

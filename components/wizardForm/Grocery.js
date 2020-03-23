@@ -9,7 +9,7 @@ const Grocery = props => {
     const [formData, setFormData] = useState({
         item: "",
         quantity: "",
-        canSubstitute: ""
+        canSubstitute: false
     });
 
     const handleChange = e => {

@@ -20,12 +20,13 @@ const Payment = props => {
             <h4>I prefer to pay with</h4>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <select
-                    name="payment type"
+                    name="paymentType"
                     value={formData.paymentType}
                     onChange={handleChange}
                     ref={register({ required: true })}
                 >
-                    <option value="venmo">venmo</option>
+                    <option 
+                    defaultValue="venmo">venmo</option>
                     <option value="paypal">paypal</option>
                     <option value="cash">cash</option>
                 </select>
