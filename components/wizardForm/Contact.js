@@ -4,30 +4,29 @@ import { useForm } from "react-hook-form";
 
 const Contact = props => {
     const { register, errors } = useForm();
-    console.log(errors);    
+    console.log(errors);
 
     const [formData, setFormData] = useState({
-        name: '',
-        phone: '',
-        address: '',
-        apt: ''
-    })
+        name: "",
+        phone: "",
+        address: "",
+        apt: ""
+    });
 
     // Handle fields change
     const handleChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = e =>{
+    const handleSubmit = e => {
         e.preventDefault();
-        props.onSubmit(props.id, formData, props.id + 1)
-    
-    }
+        props.onSubmit(props.id, formData, props.id + 1);
+    };
 
     return (
         <>
             <h3>Contact Info</h3>
-            <form onSubmit={handleSubmit} >
+            <form onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="name"
