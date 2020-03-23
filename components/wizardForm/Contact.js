@@ -1,79 +1,42 @@
 /* eslint react/prop-types: 0 */
 import React from "react";
-import ItemForm from "./ItemForm";
-import { CountryDrop, StateDrop } from "./DropDowns";
+import { useForm } from "react-hook-form";
 
-const Contact = ({ setForm, formData, navigation }) => {
-    const {
-        firstName,
-        lastName,
-        phone,
-        address,
-        apartment,
-        country,
-        city,
-        state,
-        zip
-    } = formData;
-
-    const { next } = navigation;
+const Contact = props => {
+    const { register, errors } = useForm();
+    console.log(errors);
 
     return (
-        <div className="form">
+        <>
             <h3>Contact Info</h3>
-            <ItemForm
-                label="First Name"
-                name="firstName"
-                value={firstName}
-                onChange={setForm}
-            />
-            <ItemForm
-                label="Last Name"
-                name="lastName"
-                value={lastName}
-                onChange={setForm}
-            />
-            <ItemForm
-                label="Phone"
-                name="phone"
-                value={phone}
-                onChange={setForm}
-            />
-            <ItemForm
-                label="Address"
-                name="address"
-                value={address}
-                onChange={setForm}
-            />
-            <ItemForm
-                label="apartment"
-                name="apartment"
-                value={apartment}
-                onChange={setForm}
-            />
-            <ItemForm
-                label="City"
-                name="city"
-                value={city}
-                onChange={setForm}
-            />
-            <StateDrop
-                label="State"
-                name="state"
-                value={state}
-                onChange={setForm}
-            />
-            <CountryDrop
-                label="Country"
-                name="country"
-                value={country}
-                onChange={setForm}
-            />
-            <ItemForm label="Zip" name="zip" value={zip} onChange={setForm} />
-            <div>
-                <button onClick={next}>Next</button>
-            </div>
-        </div>
+            <form>
+                <input
+                    type="text"
+                    placeholder="name"
+                    name="name"
+                    ref={register({ required: true, maxLength: 80 })}
+                />
+                <input
+                    type="tel"
+                    placeholder="phone"
+                    name="phone"
+                    ref={register({ required: true, maxLength: 12 })}
+                />
+                <input
+                    type="text"
+                    placeholder="address"
+                    name="address"
+                    ref={register({ required: true })}
+                />
+                <input
+                    type="text"
+                    placeholder="apartment"
+                    name="apartment"
+                    ref={register}
+                />
+                <button onClick={() => props.nextStep()}>next</button>
+            </form>
+        </>
     );
 };
 

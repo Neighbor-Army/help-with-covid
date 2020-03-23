@@ -1,7 +1,7 @@
 import React from "react";
 import WizardForm from "../components/wizardForm/WizardForm";
 
-const RequestHelp = () => {
+const wizardForm = () => {
     return (
         <div>
             <WizardForm />
@@ -9,4 +9,4 @@ const RequestHelp = () => {
     );
 };
 
-export default RequestHelp;
+export default wizardForm;

@@ -1,30 +1,41 @@
 /* eslint react/prop-types: 0 */
 import React from "react";
+import { useForm } from "react-hook-form";
 
-import ItemForm from "./ItemForm";
-
-const Grocery = ({ setForm, formData, navigation }) => {
-    const { grocery, qty } = formData;
-
-    const { previous, next } = navigation;
+const Grocery = props => {
+    const { register, errors } = useForm();
+    console.log(errors);
 
     return (
-        <div className="form">
-            <h3>My Grocery List</h3>
-            <ItemForm
-                label="Grocery"
-                name="grocery"
-                value={grocery}
-                onChange={setForm}
-            />
-            <ItemForm label="qty" name="qty" value={qty} onChange={setForm} />
-            <button>Add to Bag</button>
-
-            <div>
-                <button onClick={previous}>Previous</button>
-                <button onClick={next}>Next</button>
-            </div>
-        </div>
+        <>
+            <h3>grocery form</h3>
+            <form>
+                <input
+                    type="text"
+                    placeholder="item"
+                    name="item"
+                    ref={register}
+                />
+                <input
+                    type="number"
+                    placeholder="qty"
+                    name="qty"
+                    ref={register}
+                />
+                <button>Add to bag</button>
+                <input
+                    type="checkbox"
+                    placeholder="canSubstitute"
+                    name="canSubstitute"
+                    ref={register}
+                />{" "}
+                Let a Volunteer choose a substitute if this item is out of stock
+                <h4>Items</h4>
+                <h4>Quantity</h4>
+                <button onClick={() => props.prevStep()}>previous</button>
+                <button onClick={() => props.nextStep()}>next</button>
+            </form>
+        </>
     );
 };
 

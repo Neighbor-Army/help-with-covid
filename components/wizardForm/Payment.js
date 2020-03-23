@@ -1,30 +1,44 @@
 /* eslint react/prop-types: 0 */
 import React from "react";
+import { useForm } from "react-hook-form";
 
-import ItemForm from "./ItemForm";
-import { PaymentDrop } from "./DropDowns";
-
-const Payment = ({ setForm, formData, navigation }) => {
-    const { payment, note } = formData;
-    const { previous, go } = navigation;
+const Payment = props => {
+    const { register, handleSubmit, errors } = useForm();
+    const onSubmit = data => console.log("data", data);
+    console.log(errors);
 
     return (
-        <div className="form">
-            <h3>I prefer to pay with</h3>
-            <PaymentDrop
-                label="Payment"
-                name="payment"
-                value={payment}
-                onChange={setForm}
-            />
-            <h3>Note for my volunteer</h3>
-            <ItemForm name="note" value={note} onChange={setForm} />
-
-            <div>
-                <button onClick={previous}>Previous</button>
-                <button onClick={() => go("submit")}>Submit</button>
-            </div>
-        </div>
+        <>
+            <h3>Payment info</h3>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <input
+                    type="text"
+                    placeholder="name"
+                    name="name"
+                    ref={register({ required: true, maxLength: 80 })}
+                />
+                <input
+                    type="tel"
+                    placeholder="phone"
+                    name="phone"
+                    ref={register({ required: true, maxLength: 12 })}
+                />
+                <input
+                    type="text"
+                    placeholder="address"
+                    name="address"
+                    ref={register({ required: true })}
+                />
+                <input
+                    type="text"
+                    placeholder="apartment"
+                    name="apartment"
+                    ref={register}
+                />
+                <button onClick={() => props.prevStep()}>previous</button>
+                <input type="submit" />
+            </form>
+        </>
     );
 };
 

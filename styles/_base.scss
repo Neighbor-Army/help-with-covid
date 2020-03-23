@@ -2,6 +2,10 @@
 //https://github.com/ianrose/reset-scss/blob/master/_reset-src.scss
 
 @import 'variables';
+@import '../components/HomeContent/HomeContent.scss';
+@import '../components/HomeContent/OfferHelp.scss';
+@import '../components/HomeContent/RequestHelp.scss';
+@import '../components/HomeContent/VolunteerConfirmation.scss';
 
 ::selection {
     background: $primary-color;

@@ -11,11 +11,11 @@ const createTask = (address, person, notes) => {
     });
 };
 
-const deleteTask = (id) => {
+const deleteTask = id => {
     return onfleet.tasks.deleteOne(id);
 };
 
-const getTask = (id) => {
+const getTask = id => {
     return onfleet.tasks.get(id);
 };
 
@@ -23,7 +23,7 @@ const updateTask = (id, body) => {
     return onfleet.tasks.update(id, body);
 };
 
-const createTeam = async (neighborhoodData) => {
+const createTeam = async neighborhoodData => {
     const name = neighborhoodData.short_name.replace("/", "-");
     const neighborhoodID = neighborhoodData.id;
     const response = await onfleet.teams.create({
@@ -39,10 +39,22 @@ const createTeam = async (neighborhoodData) => {
     return results;
 };
 
+const createWorker = async (teamId, name, phone) => {
+    console.log(teamId);
+    console.log(name);
+    console.log(phone);
+    return onfleet.workers.create({
+        name: name,
+        phone: phone,
+        teams: [teamId.toString()]
+    });
+};
+
 module.exports = {
     createTask,
     deleteTask,
     getTask,
     updateTask,
-    createTeam
+    createTeam,
+    createWorker
 };

@@ -4,10 +4,9 @@ import { get } from "lodash/object";
 import withAuthUser from "../utils/pageWrappers/withAuthUser";
 import withAuthUserInfo from "../utils/pageWrappers/withAuthUserInfo";
 import Nav from "../components/layout/Nav";
-import WizardForm from "../components/wizardForm/WizardForm";
 import "../styles/global.scss";
 import "../components/layout/Nav.scss";
-import ComingSoon from "../components/layout/ComingSoon";
+import HomeContent from "../components/HomeContent";
 
 const Index = () => {
     const [authTab, setAuthTab] = useState("");
@@ -15,8 +14,7 @@ const Index = () => {
     return (
         <div>
             <Nav authTab={authTab} setAuthTab={setAuthTab} />
-            <ComingSoon />
-            <WizardForm />
+            <HomeContent />
 
             {/* <p>Hi there!</p>
       {!AuthUser ? (

@@ -1,55 +1,73 @@
 /* eslint react/prop-types: 0 */
-import React from "react";
-import { useForm, useStep } from "react-hooks-helper";
-
-import Contact from "./Contact";
-import Grocery from "./Grocery";
-import Payment from "./Payment";
-import Submit from "./Submit";
-
-import "./wizardFormStyles.css";
-
-const steps = [
-    { id: "contact" },
-    { id: "grocery" },
-    { id: "payment" },
-    { id: "submit" }
-];
-
-const defaultData = {
-    firstName: "",
-    lastName: "",
-    phone: "",
-    address: "",
-    apartment: "",
-    city: "",
-    state: "",
-    zip: "",
-    country: "",
-    grocery: "",
-    qty: "",
-    note: "",
-    payment: ""
-};
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import ContactNew from "./Contact";
+import GroceryNew from "./Grocery";
+import PaymentNew from "./Payment";
 
 const WizardForm = () => {
-    const [formData, setForm] = useForm(defaultData);
-    const { step, navigation } = useStep({ initialStep: 0, steps });
-    const { id } = step;
+    const { errors } = useForm();
+    console.log(errors);
 
-    const props = { formData, setForm, navigation };
+    const [state, setState] = useState({
+        step: 1,
+        name: "",
+        phone: "",
+        address: "",
+        apt: ""
+    });
 
-    switch (id) {
-        case "contact":
-            return <Contact {...props} />;
-        case "grocery":
-            return <Grocery {...props} />;
-        case "payment":
-            return <Payment {...props} />;
-        case "submit":
-            return <Submit {...props} />;
-        default:
-            return null;
+    // Proceed to next step
+    const nextStep = () => {
+        setState({
+            step: step + 1
+        });
+    };
+
+    // Go back to prev step
+    const prevStep = () => {
+        setState({
+            step: step - 1
+        });
+    };
+    1;
+
+    // Handle fields change
+    const handleChange = input => e => {
+        setState({ [input]: e.target.value });
+    };
+    const { step } = state;
+    const { name, phone, address, apt } = state;
+    const values = { name, phone, address, apt };
+
+    switch (step) {
+        case 1:
+            return (
+                <ContactNew
+                    nextStep={nextStep}
+                    handleChange={handleChange}
+                    values={values}
+                />
+            );
+        case 2:
+            return (
+                <GroceryNew
+                    nextStep={nextStep}
+                    prevStep={prevStep}
+                    handleChange={handleChange}
+                    values={values}
+                />
+            );
+        case 3:
+            return (
+                <PaymentNew
+                    nextStep={nextStep}
+                    prevStep={prevStep}
+                    values={values}
+                />
+            );
+        //   case 4:
+        //     return <Success />;
     }
 };
 
