@@ -33,7 +33,7 @@ const updateTask = (id, body) => {
 
 const createTeam = async (zipcode) => {
     const response = await onfleet.teams.create({
-        name: neighborhoodID
+        name: zipcode
     });
 
     const id = response.id;

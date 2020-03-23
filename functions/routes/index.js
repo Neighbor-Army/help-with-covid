@@ -49,6 +49,7 @@ router.delete("/task/:id", async function (req, res) {
     res.json(results);
 });
 
+/*
 router.post("/neighborhood", async function (req, res, next) {
     const address = req.body.address;
     const neighborhoodData = await neighborhoodService.getNeighborhood({
@@ -75,24 +76,13 @@ router.post("/neighborhood", async function (req, res, next) {
     }
     return res.json(neighborhoodData);
 });
+*/
 
 router.post("/team", async function (req, res, next) {
-    const address = req.body.address;
-    const neighborhoodData = await neighborhoodService.getNeighborhood({
-        streetAddress: address.number + " " + address.street,
-        unit: address.apartment,
-        city: address.city,
-        state: address.state,
-        zipcode: address.postalCode
-    });
+    const zipcode = req.body.zipcode;
     try {
-        const results = await onFleetService.createTeam(neighborhoodData);
-
-        await firebaseService.writeNewTeam(
-            results.name,
-            results.onFleetID,
-            results.neighborhoodID
-        );
+        const results = await onFleetService.createTeam(zipcode);
+        await firebaseService.writeNewTeam(results.onFleetID, zipcode);
         res.status(200).json(results);
     } catch (error) {
         next(error);
@@ -111,10 +101,21 @@ router.get("/team/:id", async function (req, res, next) {
 router.post("/worker", async function (req, res, next) {
     const phone = req.body.phone;
     const name = req.body.name;
-    const neighborhoodId = req.body.neighborhoodID;
+    const zipcode = req.body.zipcode;
     try {
-        const neighborhoodData = await firebaseService.getTeam(neighborhoodId);
-        const onfleetTeamId = neighborhoodData.OnFleetID;
+        const teamData = await firebaseService.getTeam(zipcode);
+        let onfleetTeamId = "";
+
+        //If team doesn't exist in firebase, it must not exist anywhere
+        //thus we create it.
+        if (!teamData) {
+            const results = await onFleetService.createTeam(zipcode);
+            await firebaseService.writeNewTeam(results.onFleetID, zipcode);
+            onfleetTeamId = results.onFleetID;
+        } else {
+            onfleetTeamId = teamData.OnFleetID;
+        }
+
         const results = await onFleetService.createWorker(
             onfleetTeamId,
             name,
@@ -131,6 +132,7 @@ router.post("/worker", async function (req, res, next) {
     }
 });
 
+/*
 router.post("/email", async function (req, res, next) {
     logger.debug(req.body.email);
     try {
@@ -143,7 +145,7 @@ router.post("/email", async function (req, res, next) {
         next(error);
     }
 });
-/*
+
 router.post("/voicemail", async function (req, res, next) {
     logger.debug(req.body.phone);
     logger.debug(req.body.url);
