@@ -7,7 +7,7 @@
         "serve": "firebase emulators:start --only functions",
         "shell": "firebase functions:shell",
         "start": "npm run shell",
-        "deploy": "NODE_ENV=production firebase deploy --only functions",
+        "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
         "logs": "firebase functions:log",
         "test": "jest . --passWithNoTests"
     },
@@ -15,6 +15,7 @@
         "node": "10"
     },
     "devDependencies": {
+        "cross-env": "^7.0.2",
         "eslint": "^6.8.0",
         "firebase-functions-test": "^0.2.0",
         "firebase-tools": "^7.15.1",
