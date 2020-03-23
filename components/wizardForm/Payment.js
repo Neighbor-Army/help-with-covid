@@ -10,15 +10,17 @@ const Payment = () => {
     return (
         <>
             <h3>Payment info</h3>
+            <h4>I prefer to pay with</h4>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <select name="payment type" ref={register({ required: true })}>
                     <option value="venmo">venmo</option>
                     <option value="paypal">paypal</option>
                     <option value="cash">cash</option>
                 </select>
+                <h4>Notes for my voluteer</h4>
                 <input
                     type="text"
-                    placeholder="notes"
+                    placeholder=""
                     name="notes"
                     ref={register}
                 />
