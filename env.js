@@ -4,6 +4,8 @@
 // else you wish – but it's a convenient way to make sure the private
 // key doesn't end up in source control.
 
+const logger = require("./utils/logger");
+
 const fs = require("fs");
 
 const { NODE_ENV } = process.env;
@@ -29,7 +31,7 @@ const dotEnvFiles = [
 dotEnvFiles.forEach(dotenvFile => {
     if (fs.existsSync(dotenvFile)) {
         // eslint-disable-next-line global-require
-        console.log("Found .env file at ", dotenvFile);
+        logger.debug("Found .env file at ", dotenvFile);
         require("dotenv").config({
             path: dotenvFile
         });

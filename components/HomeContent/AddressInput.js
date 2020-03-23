@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import loadScript from "../../utils/loadScript";
 import PropTypes from "prop-types";
 import "./AddressInput.scss";
+import * as logger from "../../utils/logger";
 
 export default function AddressInput({ address, setAddress, setAddressArray }) {
     // const [setSessionToken] = useState("");
@@ -47,7 +48,7 @@ export default function AddressInput({ address, setAddress, setAddressArray }) {
             alert(status);
             return;
         }
-        console.log(predictions);
+        logger.debug(predictions);
         setPredictions(predictions);
     };
 
@@ -81,10 +82,10 @@ export default function AddressInput({ address, setAddress, setAddressArray }) {
         var placesService = new google.maps.places.PlacesService(
             document.createElement("div")
         );
-        console.log(id);
+        logger.debug(id);
         placesService.getDetails({ placeId: id }, function(results, status) {
-            console.log("status", status);
-            console.log(results);
+            logger.debug({ status });
+            logger.debug(results);
             setAddress(results.formatted_address);
             setAddressArray(results.address_components);
         });
