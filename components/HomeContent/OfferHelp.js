@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./OfferHelp.scss";
 import { useForm } from "react-hook-form";
+import MaskedInput from "react-text-mask";
 import dynamic from "next/dynamic";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -8,7 +9,9 @@ import axios from "axios";
 const AddressInput = dynamic(() => import("./AddressInput"), { ssr: false });
 
 const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
-    const { register, handleSubmit, errors, reset } = useForm();
+    const { register, handleSubmit, errors, reset } = useForm({
+        mode: "onBlur"
+    });
     const [address, setAddress] = useState("");
     const [addressArray, setAddressArray] = useState([]);
 
@@ -91,16 +94,28 @@ const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
                         pattern: /^\S+@\S+\.\S+$/
                     })}
                 ></input>
-
-                <input
-                    placeholder="Phone Number"
+                <MaskedInput
+                    mask={[
+                        "(",
+                        /[1-9]/,
+                        /\d/,
+                        /\d/,
+                        ")",
+                        " ",
+                        /\d/,
+                        /\d/,
+                        /\d/,
+                        "-",
+                        /\d/,
+                        /\d/,
+                        /\d/,
+                        /\d/
+                    ]}
                     name="phone"
                     type="tel"
-                    ref={register({
-                        required: true,
-                        pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
-                    })}
-                ></input>
+                    placeholder="Phone Number"
+                    ref={ref => ref && register(ref.inputElement)}
+                />
 
                 <div className="address-divider">
                     <AddressInput
