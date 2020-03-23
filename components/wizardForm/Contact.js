@@ -1,50 +1,66 @@
 /* eslint react/prop-types: 0 */
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Contact = props => {
-    const { name, phone, address, apt, handleChange } = props;
     const { register, errors } = useForm();
-    console.log(errors);
-    console.log("contactprops", props);
+    console.log(errors);    
+
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        address: '',
+        apt: ''
+    })
+
+    // Handle fields change
+    const handleChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = e =>{
+        e.preventDefault();
+        props.onSubmit(props.id, formData, props.id + 1)
+    
+    }
 
     return (
         <>
             <h3>Contact Info</h3>
-            <form>
+            <form onSubmit={handleSubmit} >
                 <input
                     type="text"
                     placeholder="name"
                     name="name"
-                    value={name}
-                    onChange={e => handleChange(e)}
+                    value={formData.name}
+                    onChange={handleChange}
                     ref={register({ required: true, maxLength: 80 })}
                 />
                 <input
                     type="tel"
                     placeholder="phone"
                     name="phone"
-                    value={phone}
-                    onChange={e => handleChange(e)}
+                    value={formData.phone}
+                    onChange={handleChange}
                     ref={register({ required: true, maxLength: 12 })}
                 />
                 <input
                     type="text"
                     placeholder="address"
                     name="address"
-                    value={address}
-                    onChange={e => handleChange(e)}
+                    value={formData.address}
+                    onChange={handleChange}
                     ref={register({ required: true })}
                 />
                 <input
                     type="text"
                     placeholder="apartment"
                     name="apt"
-                    value={apt}
+                    value={formData.apt}
                     onChange={e => handleChange(e)}
                     ref={register}
                 />
-                <button onClick={() => props.nextStep()}>next</button>
+                <button>next</button>
             </form>
         </>
     );

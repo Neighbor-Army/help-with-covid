@@ -6,69 +6,47 @@ import Grocery from "./Grocery";
 import Payment from "./Payment";
 
 const WizardForm = () => {
-    const { errors } = useForm();
-    console.log(errors);
+  const { errors } = useForm();
+  console.log(errors);
 
-    const [state, setState] = useState({
-        step: 1,
-        name: "",
-        phone: "",
-        address: "",
-        apt: "",
-        item: ""
-    });
+  const [formData, setFormData] = useState();
 
-    // Proceed to next step
-    const nextStep = () => {
-        setState({
-            step: step + 1
-        });
-    };
+  const [steps, setSteps] = useState(1)
+ 
 
-    // Go back to prev step
-    const prevStep = () => {
-        setState({
-            step: step - 1
-        });
-    };
-    1;
+  const navigate = (stepId,data,destinationId) => {
+    setFormData({
+      ...formData,[stepId]:data})
+    setSteps(destinationId)
+  }
+    console.log('data',formData)
 
-    // Handle fields change
-    const handleChange = e => {
-        setState({ ...state, [e.target.name]: e.target.value });
-    };
 
-    const { step } = state;
-
-    switch (step) {
-        case 1:
-            return (
-                <Contact
-                    nextStep={nextStep}
-                    handleChange={handleChange}
-                    state={state}
-                />
-            );
-        case 2:
-            return (
-                <Grocery
-                    nextStep={nextStep}
-                    prevStep={prevStep}
-                    handleChange={handleChange}
-                    state={state}
-                />
-            );
-        case 3:
-            return (
-                <Payment
-                    nextStep={nextStep}
-                    prevStep={prevStep}
-                    state={state}
-                />
-            );
-        //   case 4:
-        //     return <Success />;
-    }
+  switch (steps) {
+    case 1:
+      return (
+        <Contact
+          id={1}
+          onSubmit={navigate}
+        />
+      );
+    case 2:
+      return (
+        <Grocery
+          id={2}
+          onSubmit={navigate}
+        />
+      );
+    case 3:
+      return (
+        <Payment
+          id={3}
+          onSubmit={navigate}
+        />
+      );
+    //   case 4:
+    //     return <Success />;
+  }
 };
 
 export default WizardForm;
