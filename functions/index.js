@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
     morgan("short", {
-        skip: process.env.NODE_ENV === "production"
+        skip: () => process.env.NODE_ENV === "production"
     })
 );
 

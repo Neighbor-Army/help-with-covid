@@ -9,15 +9,21 @@ firebase.initializeApp({
 const db = firebase.firestore();
 
 const writeNewTeam = (name, onfleetID, neighborhoodID) => {
-    return db.collection("teams").doc(neighborhoodID.toString()).set({
-        neighborhoodID: neighborhoodID,
-        name: name,
-        OnFleetID: onfleetID
-    });
+    return db
+        .collection("teams")
+        .doc(neighborhoodID.toString())
+        .set({
+            neighborhoodID: neighborhoodID,
+            name: name,
+            OnFleetID: onfleetID
+        });
 };
 
-const getTeam = async (id) => {
-    const document = await db.collection("teams").doc(id).get();
+const getTeam = async id => {
+    const document = await db
+        .collection("teams")
+        .doc(id)
+        .get();
     return document.data();
 };
 

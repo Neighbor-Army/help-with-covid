@@ -5,7 +5,7 @@
         "dev": "next dev",
         "build": "NODE_ENV=production next build",
         "start": "NODE_ENV=production next start",
-        "deploy": "next export && firebase deploy",
+        "deploy": "next export && firebase deploy --only hosting",
         "dev:all": "NODE_ENV=development concurrently --kill-others \"yarn dev\" \"cd functions && yarn serve\"",
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
         "lint": "eslint .",
