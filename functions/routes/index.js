@@ -8,80 +8,92 @@ const sendgridService = require("../services/sendgrid");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/task/:id", async function(req, res) {
-    const result = await onFleetService.getTask(req.params.id);
-    res.json(result);
+router.get("/task/:id", async function(req, res, next) {
+    try {
+        const result = await onFleetService.getTask(req.params.id);
+        res.json(result);
+    } catch (e) {
+        next(e);
+    }
 });
 
 router.post("/task", async function(req, res, next) {
-    const address = req.body.address;
+    const { address, person, notes } = req.body;
     try {
-        // eslint-disable-next-line no-unused-vars
-        const neighborhoodName = await neighborhoodService.getNeighborhood({
-            streetAddress: address.number + " " + address.street,
-            unit: address.apartment,
-            city: address.city,
-            state: address.state,
-            zipcode: address.postalCode
-        });
-        const results = await onFleetService.createTask(
-            req.body.address,
-            req.body.person,
-            req.body.notes
-        );
+        const results = await onFleetService.createTask(address, person, notes);
         res.json(results);
     } catch (error) {
         next(error);
     }
 });
 
-router.patch("/task/:id", async function(req, res) {
-    const results = await onFleetService.updateTask(req.params.id, req.body);
-    res.json(results);
+router.patch("/task/:id", async function(req, res, next) {
+    try {
+        const results = await onFleetService.updateTask(req.params.id, req.body);
+        res.json(results);
+    } catch (e) {
+        next(e);
+    }
 });
 
-router.delete("/task/:id", async function(req, res) {
-    const results = await onFleetService.deleteTask(req.params.id);
-    res.json(results);
+router.delete("/task/:id", async function(req, res, next) {
+    try {
+        const results = await onFleetService.deleteTask(req.params.id);
+        res.json(results);
+    } catch (e) {
+        next(e);
+    }
 });
+function isNeighborhoodExit(neighborhoodData) {
+    return firebaseService.getTeam(neighborhoodData.id.toString());
+}
+
+async function createNeighborhood(neighborhoodData) {
+    const results = await onFleetService.createTeam(neighborhoodData);
+
+    return firebaseService.writeNewTeam(
+        results.name,
+        results.onFleetID,
+        results.neighborhoodID
+    );
+}
 
 router.post("/neighborhood", async function(req, res, next) {
     const address = req.body.address;
-    const neighborhoodData = await neighborhoodService.getNeighborhood({
-        streetAddress: address.number + " " + address.street,
-        unit: address.apartment,
-        city: address.city,
-        state: address.state,
-        zipcode: address.postalCode
-    });
-    //also create the neighborhood while we are at it if it doesn't exist
-    const doesExist = firebaseService.getTeam(neighborhoodData.id.toString());
-    if (!doesExist.data) {
-        try {
-            const results = await onFleetService.createTeam(neighborhoodData);
 
-            await firebaseService.writeNewTeam(
-                results.name,
-                results.onFleetID,
-                results.neighborhoodID
-            );
+    let neighborhoodData;
+    try {
+        neighborhoodData = await neighborhoodService.getNeighborhood(parseAddress(address));
+    } catch (e) {
+        return next(e);
+    }
+
+    //also create the neighborhood while we are at it if it doesn't exist
+    if (!await isNeighborhoodExit(neighborhoodData).catch(() => false)) {
+        try {
+            await createNeighborhood(neighborhoodData);
         } catch (error) {
-            next(error);
+            return next(error);
         }
     }
+
     return res.json(neighborhoodData);
 });
 
-router.post("/team", async function(req, res, next) {
-    const address = req.body.address;
-    const neighborhoodData = await neighborhoodService.getNeighborhood({
+function parseAddress(address) {
+    return {
         streetAddress: address.number + " " + address.street,
         unit: address.apartment,
         city: address.city,
         state: address.state,
         zipcode: address.postalCode
-    });
+    };
+}
+
+router.post("/team", async function(req, res, next) {
+    const address = req.body.address;
     try {
+        const neighborhoodData = await neighborhoodService.getNeighborhood(parseAddress(address));
         const results = await onFleetService.createTeam(neighborhoodData);
 
         await firebaseService.writeNewTeam(
@@ -105,11 +117,10 @@ router.get("/team/:id", async function(req, res, next) {
     return res.json(team);
 });
 router.post("/worker", async function(req, res, next) {
-    const phone = req.body.phone;
-    const name = req.body.name;
-    const neighborhoodId = req.body.neighborhoodID;
+    const {phone, name, neighborhoodID} = req.body;
+
     try {
-        const neighborhoodData = await firebaseService.getTeam(neighborhoodId);
+        const neighborhoodData = await firebaseService.getTeam(neighborhoodID);
         const onfleetTeamId = neighborhoodData.OnFleetID;
         const results = await onFleetService.createWorker(
             onfleetTeamId,

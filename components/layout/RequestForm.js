@@ -6,7 +6,7 @@ const RequestForm = () => {
     const { register, handleSubmit, errors } = useForm();
 
     // eslint-disable-next-line no-unused-vars
-    const onSubmit = async (data) => {
+    const onSubmit = async data => {
         axios.post(
             "http://localhost:5001/neighbor-army/us-central1/widgets/task",
             {
