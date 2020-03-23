@@ -94,6 +94,11 @@ const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
                         pattern: /^\S+@\S+\.\S+$/
                     })}
                 ></input>
+                {errors.phone && (
+                    <p className="form__error">
+                        Please enter a valid phone number
+                    </p>
+                )}
                 <MaskedInput
                     mask={[
                         "(",
@@ -114,7 +119,13 @@ const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
                     name="phone"
                     type="tel"
                     placeholder="Phone Number"
-                    ref={ref => ref && register(ref.inputElement)}
+                    ref={ref =>
+                        ref &&
+                        register(ref.inputElement, {
+                            required: true,
+                            pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+                        })
+                    }
                 />
 
                 <div className="address-divider">
