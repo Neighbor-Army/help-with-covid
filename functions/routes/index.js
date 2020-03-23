@@ -8,12 +8,12 @@ const sendgridService = require("../services/sendgrid");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/task/:id", async function(req, res) {
+router.get("/task/:id", async function (req, res) {
     const result = await onFleetService.getTask(req.params.id);
     res.json(result);
 });
 
-router.post("/task", async function(req, res, next) {
+router.post("/task", async function (req, res, next) {
     const address = req.body.address;
     try {
         // eslint-disable-next-line no-unused-vars
@@ -35,17 +35,17 @@ router.post("/task", async function(req, res, next) {
     }
 });
 
-router.patch("/task/:id", async function(req, res) {
+router.patch("/task/:id", async function (req, res) {
     const results = await onFleetService.updateTask(req.params.id, req.body);
     res.json(results);
 });
 
-router.delete("/task/:id", async function(req, res) {
+router.delete("/task/:id", async function (req, res) {
     const results = await onFleetService.deleteTask(req.params.id);
     res.json(results);
 });
 
-router.post("/neighborhood", async function(req, res, next) {
+router.post("/neighborhood", async function (req, res, next) {
     const address = req.body.address;
     const neighborhoodData = await neighborhoodService.getNeighborhood({
         streetAddress: address.number + " " + address.street,
@@ -72,7 +72,7 @@ router.post("/neighborhood", async function(req, res, next) {
     return res.json(neighborhoodData);
 });
 
-router.post("/team", async function(req, res, next) {
+router.post("/team", async function (req, res, next) {
     const address = req.body.address;
     const neighborhoodData = await neighborhoodService.getNeighborhood({
         streetAddress: address.number + " " + address.street,
@@ -95,7 +95,7 @@ router.post("/team", async function(req, res, next) {
     }
 });
 
-router.get("/team/:id", async function(req, res, next) {
+router.get("/team/:id", async function (req, res, next) {
     const team = await firebaseService.getTeam(req.params.id);
 
     if (!team) {
@@ -104,7 +104,7 @@ router.get("/team/:id", async function(req, res, next) {
 
     return res.json(team);
 });
-router.post("/worker", async function(req, res, next) {
+router.post("/worker", async function (req, res, next) {
     const phone = req.body.phone;
     const name = req.body.name;
     const neighborhoodId = req.body.neighborhoodID;
@@ -127,7 +127,7 @@ router.post("/worker", async function(req, res, next) {
     }
 });
 
-router.post("/email", async function(req, res, next) {
+router.post("/email", async function (req, res, next) {
     logger.debug(req.body.email);
     try {
         const result = await sendgridService.addEmailToList(
@@ -135,6 +135,17 @@ router.post("/email", async function(req, res, next) {
             process.env.SENDGRID_MARKETING_LIST_ID
         );
         res.status(result.statusCode).send();
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.post("/voicemail", async function (req, res, next) {
+    logger.debug(req.body.phone);
+    logger.debug(req.body.url);
+    try {
+        await firebaseService.writeVoicemail(req.body.phone, req.body.url);
+        res.status(200).send();
     } catch (error) {
         next(error);
     }
