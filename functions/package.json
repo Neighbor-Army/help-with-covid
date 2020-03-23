@@ -7,18 +7,21 @@
         "serve": "firebase emulators:start --only functions",
         "shell": "firebase functions:shell",
         "start": "npm run shell",
-        "deploy": "NODE_ENV=production firebase deploy --only functions",
-        "logs": "firebase functions:log"
+        "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
+        "logs": "firebase functions:log",
+        "test": "jest . --passWithNoTests"
     },
     "engines": {
         "node": "10"
     },
     "devDependencies": {
+        "cross-env": "^7.0.2",
         "eslint": "^6.8.0",
-        "husky": "^4.2.3",
-        "prettier": "^2.0.1",
         "firebase-functions-test": "^0.2.0",
-        "firebase-tools": "^7.15.1"
+        "firebase-tools": "^7.15.1",
+        "husky": "^4.2.3",
+        "jest": "^25.1.0",
+        "prettier": "^2.0.1"
     },
     "dependencies": {
         "@onfleet/node-onfleet": "^1.0.5",
