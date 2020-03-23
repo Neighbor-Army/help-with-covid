@@ -8,7 +8,7 @@ firebase.initializeApp({
 });
 
 const firestore = firebase.firestore();
-const realtime = firebase.database();
+//const realtime = firebase.database();
 
 const writeNewTeam = (onfleetID, zipcode) => {
     return firestore.collection("teams").doc(zipcode).set({
@@ -22,15 +22,16 @@ const getTeam = async (zipcode) => {
     return document.data();
 };
 
+/*
 const writeVoicemail = (phone, url) => {
-    realtime.ref("voicemails").push({
+    return realtime.ref("voicemails").push({
         phone: phone,
         url: url
     });
 };
-
+*/
 module.exports = {
     writeNewTeam,
-    getTeam,
-    writeVoicemail
+    getTeam
+    //writeVoicemail
 };

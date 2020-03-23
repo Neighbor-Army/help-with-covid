@@ -143,7 +143,7 @@ router.post("/email", async function (req, res, next) {
         next(error);
     }
 });
-
+/*
 router.post("/voicemail", async function (req, res, next) {
     logger.debug(req.body.phone);
     logger.debug(req.body.url);
@@ -154,4 +154,5 @@ router.post("/voicemail", async function (req, res, next) {
         next(error);
     }
 });
+*/
 module.exports = router;
