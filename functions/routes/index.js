@@ -22,7 +22,7 @@ router.post("/task", async function(req, res, next) {
             state: address.state,
             zipcode: address.postalCode
         });
-        console.log(neighborhoodName);
+        logger.debug({ neighborhoodName });
         const results = await onFleetService.createTask(
             req.body.address,
             req.body.person,
