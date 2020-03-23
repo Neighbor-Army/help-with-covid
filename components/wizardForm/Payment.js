@@ -2,7 +2,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const Payment = () => {
+const Payment = (props) => {
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = data => console.log("data", data);
     console.log(errors);
@@ -18,13 +18,8 @@ const Payment = () => {
                     <option value="cash">cash</option>
                 </select>
                 <h4>Notes for my voluteer</h4>
-                <input
-                    type="text"
-                    placeholder=""
-                    name="notes"
-                    ref={register}
-                />
-
+                <input type="text" placeholder="" name="notes" ref={register} />
+                <button onClick={() => props.prevStep()}>previous</button>
                 <input type="submit" />
             </form>
         </>
