@@ -17,6 +17,7 @@ router.post("/task", async function (req, res, next) {
     const address = req.body.address;
     try {
         // eslint-disable-next-line no-unused-vars
+        /*
         const neighborhoodName = await neighborhoodService.getNeighborhood({
             streetAddress: address.number + " " + address.street,
             unit: address.apartment,
@@ -24,8 +25,11 @@ router.post("/task", async function (req, res, next) {
             state: address.state,
             zipcode: address.postalCode
         });
+        */
+
         const results = await onFleetService.createTask(
             req.body.address,
+            req.body.zipcode,
             req.body.person,
             req.body.notes
         );
