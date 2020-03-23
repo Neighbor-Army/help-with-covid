@@ -4,6 +4,7 @@ import { FaGithub } from "react-icons/fa";
 import { FaSlack } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import axios from "axios";
+import * as logger from "../../utils/logger";
 
 const ComingSoon = () => {
     const [emailValue, setEmailValue] = useState("");
@@ -11,14 +12,13 @@ const ComingSoon = () => {
     const onSubmit = () => {
         axios
             .post("url", { email: emailValue })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
-        console.log("We are submitting the form now with value", emailValue);
+            .then(res => logger.debug(res))
+            .catch(err => logger.error(err));
+        logger.debug("We are submitting the form now with value", emailValue);
     };
 
     return (
         <div className="coming-soon">
-            {console.log()}
             <div className="coming-soon-header-wrap">
                 <h1>We are Coming Soon</h1>
                 <p>

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import PropTypes from "prop-types";
 import axios from "axios";
+import * as logger from "../../utils/logger";
 
 const AddressInput = dynamic(() => import("./AddressInput"), { ssr: false });
 
@@ -12,10 +13,10 @@ const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
     const [address, setAddress] = useState("");
     const [addressArray, setAddressArray] = useState([]);
 
-    console.log(neighborhood.id);
+    logger.debug(neighborhood.id);
 
     const onSubmit = async data => {
-        console.log(data, "data");
+        logger.debug({ data });
         let arr = {
             address: {
                 state: addressArray[5].long_name,
@@ -37,24 +38,24 @@ const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
             reset();
             setSuccess(true);
         } catch (err) {
-            console.log(err);
+            logger.error(err);
         }
         try {
-            console.log(result);
+            logger.debug(result);
             const volunteer = {
                 phone: data.phone,
                 name: data.name,
                 email: data.email,
                 neighborhoodID: result.data.id
             };
-            console.log(volunteer);
+            logger.debug(volunteer);
             const res = await axios.post(
                 "https://us-central1-neighbor-army.cloudfunctions.net/widgets/worker",
                 volunteer
             );
-            console.log(res);
+            logger.debug(res);
         } catch (err) {
-            console.log(err);
+            logger.error(err);
         }
     };
 

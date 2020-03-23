@@ -5,30 +5,28 @@ import axios from "axios";
 const RequestForm = () => {
     const { register, handleSubmit, errors } = useForm();
 
+    // eslint-disable-next-line no-unused-vars
     const onSubmit = async data => {
-        console.log(data);
-        axios
-            .post(
-                "http://localhost:5001/neighbor-army/us-central1/widgets/task",
-                {
-                    address: {
-                        apartment: "",
-                        state: "Michigan",
-                        postalCode: "48067",
-                        country: "United States",
-                        city: "Royal Oak",
-                        street: "Main st",
-                        number: "922",
-                        unparsed: "922 N Main st Royal Oak, MI 48067"
-                    },
-                    person: {
-                        name: "joe ",
-                        phone: "+14133333333"
-                    },
-                    notes: "notes"
-                }
-            )
-            .then(data => console.log(data));
+        axios.post(
+            "http://localhost:5001/neighbor-army/us-central1/widgets/task",
+            {
+                address: {
+                    apartment: "",
+                    state: "Michigan",
+                    postalCode: "48067",
+                    country: "United States",
+                    city: "Royal Oak",
+                    street: "Main st",
+                    number: "922",
+                    unparsed: "922 N Main st Royal Oak, MI 48067"
+                },
+                person: {
+                    name: "joe ",
+                    phone: "+14133333333"
+                },
+                notes: "notes"
+            }
+        );
     };
 
     return (

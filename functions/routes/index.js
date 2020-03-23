@@ -1,4 +1,7 @@
+
 /*eslint no-undef: "warn"*/
+
+const logger = require("../../utils/logger/");
 
 const express = require("express");
 
@@ -17,6 +20,7 @@ router.get("/task/:id", async function(req, res) {
 router.post("/task", async function(req, res, next) {
     const address = req.body.address;
     try {
+        // eslint-disable-next-line no-unused-vars
         const neighborhoodName = await neighborhoodService.getNeighborhood({
             streetAddress: address.number + " " + address.street,
             unit: address.apartment,
@@ -24,7 +28,6 @@ router.post("/task", async function(req, res, next) {
             state: address.state,
             zipcode: address.postalCode
         });
-        console.log(neighborhoodName);
         const results = await onFleetService.createTask(
             req.body.address,
             req.body.person,
@@ -46,7 +49,7 @@ router.delete("/task/:id", async function(req, res) {
     res.json(results);
 });
 
-router.post("/neighborhood", async function(req, res) {
+router.post("/neighborhood", async function(req, res, next) {
     const address = req.body.address;
     const neighborhoodData = await neighborhoodService.getNeighborhood({
         streetAddress: address.number + " " + address.street,
@@ -129,7 +132,11 @@ router.post("/worker", async function(req, res, next) {
 });
 
 router.post("/email", async function(req, res, next) {
+<<<<<<< HEAD
     console.log(req.body.email);
+=======
+    logger.debug(req.body.email);
+>>>>>>> 1f2efec4d1912315185a000ddf785fd6240b66f6
     try {
         const result = await sendgridService.addEmailToList(
             req.body.email,
