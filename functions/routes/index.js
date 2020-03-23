@@ -1,3 +1,4 @@
+const logger = require("../../utils/logger/");
 const express = require("express");
 
 const neighborhoodService = require("../services/neighborhood");
@@ -15,6 +16,7 @@ router.get("/task/:id", async function(req, res) {
 router.post("/task", async function(req, res, next) {
     const address = req.body.address;
     try {
+        // eslint-disable-next-line no-unused-vars
         const neighborhoodName = await neighborhoodService.getNeighborhood({
             streetAddress: address.number + " " + address.street,
             unit: address.apartment,
@@ -22,7 +24,6 @@ router.post("/task", async function(req, res, next) {
             state: address.state,
             zipcode: address.postalCode
         });
-        console.log(neighborhoodName);
         const results = await onFleetService.createTask(
             req.body.address,
             req.body.person,
@@ -44,7 +45,7 @@ router.delete("/task/:id", async function(req, res) {
     res.json(results);
 });
 
-router.post("/neighborhood", async function(req, res) {
+router.post("/neighborhood", async function(req, res, next) {
     const address = req.body.address;
     const neighborhoodData = await neighborhoodService.getNeighborhood({
         streetAddress: address.number + " " + address.street,
@@ -94,7 +95,7 @@ router.post("/team", async function(req, res, next) {
     }
 });
 
-router.get("/team/:id", async function (req, res, next) {
+router.get("/team/:id", async function(req, res, next) {
     const team = await firebaseService.getTeam(req.params.id);
 
     if (!team) {
@@ -103,7 +104,7 @@ router.get("/team/:id", async function (req, res, next) {
 
     return res.json(team);
 });
-router.post("/worker", async function (req, res, next) {
+router.post("/worker", async function(req, res, next) {
     const phone = req.body.phone;
     const name = req.body.name;
     const neighborhoodId = req.body.neighborhoodID;
@@ -126,8 +127,8 @@ router.post("/worker", async function (req, res, next) {
     }
 });
 
-router.post("/email", async function (req, res, next) {
-    console.log(req.body.email);
+router.post("/email", async function(req, res, next) {
+    logger.debug(req.body.email);
     try {
         const result = await sendgridService.addEmailToList(
             req.body.email,
