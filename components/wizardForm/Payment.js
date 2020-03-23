@@ -25,8 +25,7 @@ const Payment = props => {
                     onChange={handleChange}
                     ref={register({ required: true })}
                 >
-                    <option 
-                    defaultValue="venmo">venmo</option>
+                    <option defaultValue="venmo">venmo</option>
                     <option value="paypal">paypal</option>
                     <option value="cash">cash</option>
                 </select>
