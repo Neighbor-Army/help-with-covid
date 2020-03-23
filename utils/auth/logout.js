@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-import logger from "../logger/";
+import * as logger from "../logger/";
 
 export default async () => {
     return firebase

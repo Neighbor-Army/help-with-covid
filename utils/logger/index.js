@@ -5,4 +5,4 @@ const logger = {
     warn: console.warn
 };
 
-export default logger;
+module.exports = logger;
