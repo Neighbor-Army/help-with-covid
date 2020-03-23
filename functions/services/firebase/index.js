@@ -6,24 +6,18 @@ firebase.initializeApp({
     projectId: process.env.FIREBASE_PROJECT_ID
 });
 
-const db = firebase.firestore();
-
+const firestore = firebase.firestore();
+const realtime = firebase.database();
 const writeNewTeam = (name, onfleetID, neighborhoodID) => {
-    return db
-        .collection("teams")
-        .doc(neighborhoodID.toString())
-        .set({
-            neighborhoodID: neighborhoodID,
-            name: name,
-            OnFleetID: onfleetID
-        });
+    return firestore.collection("teams").doc(neighborhoodID.toString()).set({
+        neighborhoodID: neighborhoodID,
+        name: name,
+        OnFleetID: onfleetID
+    });
 };
 
-const getTeam = async id => {
-    const document = await db
-        .collection("teams")
-        .doc(id)
-        .get();
+const getTeam = async (id) => {
+    const document = await firestore.collection("teams").doc(id).get();
     return document.data();
 };
 
