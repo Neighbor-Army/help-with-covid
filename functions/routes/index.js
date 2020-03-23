@@ -53,6 +53,21 @@ router.post("/neighborhood", async function(req, res) {
         state: address.state,
         zipcode: address.postalCode
     });
+    //also create the neighborhood while we are at it if it doesn't exist
+    const doesExist = firebaseService.getTeam(neighborhoodData.id.toString());
+    if (!doesExist.data) {
+        try {
+            const results = await onFleetService.createTeam(neighborhoodData);
+
+            await firebaseService.writeNewTeam(
+                results.name,
+                results.onFleetID,
+                results.neighborhoodID
+            );
+        } catch (error) {
+            next(error);
+        }
+    }
     return res.json(neighborhoodData);
 });
 
@@ -79,7 +94,7 @@ router.post("/team", async function(req, res, next) {
     }
 });
 
-router.get("/team/:id", async function(req, res, next) {
+router.get("/team/:id", async function (req, res, next) {
     const team = await firebaseService.getTeam(req.params.id);
 
     if (!team) {
@@ -88,8 +103,7 @@ router.get("/team/:id", async function(req, res, next) {
 
     return res.json(team);
 });
-
-router.post("/worker", async function(req, res, next) {
+router.post("/worker", async function (req, res, next) {
     const phone = req.body.phone;
     const name = req.body.name;
     const neighborhoodId = req.body.neighborhoodID;
@@ -112,7 +126,7 @@ router.post("/worker", async function(req, res, next) {
     }
 });
 
-router.post("/email", async function(req, res, next) {
+router.post("/email", async function (req, res, next) {
     console.log(req.body.email);
     try {
         const result = await sendgridService.addEmailToList(
