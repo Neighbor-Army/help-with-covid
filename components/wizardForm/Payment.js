@@ -6,6 +6,7 @@ const Payment = props => {
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = data => console.log("data", data);
     console.log(errors);
+    console.log('paymentprops',props)
 
     return (
         <>

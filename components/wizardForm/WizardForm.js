@@ -1,9 +1,9 @@
 /* eslint react/prop-types: 0 */
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import ContactNew from "./Contact";
-import GroceryNew from "./Grocery";
-import PaymentNew from "./Payment";
+import Contact from "./Contact";
+import Grocery from "./Grocery";
+import Payment from "./Payment";
 
 const WizardForm = () => {
     const { errors } = useForm();
@@ -14,7 +14,8 @@ const WizardForm = () => {
         name: "",
         phone: "",
         address: "",
-        apt: ""
+        apt: "",
+        item:""
     });
 
     // Proceed to next step
@@ -33,37 +34,36 @@ const WizardForm = () => {
     1;
 
     // Handle fields change
-    const handleChange = input => e => {
-        setState({ [input]: e.target.value });
-    };
+  const handleChange = e => {
+    setState({...state,[e.target.name]:e.target.value});
+  };
+
     const { step } = state;
-    const { name, phone, address, apt } = state;
-    const values = { name, phone, address, apt };
 
     switch (step) {
         case 1:
             return (
-                <ContactNew
+                <Contact
                     nextStep={nextStep}
                     handleChange={handleChange}
-                    values={values}
+                    state={state}
                 />
             );
         case 2:
             return (
-                <GroceryNew
+                <Grocery
                     nextStep={nextStep}
                     prevStep={prevStep}
                     handleChange={handleChange}
-                    values={values}
+                    state={state}
                 />
             );
         case 3:
             return (
-                <PaymentNew
+                <Payment
                     nextStep={nextStep}
                     prevStep={prevStep}
-                    values={values}
+                    state={state}
                 />
             );
         //   case 4:
