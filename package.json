@@ -9,7 +9,8 @@
         "dev:all": "cross-env NODE_ENV=development concurrently --kill-others \"yarn dev\" \"cd functions && yarn serve\"",
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
         "lint": "eslint .",
-        "postinstall": "cd functions && yarn install"
+        "postinstall": "cd functions && yarn install",
+        "test": "jest ."
     },
     "engines": {
         "node": "10"
