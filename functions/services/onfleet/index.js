@@ -12,7 +12,10 @@ const createTask = (address, zipcode, person, notes) => {
         },
         recipients: [person],
         notes: notes,
-        autoAssign: { mode: "distance" }
+        container: {
+            type: "TEAM",
+            worker: zipcode
+        }
     });
 };
 
@@ -28,9 +31,7 @@ const updateTask = (id, body) => {
     return onfleet.tasks.update(id, body);
 };
 
-const createTeam = async (neighborhoodData) => {
-    const name = neighborhoodData.short_name.replace("/", "-");
-    const neighborhoodID = neighborhoodData.id;
+const createTeam = async (zipcode) => {
     const response = await onfleet.teams.create({
         name: neighborhoodID
     });
@@ -38,8 +39,7 @@ const createTeam = async (neighborhoodData) => {
     const id = response.id;
     const results = {
         onFleetID: id,
-        name: name,
-        neighborhoodID: neighborhoodID
+        name: zipcode
     };
     return results;
 };
