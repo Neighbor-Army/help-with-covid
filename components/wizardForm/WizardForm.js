@@ -15,7 +15,7 @@ const WizardForm = () => {
         phone: "",
         address: "",
         apt: "",
-        item:""
+        item: ""
     });
 
     // Proceed to next step
@@ -34,9 +34,9 @@ const WizardForm = () => {
     1;
 
     // Handle fields change
-  const handleChange = e => {
-    setState({...state,[e.target.name]:e.target.value});
-  };
+    const handleChange = e => {
+        setState({ ...state, [e.target.name]: e.target.value });
+    };
 
     const { step } = state;
 

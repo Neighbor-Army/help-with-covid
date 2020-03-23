@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 const Grocery = props => {
     const { register, errors } = useForm();
     console.log(errors);
-    console.log('props from contact',props)
+    console.log("props from contact", props);
 
     return (
         <>

@@ -3,10 +3,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 const Contact = props => {
-    const { name, phone, address,apt, handleChange } = props;
+    const { name, phone, address, apt, handleChange } = props;
     const { register, errors } = useForm();
     console.log(errors);
-    console.log('contactprops',props)
+    console.log("contactprops", props);
 
     return (
         <>
