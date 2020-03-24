@@ -2,12 +2,12 @@ import React from "react";
 import "./VolunteerConfirmation.scss";
 import PropTypes from "prop-types";
 
-const VolunteerConfirmation = ({ neighborhood }) => {
+const VolunteerConfirmation = () => {
     return (
         <div className="volunteer-confirmation">
             <div className="volunteer-confirmation__header-wrap">
                 <h1 className="hero-text">Thank you for volunteering!</h1>
-                <p>You will receive a text message shortly.</p> <br/>
+                <p>You will receive a text message shortly.</p> <br />
                 <p>Please download OnFleet.</p>
             </div>
             <p className="volunteer-confirmation__footnote">

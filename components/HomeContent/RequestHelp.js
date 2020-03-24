@@ -6,7 +6,7 @@ const RequestHelp = () => {
         <div className="request-help">
             <div className="request-help__header-wrap">
                 <h1 className="hero-text">
-                    Call or Text HELP to (844) 952-1234
+                    Text HELP to (844) 952-1234
                 </h1>
                 <p>
                     Please call or text us. You will be prompted with a few

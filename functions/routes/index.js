@@ -8,12 +8,12 @@ const sendgridService = require("../services/sendgrid");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/task/:id", async function (req, res) {
+router.get("/task/:id", async function(req, res) {
     const result = await onFleetService.getTask(req.params.id);
     res.json(result);
 });
 
-router.post("/task", async function (req, res, next) {
+router.post("/task", async function(req, res, next) {
     try {
         // eslint-disable-next-line no-unused-vars
         /*
@@ -38,12 +38,12 @@ router.post("/task", async function (req, res, next) {
     }
 });
 
-router.patch("/task/:id", async function (req, res) {
+router.patch("/task/:id", async function(req, res) {
     const results = await onFleetService.updateTask(req.params.id, req.body);
     res.json(results);
 });
 
-router.delete("/task/:id", async function (req, res) {
+router.delete("/task/:id", async function(req, res) {
     const results = await onFleetService.deleteTask(req.params.id);
     res.json(results);
 });
@@ -77,7 +77,7 @@ router.post("/neighborhood", async function (req, res, next) {
 });
 */
 
-router.post("/team", async function (req, res, next) {
+router.post("/team", async function(req, res, next) {
     const zipcode = req.body.zipcode;
     try {
         const results = await onFleetService.createTeam(zipcode);
@@ -88,7 +88,7 @@ router.post("/team", async function (req, res, next) {
     }
 });
 
-router.get("/team/:id", async function (req, res, next) {
+router.get("/team/:id", async function(req, res, next) {
     const team = await firebaseService.getTeam(req.params.id);
 
     if (!team) {
@@ -98,7 +98,7 @@ router.get("/team/:id", async function (req, res, next) {
     return res.json(team);
 });
 
-router.post("/worker", async function (req, res, next) {
+router.post("/worker", async function(req, res, next) {
     const phone = req.body.phone;
     const name = req.body.name;
     const zipcode = req.body.zipcode;

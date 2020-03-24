@@ -2,12 +2,9 @@ import React from "react";
 import "./OfferHelp.scss";
 import { useForm } from "react-hook-form";
 import MaskedInput from "react-text-mask";
-import dynamic from "next/dynamic";
 import PropTypes from "prop-types";
 import axios from "axios";
 import * as logger from "../../utils/logger";
-
-const AddressInput = dynamic(() => import("./AddressInput"), { ssr: false });
 
 const OfferHelp = ({ setSuccess }) => {
     const { register, handleSubmit, errors, reset } = useForm({

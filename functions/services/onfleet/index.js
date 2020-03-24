@@ -28,11 +28,11 @@ const createTask = (
     });
 };
 
-const deleteTask = (id) => {
+const deleteTask = id => {
     return onfleet.tasks.deleteOne(id);
 };
 
-const getTask = (id) => {
+const getTask = id => {
     return onfleet.tasks.get(id);
 };
 
@@ -40,7 +40,7 @@ const updateTask = (id, body) => {
     return onfleet.tasks.update(id, body);
 };
 
-const createTeam = async (zipcode) => {
+const createTeam = async zipcode => {
     const response = await onfleet.teams.create({
         name: zipcode
     });
