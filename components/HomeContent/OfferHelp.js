@@ -7,7 +7,7 @@ import axios from "axios";
 import * as logger from "../../utils/logger";
 
 const OfferHelp = ({ setSuccess }) => {
-    const { register, handleSubmit, errors, reset } = useForm({
+    const { register, handleSubmit, errors, reset, setError } = useForm({
         mode: "onBlur"
     });
 
@@ -32,6 +32,13 @@ const OfferHelp = ({ setSuccess }) => {
             logger.debug(res);
         } catch (err) {
             logger.error(err);
+            if (err.response && err.response.status === 500) {
+                setError(
+                    "phone",
+                    "notMatch",
+                    "There is already a volunteer with this phone number"
+                );
+            }
         }
     };
 
@@ -70,7 +77,9 @@ const OfferHelp = ({ setSuccess }) => {
                 ></input>
                 {errors.phone && (
                     <p className="form__error">
-                        Please enter a valid phone number
+                        {errors.phone.message.length > 0
+                            ? errors.phone.message
+                            : "Please enter a valid phone number"}
                     </p>
                 )}
                 <MaskedInput
