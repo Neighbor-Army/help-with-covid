@@ -15,6 +15,7 @@ const addEmailToList = async (email, listId) => {
             ]
         }
     };
+
     const [response] = await client.request(request);
     return response;
 };
