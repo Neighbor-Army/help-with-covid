@@ -5,6 +5,7 @@ const onfleet = new Onfleet(process.env.ONFLEET_KEY);
 
 const createTask = (
     address,
+    zipcode,
     person,
     notes,
     taskCreator = onfleet.tasks.create
