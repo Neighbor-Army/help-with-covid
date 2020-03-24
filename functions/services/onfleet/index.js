@@ -1,53 +1,70 @@
-const logger = require("../../../utils/logger/");
+const logger = require("../../utils/logger");
 const Onfleet = require("@onfleet/node-onfleet");
 
-const onfleet = new Onfleet(process.env.ONFLEET_KEY);
-
-const createTask = (address, person, notes) => {
-    return onfleet.tasks.create({
-        destination: { address: address },
+const createTask = (
+    address,
+    zipcode,
+    person,
+    notes,
+    onfleetTeamId,
+    taskCreator = getOnfleetClient().tasks.create
+) => {
+    if (!address || !person || !notes) {
+        throw new Error("Missing required args: address, person and/or notes.");
+    }
+    return taskCreator({
+        destination: {
+            address: {
+                unparsed: address + " " + zipcode
+            }
+        },
         recipients: [person],
         notes: notes,
-        autoAssign: { mode: "distance" }
+        container: {
+            type: "TEAM",
+            team: onfleetTeamId
+        },
+        autoAssign: { mode: "load" }
     });
 };
 
-const deleteTask = id => {
-    return onfleet.tasks.deleteOne(id);
+const deleteTask = (id) => {
+    return getOnfleetClient().tasks.deleteOne(id);
 };
 
-const getTask = id => {
-    return onfleet.tasks.get(id);
+const getTask = (id) => {
+    return getOnfleetClient().tasks.get(id);
 };
 
 const updateTask = (id, body) => {
-    return onfleet.tasks.update(id, body);
+    return getOnfleetClient().tasks.update(id, body);
 };
 
-const createTeam = async neighborhoodData => {
-    const name = neighborhoodData.short_name.replace("/", "-");
-    const neighborhoodID = neighborhoodData.id;
-    const response = await onfleet.teams.create({
-        name: neighborhoodID
+const createTeam = async (zipcode) => {
+    const response = await getOnfleetClient().teams.create({
+        name: zipcode
     });
 
     const id = response.id;
     const results = {
         onFleetID: id,
-        name: name,
-        neighborhoodID: neighborhoodID
+        name: zipcode
     };
     return results;
 };
 
 const createWorker = async (teamId, name, phone) => {
     logger.debug({ teamId, name, phone });
-    return onfleet.workers.create({
+    return getOnfleetClient().workers.create({
         name: name,
         phone: phone,
         teams: [teamId.toString()]
     });
 };
+
+function getOnfleetClient() {
+    return new Onfleet(process.env.ONFLEET_KEY);
+}
 
 module.exports = {
     createTask,

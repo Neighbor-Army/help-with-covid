@@ -1,7 +1,7 @@
-const logger = require("../../utils/logger/");
+const logger = require("../utils/logger");
 const express = require("express");
 
-const neighborhoodService = require("../services/neighborhood");
+//const neighborhoodService = require("../services/neighborhood");
 const onFleetService = require("../services/onfleet");
 const firebaseService = require("../services/firebase");
 const sendgridService = require("../services/sendgrid");
@@ -17,10 +17,33 @@ router.get("/task/:id", async function(req, res, next) {
     }
 });
 
-router.post("/task", async function(req, res, next) {
-    const { address, person, notes } = req.body;
+router.post("/task", async function (req, res, next) {
+    const {address, zipcode, person, notes} = req.body;
     try {
-        const results = await onFleetService.createTask(address, person, notes);
+        logger.debug({address, zipcode, person, notes});
+        const teamData = await firebaseService.getTeam(zipcode);
+        let onfleetTeamId = "";
+
+        // If team doesn't exist in firebase, it must not exist anywhere
+        // thus we create it.
+        if (!teamData) {
+            res.status(500).send("Area not serviced");
+
+            // Return here to avoid trying to resend which will throw an error
+            return;
+        } else {
+            onfleetTeamId = teamData.OnFleetID;
+        }
+
+        logger.debug({onfleetTeamId});
+
+        const results = await onFleetService.createTask(
+            address,
+            zipcode,
+            person,
+            notes,
+            onfleetTeamId
+        );
         res.json(results);
     } catch (error) {
         next(error);
@@ -44,70 +67,48 @@ router.delete("/task/:id", async function(req, res, next) {
         next(e);
     }
 });
-function isNeighborhoodExit(neighborhoodData) {
-    return firebaseService.getTeam(neighborhoodData.id.toString());
-}
 
-async function createNeighborhood(neighborhoodData) {
-    const results = await onFleetService.createTeam(neighborhoodData);
-
-    return firebaseService.writeNewTeam(
-        results.name,
-        results.onFleetID,
-        results.neighborhoodID
-    );
-}
-
-router.post("/neighborhood", async function(req, res, next) {
+/*
+router.post("/neighborhood", async function (req, res, next) {
     const address = req.body.address;
-
-    let neighborhoodData;
-    try {
-        neighborhoodData = await neighborhoodService.getNeighborhood(parseAddress(address));
-    } catch (e) {
-        return next(e);
-    }
-
-    //also create the neighborhood while we are at it if it doesn't exist
-    if (!await isNeighborhoodExit(neighborhoodData).catch(() => false)) {
-        try {
-            await createNeighborhood(neighborhoodData);
-        } catch (error) {
-            return next(error);
-        }
-    }
-
-    return res.json(neighborhoodData);
-});
-
-function parseAddress(address) {
-    return {
+    const neighborhoodData = await neighborhoodService.getNeighborhood({
         streetAddress: address.number + " " + address.street,
         unit: address.apartment,
         city: address.city,
         state: address.state,
         zipcode: address.postalCode
-    };
-}
+    });
+    //also create the neighborhood while we are at it if it doesn't exist
+    const doesExist = firebaseService.getTeam(neighborhoodData.id.toString());
+    if (!doesExist.data) {
+        try {
+            const results = await onFleetService.createTeam(neighborhoodData);
 
-router.post("/team", async function(req, res, next) {
-    const address = req.body.address;
+            await firebaseService.writeNewTeam(
+                results.name,
+                results.onFleetID,
+                results.neighborhoodID
+            );
+        } catch (error) {
+            next(error);
+        }
+    }
+    return res.json(neighborhoodData);
+});
+*/
+
+router.post("/team", async function (req, res, next) {
+    const zipcode = req.body.zipcode;
     try {
-        const neighborhoodData = await neighborhoodService.getNeighborhood(parseAddress(address));
-        const results = await onFleetService.createTeam(neighborhoodData);
-
-        await firebaseService.writeNewTeam(
-            results.name,
-            results.onFleetID,
-            results.neighborhoodID
-        );
+        const results = await onFleetService.createTeam(zipcode);
+        await firebaseService.writeNewTeam(results.onFleetID, zipcode);
         res.status(200).json(results);
     } catch (error) {
         next(error);
     }
 });
 
-router.get("/team/:id", async function(req, res, next) {
+router.get("/team/:id", async function (req, res, next) {
     const team = await firebaseService.getTeam(req.params.id);
 
     if (!team) {
@@ -116,12 +117,24 @@ router.get("/team/:id", async function(req, res, next) {
 
     return res.json(team);
 });
-router.post("/worker", async function(req, res, next) {
-    const {phone, name, neighborhoodID} = req.body;
 
+router.post("/worker", async function (req, res, next) {
+    const {phone, name, zipcode} = req.body;
+    logger.debug({phone, name, zipcode});
     try {
-        const neighborhoodData = await firebaseService.getTeam(neighborhoodID);
-        const onfleetTeamId = neighborhoodData.OnFleetID;
+        const teamData = await firebaseService.getTeam(zipcode);
+        let onfleetTeamId = "";
+
+        //If team doesn't exist in firebase, it must not exist anywhere
+        //thus we create it.
+        if (!teamData) {
+            const results = await onFleetService.createTeam(zipcode);
+            await firebaseService.writeNewTeam(results.onFleetID, zipcode);
+            onfleetTeamId = results.onFleetID;
+        } else {
+            onfleetTeamId = teamData.OnFleetID;
+        }
+
         const results = await onFleetService.createWorker(
             onfleetTeamId,
             name,
@@ -138,7 +151,8 @@ router.post("/worker", async function(req, res, next) {
     }
 });
 
-router.post("/email", async function(req, res, next) {
+/*
+router.post("/email", async function (req, res, next) {
     logger.debug(req.body.email);
     try {
         const result = await sendgridService.addEmailToList(
@@ -150,4 +164,16 @@ router.post("/email", async function(req, res, next) {
         next(error);
     }
 });
+
+router.post("/voicemail", async function (req, res, next) {
+    logger.debug(req.body.phone);
+    logger.debug(req.body.url);
+    try {
+        await firebaseService.writeVoicemail(req.body.phone, req.body.url);
+        res.status(200).send();
+    } catch (error) {
+        next(error);
+    }
+});
+*/
 module.exports = router;
