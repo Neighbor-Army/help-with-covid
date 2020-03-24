@@ -1,4 +1,4 @@
-const logger = require("../../utils/logger/");
+const logger = require("../utils/logger");
 const express = require("express");
 
 //const neighborhoodService = require("../services/neighborhood");
@@ -25,12 +25,29 @@ router.post("/task", async function (req, res, next) {
             zipcode: address.postalCode
         });
         */
+        logger.debug(req.body.address);
+        logger.debug(req.body.zipcode);
+        logger.debug(req.body.person);
+        logger.debug(req.body.notes);
+        const teamData = await firebaseService.getTeam(req.body.zipcode);
+        let onfleetTeamId = "";
+
+        //If team doesn't exist in firebase, it must not exist anywhere
+        //thus we create it.
+        if (!teamData) {
+            res.status(500).send("Area not serviced");
+        } else {
+            onfleetTeamId = teamData.OnFleetID;
+        }
+
+        logger.debug(onfleetTeamId);
 
         const results = await onFleetService.createTask(
             req.body.address,
             req.body.zipcode,
             req.body.person,
-            req.body.notes
+            req.body.notes,
+            onfleetTeamId
         );
         res.json(results);
     } catch (error) {

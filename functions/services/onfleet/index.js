@@ -1,4 +1,4 @@
-const logger = require("../../../utils/logger/");
+const logger = require("../../utils/logger");
 const Onfleet = require("@onfleet/node-onfleet");
 
 const createTask = (
@@ -6,6 +6,7 @@ const createTask = (
     zipcode,
     person,
     notes,
+    onfleetTeamId,
     taskCreator = getOnfleetClient().tasks.create
 ) => {
     if (!address || !person || !notes) {
@@ -21,8 +22,9 @@ const createTask = (
         notes: notes,
         container: {
             type: "TEAM",
-            worker: zipcode
-        }
+            team: onfleetTeamId
+        },
+        autoAssign: { mode: "load" }
     });
 };
 
