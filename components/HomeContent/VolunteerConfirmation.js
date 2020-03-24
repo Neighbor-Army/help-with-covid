@@ -2,22 +2,22 @@ import React from "react";
 import "./VolunteerConfirmation.scss";
 import PropTypes from "prop-types";
 
-const VolunteerConfirmation = ({ neighborhood }) => {
+const VolunteerConfirmation = () => {
     return (
         <div className="volunteer-confirmation">
             <div className="volunteer-confirmation__header-wrap">
-                <h1 className="hero-text">Please confirm your neighborhood</h1>
-                <h3>{neighborhood.short_name}</h3>
-                <button>Confirm</button>
+                <h1 className="hero-text">Thank you for volunteering!</h1>
+                <p>You will receive a text message shortly.</p> <br />
+                <p>Please download OnFleet.</p>
             </div>
             <p className="volunteer-confirmation__footnote">
                 Powered by the generosity of{" "}
                 <a
-                    href="https://www.twilio.com"
+                    href="https://www.notion.so"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Twilio
+                    Notion
                 </a>
                 {", "}
                 <a
