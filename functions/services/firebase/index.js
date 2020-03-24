@@ -1,4 +1,5 @@
 const firebase = require("firebase");
+const Validator = require("../../utils/validator/");
 
 firebase.initializeApp({
     apiKey: process.env.FIREBASE_PUBLIC_API_KEY,
@@ -10,15 +11,43 @@ firebase.initializeApp({
 const firestore = firebase.firestore();
 //const realtime = firebase.database();
 
-const writeNewTeam = (onfleetID, zipcode) => {
-    return firestore.collection("teams").doc(zipcode).set({
-        OnFleetID: onfleetID,
-        zipcode: zipcode
+/**
+ * Write new teem
+ * @param onfleetID OnFleet ID
+ * @param zipcode Zip Code
+ * @return {Promise<void>}
+ */
+const writeNewTeam = async (onfleetID, zipcode) => {
+    Validator.assert({
+        args: [{ onfleetID }, { zipcode }],
+        validateFn: arg => arg && typeof arg === "string"
     });
+
+    return firestore
+        .collection("teams")
+        .doc(zipcode)
+        .set({
+            OnFleetID: onfleetID,
+            zipcode: zipcode
+        });
 };
 
-const getTeam = async (zipcode) => {
-    const document = await firestore.collection("teams").doc(zipcode).get();
+/**
+ *
+ * @param zipcode
+ * @return {Promise<DocumentData>}
+ */
+const getTeam = async zipcode => {
+    Validator.assert({
+        args: [{ zipcode }],
+        validateFn: arg => arg && typeof arg === "string"
+    });
+
+    const document = await firestore
+        .collection("teams")
+        .doc(zipcode)
+        .get();
+
     return document.data();
 };
 
