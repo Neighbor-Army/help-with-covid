@@ -1,14 +1,12 @@
 const logger = require("../../../utils/logger/");
 const Onfleet = require("@onfleet/node-onfleet");
 
-const onfleet = new Onfleet(process.env.ONFLEET_KEY);
-
 const createTask = (
     address,
     zipcode,
     person,
     notes,
-    taskCreator = onfleet.tasks.create
+    taskCreator = getOnfleetClient().tasks.create
 ) => {
     if (!address || !person || !notes) {
         throw new Error("Missing required args: address, person and/or notes.");
@@ -29,19 +27,19 @@ const createTask = (
 };
 
 const deleteTask = (id) => {
-    return onfleet.tasks.deleteOne(id);
+    return getOnfleetClient().tasks.deleteOne(id);
 };
 
 const getTask = (id) => {
-    return onfleet.tasks.get(id);
+    return getOnfleetClient().tasks.get(id);
 };
 
 const updateTask = (id, body) => {
-    return onfleet.tasks.update(id, body);
+    return getOnfleetClient().tasks.update(id, body);
 };
 
 const createTeam = async (zipcode) => {
-    const response = await onfleet.teams.create({
+    const response = await getOnfleetClient().teams.create({
         name: zipcode
     });
 
@@ -55,12 +53,16 @@ const createTeam = async (zipcode) => {
 
 const createWorker = async (teamId, name, phone) => {
     logger.debug({ teamId, name, phone });
-    return onfleet.workers.create({
+    return getOnfleetClient().workers.create({
         name: name,
         phone: phone,
         teams: [teamId.toString()]
     });
 };
+
+function getOnfleetClient() {
+    return new Onfleet(process.env.ONFLEET_KEY);
+}
 
 module.exports = {
     createTask,
