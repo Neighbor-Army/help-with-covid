@@ -3,6 +3,7 @@ const Onfleet = require("@onfleet/node-onfleet");
 
 const createTask = (
     address,
+    zipcode,
     person,
     notes,
     taskCreator = getOnfleetClient().tasks.create
@@ -11,18 +12,25 @@ const createTask = (
         throw new Error("Missing required args: address, person and/or notes.");
     }
     return taskCreator({
-        destination: { address: address },
+        destination: {
+            address: {
+                unparsed: address + " " + zipcode
+            }
+        },
         recipients: [person],
         notes: notes,
-        autoAssign: { mode: "distance" }
+        container: {
+            type: "TEAM",
+            worker: zipcode
+        }
     });
 };
 
-const deleteTask = id => {
+const deleteTask = (id) => {
     return getOnfleetClient().tasks.deleteOne(id);
 };
 
-const getTask = id => {
+const getTask = (id) => {
     return getOnfleetClient().tasks.get(id);
 };
 
@@ -30,18 +38,15 @@ const updateTask = (id, body) => {
     return getOnfleetClient().tasks.update(id, body);
 };
 
-const createTeam = async neighborhoodData => {
-    const name = neighborhoodData.short_name.replace("/", "-");
-    const neighborhoodID = neighborhoodData.id;
+const createTeam = async (zipcode) => {
     const response = await getOnfleetClient().teams.create({
-        name: neighborhoodID
+        name: zipcode
     });
 
     const id = response.id;
     const results = {
         onFleetID: id,
-        name: name,
-        neighborhoodID: neighborhoodID
+        name: zipcode
     };
     return results;
 };
