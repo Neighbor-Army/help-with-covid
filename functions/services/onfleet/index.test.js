@@ -1,5 +1,15 @@
 const { createTask, deleteTask } = require("./index");
 
+// Introduce the faker library to generate random
+// data for tests. This makes the appeared reliance
+// on 'hardcoded' values less. This covers cases
+// in which the input influences a pass or fail of
+// tests
+//
+// You can refer to available functions here:
+// https://cdn.rawgit.com/Marak/faker.js/master/examples/browser/index.html
+const faker = require('faker');
+
 // Mock out the node-onfleet library
 jest.mock("@onfleet/node-onfleet");
 const Onfleet = require("@onfleet/node-onfleet");
@@ -11,7 +21,7 @@ describe("OnFleetService", () => {
 
     beforeAll(() => {
         process.env = {
-            ONFLEET_KEY: "fake-onfleet-key"
+            ONFLEET_KEY: faker.random.uuid()
         };
 
         Onfleet.mockImplementation(() => {
@@ -39,14 +49,14 @@ describe("OnFleetService", () => {
         });
 
         it("given valid parameters it will call onfleet to create a task with the correct payload and return the response", async () => {
-            const fakeAddress = "5909 Parkhaven Ln";
-            const fakeZip = "65810";
+            const fakeAddress = faker.address.streetAddress();
+            const fakeZip = faker.address.zipCode();
             const fakePerson = {
-                name: "joe ",
-                phone: "+14133333333"
+                name: faker.name.findName(),
+                phone: faker.phone.phoneNumber()
             };
-            const fakeNotes = "notes";
-            const fakeTeamId = "abc132813823";
+            const fakeNotes = faker.lorem.text();
+            const fakeTeamId = faker.random.number();
 
             const response = await createTask(
                 fakeAddress,
@@ -107,7 +117,7 @@ describe("OnFleetService", () => {
         });
 
         it("calls the deleteOne on onfleet tasks using the id provided and return the response", async () => {
-            const taskId = 5;
+            const taskId = faker.random.number();
 
             const response = await deleteTask(taskId);
             expect(response).toBe(fakeApiResponse);
