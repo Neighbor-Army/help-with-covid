@@ -30,11 +30,11 @@ const HomeContent = () => {
             <p className="home-content__footnote">
                 Powered by the generosity of{" "}
                 <a
-                    href="https://www.twilio.com"
+                    href="https://www.notion.so"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Twilio
+                    Notion
                 </a>
                 {", "}
                 <a

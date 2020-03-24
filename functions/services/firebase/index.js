@@ -11,6 +11,7 @@ firebase.initializeApp({
 const firestore = firebase.firestore();
 //const realtime = firebase.database();
 
+
 /**
  * Write new teem
  * @param onfleetID OnFleet ID

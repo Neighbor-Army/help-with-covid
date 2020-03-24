@@ -1,61 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import "./OfferHelp.scss";
 import { useForm } from "react-hook-form";
 import MaskedInput from "react-text-mask";
-import dynamic from "next/dynamic";
 import PropTypes from "prop-types";
 import axios from "axios";
 import * as logger from "../../utils/logger";
 
-const AddressInput = dynamic(() => import("./AddressInput"), { ssr: false });
-
-const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
+const OfferHelp = ({ setSuccess }) => {
     const { register, handleSubmit, errors, reset } = useForm({
         mode: "onBlur"
     });
-    const [address, setAddress] = useState("");
-    const [addressArray, setAddressArray] = useState([]);
-
-    logger.debug(neighborhood.id);
 
     const onSubmit = async data => {
         logger.debug({ data });
-        let arr = {
-            address: {
-                state: addressArray[5].long_name,
-                postalCode: addressArray[7].long_name,
-                country: addressArray[6].long_name,
-                city: addressArray[3].long_name,
-                street: addressArray[0].long_name,
-                number: addressArray[1].long_name
-            }
-        };
-        var result = {};
+
         try {
-            const res = await axios.post(
-                "https://us-central1-neighbor-army.cloudfunctions.net/widgets/neighborhood",
-                arr
-            );
-            result = res;
-            setNeighborhood(res.data);
-            reset();
-            setSuccess(true);
-        } catch (err) {
-            logger.error(err);
-        }
-        try {
-            logger.debug(result);
             const volunteer = {
                 phone: data.phone,
                 name: data.name,
                 email: data.email,
-                neighborhoodID: result.data.id
+                zipcode: String(data.zipcode)
             };
+            console.log(volunteer);
             logger.debug(volunteer);
             const res = await axios.post(
                 "https://us-central1-neighbor-army.cloudfunctions.net/widgets/worker",
                 volunteer
             );
+            reset();
+            setSuccess(true);
             logger.debug(res);
         } catch (err) {
             logger.error(err);
@@ -129,44 +102,28 @@ const OfferHelp = ({ setSuccess, setNeighborhood, neighborhood }) => {
                     }
                 />
 
-                <div className="address-divider">
-                    <AddressInput
-                        setAddressArray={setAddressArray}
-                        address={address}
-                        setAddress={setAddress}
-                        className="address"
-                        placeholder="Address"
-                        name="address"
-                        ref={register({
-                            required: true
-                            // pattern: /\d{1,5}\s\w.\s(\b\w*\b\s){1,2}\w*\./
-                        })}
-                    ></AddressInput>
+                <input
+                    placeholder="Zip Code"
+                    name="zipcode"
+                    type="numeric"
+                    maxLength="5"
+                    ref={register({
+                        required: true
+                        // pattern: /\d{1,5}\s\w.\s(\b\w*\b\s){1,2}\w*\./
+                    })}
+                ></input>
 
-                    <input
-                        className="unit-number"
-                        placeholder="Apt #"
-                        name="unit"
-                        ref={register({
-                            required: false
-                            // pattern: /sdval="\d{3}"/
-                        })}
-                    ></input>
-                    {errors.unit && (
-                        <p className="form__error">Please enter a valid unit</p>
-                    )}
-                </div>
                 <button>Submit</button>
             </form>
 
             <p className="offer-help__footnote">
                 Powered by the generosity of{" "}
                 <a
-                    href="https://www.twilio.com"
+                    href="https://www.notion.so"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Twilio
+                    Notion
                 </a>
                 {", "}
                 <a

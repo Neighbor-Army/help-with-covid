@@ -14,7 +14,7 @@
         "test:all": "jest ."
     },
     "engines": {
-        "node": "10"
+        "node": ">= 10"
     },
     "dependencies": {
         "@onfleet/node-onfleet": "^1.0.5",
