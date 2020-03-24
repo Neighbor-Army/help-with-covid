@@ -8,7 +8,8 @@
         "shell": "firebase functions:shell",
         "start": "npm run shell",
         "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
-        "logs": "firebase functions:log"
+        "logs": "firebase functions:log",
+        "test": "jest . --passWithNoTests"
     },
     "engines": {
         "node": "10"
@@ -19,6 +20,7 @@
         "firebase-functions-test": "^0.2.0",
         "firebase-tools": "^7.15.1",
         "husky": "^4.2.3",
+        "jest": "^25.1.0",
         "prettier": "^2.0.1"
     },
     "dependencies": {
