@@ -82,16 +82,11 @@ describe("Validator", () => {
                 }
             }).toThrow();
 
-            expect(errorThrown).toEqual(errorGen.mock.results[0].value);
+            expect(errorGen).toReturnTimes(1);
+            expect(errorGen).toReturnWith(errorThrown);
 
-            // assert errorGen fn called only once
-            expect(errorGen.mock.calls.length).toBe(1);
-
-            // assert that the number of arguments of the errorGen call are 1
-            expect(errorGen.mock.calls[0].length).toBe(1);
-
-            // assert that the argument that the errorGen fn received are the invalid ones only
-            expect(errorGen.mock.calls[0][0]).toEqual(invalidArgs);
+            expect(errorGen).toBeCalledTimes(1);
+            expect(errorGen).toBeCalledWith(invalidArgs);
         });
     });
 });
