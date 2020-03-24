@@ -29,7 +29,7 @@ router.post("/task", async function (req, res, next) {
         logger.debug(req.body.zipcode);
         logger.debug(req.body.person);
         logger.debug(req.body.notes);
-        const teamData = await firebaseService.getTeam(zipcode);
+        const teamData = await firebaseService.getTeam(req.body.zipcode);
         let onfleetTeamId = "";
 
         //If team doesn't exist in firebase, it must not exist anywhere
@@ -39,6 +39,8 @@ router.post("/task", async function (req, res, next) {
         } else {
             onfleetTeamId = teamData.OnFleetID;
         }
+
+        logger.debug(onfleetTeamId);
 
         const results = await onFleetService.createTask(
             req.body.address,

@@ -22,8 +22,9 @@ const createTask = (
         notes: notes,
         container: {
             type: "TEAM",
-            worker: onfleetTeamId
-        }
+            team: onfleetTeamId
+        },
+        autoAssign: { mode: "load" }
     });
 };
 
