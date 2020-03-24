@@ -18,10 +18,10 @@ const addEmailToList = async (email, listId) => {
 };
 
 function getSendgridClient() {
-  const client = require("@sendgrid/client");
-  client.setApiKey(process.env.SENDGRID_API_KEY);
+    const client = require("@sendgrid/client");
+    client.setApiKey(process.env.SENDGRID_API_KEY);
 
-  return client;
+    return client;
 }
 
 module.exports = {
