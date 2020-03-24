@@ -18,8 +18,8 @@ const {
 const faker = require("faker");
 
 // Mock out the logger library
-jest.mock('../../utils/logger')
-const logger = require("../../utils/logger")
+jest.mock("../../utils/logger");
+const logger = require("../../utils/logger");
 
 // Mock out the node-onfleet library
 jest.mock("@onfleet/node-onfleet");
@@ -61,7 +61,7 @@ describe("OnFleetService", () => {
             };
         });
 
-        it("given valid parameters it will create a onfleet task with the correct payload and returns the response via a promis", async () => {
+        it("creates a onfleet task with the correct payload. Returns the response via a promis", async () => {
             const fakeAddress = faker.address.streetAddress();
             const fakeZip = faker.address.zipCode();
             const fakePerson = {
@@ -130,7 +130,7 @@ describe("OnFleetService", () => {
             };
         });
 
-        it("deletes a onfleet tasks using the id provided and returns the response via a promise", async () => {
+        it("deletes a onfleet task using the id provided. Returns the response via a promise", async () => {
             const taskId = faker.random.number();
 
             const response = await deleteTask(taskId);
@@ -156,7 +156,7 @@ describe("OnFleetService", () => {
             };
         });
 
-        it("gets on onfleet tasks using the id provided and returns the response via a promise", async () => {
+        it("gets a onfleet task using the id provided. Returns the response via a promise", async () => {
             const taskId = faker.random.number();
 
             const response = await getTask(taskId);
@@ -180,7 +180,7 @@ describe("OnFleetService", () => {
             };
         });
 
-        it("updates on onfleet tasks using the id provided and returns the response via a promise", async () => {
+        it("updates a onfleet task using the id and body provided. Returns the response via a promise", async () => {
             const taskId = faker.random.number();
             const fakeBody = { fakeData: faker.random.word() };
 
@@ -208,7 +208,7 @@ describe("OnFleetService", () => {
             };
         });
 
-        it("creates on onfleet team using the id provided and returns the created team's id and name (zipcode)", async () => {
+        it("creates a onfleet team using the zipcode provided. Returns the created team's id and name (zipcode)", async () => {
             const fakeZipCode = faker.address.zipCode();
 
             const results = await createTeam(fakeZipCode);
@@ -235,10 +235,9 @@ describe("OnFleetService", () => {
                     create: jest.fn().mockResolvedValueOnce(fakeResponse)
                 }
             };
-
         });
 
-        it("creates on onfleet worker using the id provided and returns the response via a promise", async () => {
+        it("creates a onfleet worker using the parameters provided. Returns the response via a promise", async () => {
             const fakeTeamID = faker.random.number();
             const fakeName = faker.name.findName();
             const fakePhone = faker.phone.phoneNumber();
@@ -252,9 +251,9 @@ describe("OnFleetService", () => {
 
             // Check that the logging is functional
             expect(logger.debug).toHaveBeenCalledWith({
-              teamId: fakeTeamID,
-              name: fakeName,
-              phone: fakePhone
+                teamId: fakeTeamID,
+                name: fakeName,
+                phone: fakePhone
             });
             expect(logger.debug).toHaveBeenCalledTimes(1);
 
