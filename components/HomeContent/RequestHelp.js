@@ -5,9 +5,7 @@ const RequestHelp = () => {
     return (
         <div className="request-help">
             <div className="request-help__header-wrap">
-                <h1 className="hero-text">
-                    Text HELP to (844) 952-1234
-                </h1>
+                <h1 className="hero-text">Text HELP to (844) 952-1234</h1>
                 <p>
                     Please call or text us. You will be prompted with a few
                     short questions and we will call you ASAP.
