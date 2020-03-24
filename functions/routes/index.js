@@ -1,7 +1,7 @@
 const logger = require("../../utils/logger/");
 const express = require("express");
 
-const neighborhoodService = require("../services/neighborhood");
+//const neighborhoodService = require("../services/neighborhood");
 const onFleetService = require("../services/onfleet");
 const firebaseService = require("../services/firebase");
 const sendgridService = require("../services/sendgrid");
@@ -14,7 +14,6 @@ router.get("/task/:id", async function (req, res) {
 });
 
 router.post("/task", async function (req, res, next) {
-    const address = req.body.address;
     try {
         // eslint-disable-next-line no-unused-vars
         /*
@@ -98,10 +97,14 @@ router.get("/team/:id", async function (req, res, next) {
 
     return res.json(team);
 });
+
 router.post("/worker", async function (req, res, next) {
     const phone = req.body.phone;
     const name = req.body.name;
     const zipcode = req.body.zipcode;
+    logger.debug(phone);
+    logger.debug(name);
+    logger.debug(zipcode);
     try {
         const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";
