@@ -6,14 +6,16 @@ jest.mock("@sendgrid/client");
 const client = require("@sendgrid/client");
 
 describe("SendgridService", () => {
-    beforeAll(() => {
-        process.env = {
-            SENDGRID_API_KEY: faker.random.uuid()
-        };
+    const originalEnvs = {...(process.env)};
+    beforeEach(() => {
+      process.env = {
+        SENDGRID_API_KEY: faker.random.uuid()
+      };
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+      jest.clearAllMocks();
+      process.env = {...originalEnvs}
     });
 
     describe("addEmailToList", () => {
@@ -30,8 +32,7 @@ describe("SendgridService", () => {
             const fakeEmail = faker.internet.email();
             const fakeListID = faker.random.number();
 
-            const response = await addEmailToList(fakeEmail, fakeListID);
-            expect(response).toBe(fakeResponse[0]);
+            expect(addEmailToList(fakeEmail, fakeListID)).resolves.toBe(fakeResponse[0])
 
             // Sendgrid client get initialized with the process.env variable
             expect(client.setApiKey).toHaveBeenCalledWith(
