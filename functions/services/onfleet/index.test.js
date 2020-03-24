@@ -1,4 +1,11 @@
-const { createTask, deleteTask, getTask, updateTask, createTeam } = require("./index");
+const {
+    createTask,
+    deleteTask,
+    getTask,
+    updateTask,
+    createTeam,
+    createWorker
+} = require("./index");
 
 // Introduce the faker library to generate random
 // data for tests. This makes the appeared reliance
@@ -8,7 +15,11 @@ const { createTask, deleteTask, getTask, updateTask, createTeam } = require("./i
 //
 // You can refer to available functions here:
 // https://cdn.rawgit.com/Marak/faker.js/master/examples/browser/index.html
-const faker = require('faker');
+const faker = require("faker");
+
+// Mock out the logger library
+jest.mock('../../utils/logger')
+const logger = require("../../utils/logger")
 
 // Mock out the node-onfleet library
 jest.mock("@onfleet/node-onfleet");
@@ -38,171 +49,222 @@ describe("OnFleetService", () => {
     });
 
     describe("createTask", () => {
-      let fakeResponse = {status: 'fake-status-code'}
-
-      beforeAll(() => {
-        fakeOnfleetClient = {
-          tasks: {
-            create: jest.fn().mockResolvedValueOnce(fakeResponse)
-          }
+        let fakeResponse = {
+            status: faker.random.number()
         };
-      });
 
-      it("given valid parameters it will create a onfleet task with the correct payload and returns the response via a promis", async () => {
-        const fakeAddress = faker.address.streetAddress();
-        const fakeZip = faker.address.zipCode();
-        const fakePerson = {
-          name: faker.name.findName(),
-          phone: faker.phone.phoneNumber()
-        };
-        const fakeNotes = faker.lorem.text();
-        const fakeTeamId = faker.random.number();
-
-        const response = await createTask(
-          fakeAddress,
-          fakeZip,
-          fakePerson,
-          fakeNotes,
-          fakeTeamId
-        );
-
-        expect(response).toBe(fakeResponse);
-
-        // Ensure that create tasks was called with the correct payload
-        expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledWith({
-          destination: {
-            address: {
-              unparsed: fakeAddress + " " + fakeZip
-            }
-          },
-          recipients: [fakePerson],
-          notes: fakeNotes,
-          container: {
-            type: "TEAM",
-            team: fakeTeamId
-          },
-          autoAssign: { mode: "load" }
+        beforeAll(() => {
+            fakeOnfleetClient = {
+                tasks: {
+                    create: jest.fn().mockResolvedValueOnce(fakeResponse)
+                }
+            };
         });
-        expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledTimes(1);
-      });
 
-      it("throws an Error if any required args are ommitted", async () => {
-        const argError = new Error(
-          "Missing required args: address, person and/or notes."
-        );
-        expect(() => {
-          createTask();
-        }).toThrow(argError);
+        it("given valid parameters it will create a onfleet task with the correct payload and returns the response via a promis", async () => {
+            const fakeAddress = faker.address.streetAddress();
+            const fakeZip = faker.address.zipCode();
+            const fakePerson = {
+                name: faker.name.findName(),
+                phone: faker.phone.phoneNumber()
+            };
+            const fakeNotes = faker.lorem.text();
+            const fakeTeamId = faker.random.number();
 
-        expect(() => {
-          createTask("address");
-        }).toThrow(argError);
+            const response = await createTask(
+                fakeAddress,
+                fakeZip,
+                fakePerson,
+                fakeNotes,
+                fakeTeamId
+            );
 
-        expect(() => {
-          createTask("address", "person");
-        }).toThrow(argError);
-      });
+            expect(response).toBe(fakeResponse);
+
+            // Ensure that create tasks was called with the correct payload
+            expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledWith({
+                destination: {
+                    address: {
+                        unparsed: fakeAddress + " " + fakeZip
+                    }
+                },
+                recipients: [fakePerson],
+                notes: fakeNotes,
+                container: {
+                    type: "TEAM",
+                    team: fakeTeamId
+                },
+                autoAssign: { mode: "load" }
+            });
+            expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledTimes(1);
+        });
+
+        it("throws an Error if any required args are ommitted", async () => {
+            const argError = new Error(
+                "Missing required args: address, person and/or notes."
+            );
+            expect(() => {
+                createTask();
+            }).toThrow(argError);
+
+            expect(() => {
+                createTask("address");
+            }).toThrow(argError);
+
+            expect(() => {
+                createTask("address", "person");
+            }).toThrow(argError);
+        });
     });
 
     describe("deleteTask", () => {
-      let fakeResponse = {status: 'fake-status-code'}
-
-      beforeAll(() => {
-        fakeOnfleetClient = {
-          tasks: {
-            deleteOne: jest.fn().mockResolvedValueOnce(fakeResponse)
-          }
+        let fakeResponse = {
+            status: faker.random.number()
         };
-      });
 
-      it("deletes a onfleet tasks using the id provided and returns the response via a promise", async () => {
-        const taskId = faker.random.number();
+        beforeAll(() => {
+            fakeOnfleetClient = {
+                tasks: {
+                    deleteOne: jest.fn().mockResolvedValueOnce(fakeResponse)
+                }
+            };
+        });
 
-        const response = await deleteTask(taskId);
-        expect(response).toBe(fakeResponse);
+        it("deletes a onfleet tasks using the id provided and returns the response via a promise", async () => {
+            const taskId = faker.random.number();
 
-        expect(fakeOnfleetClient.tasks.deleteOne).toHaveBeenCalledWith(
-          taskId
-        );
-        expect(fakeOnfleetClient.tasks.deleteOne).toHaveBeenCalledTimes(1);
-      });
+            const response = await deleteTask(taskId);
+            expect(response).toBe(fakeResponse);
+
+            expect(fakeOnfleetClient.tasks.deleteOne).toHaveBeenCalledWith(
+                taskId
+            );
+            expect(fakeOnfleetClient.tasks.deleteOne).toHaveBeenCalledTimes(1);
+        });
     });
 
-  describe("getTask", () => {
-    let fakeResponse = {status: 'fake-status-code'}
+    describe("getTask", () => {
+        let fakeResponse = {
+            status: faker.random.number()
+        };
 
-    beforeAll(() => {
-      fakeOnfleetClient = {
-        tasks: {
-          get: jest.fn().mockResolvedValueOnce(fakeResponse)
-        }
-      };
+        beforeAll(() => {
+            fakeOnfleetClient = {
+                tasks: {
+                    get: jest.fn().mockResolvedValueOnce(fakeResponse)
+                }
+            };
+        });
+
+        it("gets on onfleet tasks using the id provided and returns the response via a promise", async () => {
+            const taskId = faker.random.number();
+
+            const response = await getTask(taskId);
+            expect(response).toBe(fakeResponse);
+
+            expect(fakeOnfleetClient.tasks.get).toHaveBeenCalledWith(taskId);
+            expect(fakeOnfleetClient.tasks.get).toHaveBeenCalledTimes(1);
+        });
     });
 
-    it("gets on onfleet tasks using the id provided and returns the response via a promise", async () => {
-      const taskId = faker.random.number();
+    describe("updateTask", () => {
+        let fakeResponse = {
+            status: faker.random.number()
+        };
 
-      const response = await getTask(taskId);
-      expect(response).toBe(fakeResponse);
+        beforeAll(() => {
+            fakeOnfleetClient = {
+                tasks: {
+                    update: jest.fn().mockResolvedValueOnce(fakeResponse)
+                }
+            };
+        });
 
-      expect(fakeOnfleetClient.tasks.get).toHaveBeenCalledWith(
-        taskId
-      );
-      expect(fakeOnfleetClient.tasks.get).toHaveBeenCalledTimes(1);
-    });
-  })
+        it("updates on onfleet tasks using the id provided and returns the response via a promise", async () => {
+            const taskId = faker.random.number();
+            const fakeBody = { fakeData: faker.random.word() };
 
-  describe("updateTask", () => {
-    let fakeResponse = {status: 'fake-status-code'}
+            const response = await updateTask(taskId, fakeBody);
+            expect(response).toBe(fakeResponse);
 
-    beforeAll(() => {
-      fakeOnfleetClient = {
-        tasks: {
-          update: jest.fn().mockResolvedValueOnce(fakeResponse)
-        }
-      };
-    });
-
-    it("updates on onfleet tasks using the id provided and returns the response via a promise", async () => {
-      const taskId = faker.random.number();
-      const fakeBody = {fakeData: faker.random.word()}
-
-      const response = await updateTask(taskId, fakeBody);
-      expect(response).toBe(fakeResponse);
-
-      expect(fakeOnfleetClient.tasks.update).toHaveBeenCalledWith(
-        taskId, fakeBody
-      );
-      expect(fakeOnfleetClient.tasks.update).toHaveBeenCalledTimes(1);
-    });
-  })
-
-  describe("createTeam", () => {
-    let fakeResponse = {
-      id: faker.random.uuid()
-    }
-
-    beforeAll(() => {
-      fakeOnfleetClient = {
-        teams: {
-          create: jest.fn().mockResolvedValueOnce(fakeResponse)
-        }
-      };
+            expect(fakeOnfleetClient.tasks.update).toHaveBeenCalledWith(
+                taskId,
+                fakeBody
+            );
+            expect(fakeOnfleetClient.tasks.update).toHaveBeenCalledTimes(1);
+        });
     });
 
-    it("creates on onfleet team using the id provided and returns the created team's id and name (zipcode)", async () => {
-      const fakeZipCode = faker.address.zipCode();
+    describe("createTeam", () => {
+        let fakeResponse = {
+            id: faker.random.number()
+        };
 
-      const results = await createTeam(fakeZipCode);
-      expect(results).toStrictEqual({
-        onFleetID: fakeResponse.id,
-        name: fakeZipCode
-      });
+        beforeAll(() => {
+            fakeOnfleetClient = {
+                teams: {
+                    create: jest.fn().mockResolvedValueOnce(fakeResponse)
+                }
+            };
+        });
 
-      expect(fakeOnfleetClient.teams.create).toHaveBeenCalledWith({
-        name: fakeZipCode
-      });
-      expect(fakeOnfleetClient.teams.create).toHaveBeenCalledTimes(1);
+        it("creates on onfleet team using the id provided and returns the created team's id and name (zipcode)", async () => {
+            const fakeZipCode = faker.address.zipCode();
+
+            const results = await createTeam(fakeZipCode);
+            expect(results).toStrictEqual({
+                onFleetID: fakeResponse.id,
+                name: fakeZipCode
+            });
+
+            expect(fakeOnfleetClient.teams.create).toHaveBeenCalledWith({
+                name: fakeZipCode
+            });
+            expect(fakeOnfleetClient.teams.create).toHaveBeenCalledTimes(1);
+        });
     });
-  })
+
+    describe("createWorker", () => {
+        let fakeResponse = {
+            status: faker.random.number()
+        };
+
+        beforeAll(() => {
+            fakeOnfleetClient = {
+                workers: {
+                    create: jest.fn().mockResolvedValueOnce(fakeResponse)
+                }
+            };
+
+        });
+
+        it("creates on onfleet worker using the id provided and returns the response via a promise", async () => {
+            const fakeTeamID = faker.random.number();
+            const fakeName = faker.name.findName();
+            const fakePhone = faker.phone.phoneNumber();
+
+            const response = await createWorker(
+                fakeTeamID,
+                fakeName,
+                fakePhone
+            );
+            expect(response).toBe(fakeResponse);
+
+            // Check that the logging is functional
+            expect(logger.debug).toHaveBeenCalledWith({
+              teamId: fakeTeamID,
+              name: fakeName,
+              phone: fakePhone
+            });
+            expect(logger.debug).toHaveBeenCalledTimes(1);
+
+            expect(fakeOnfleetClient.workers.create).toHaveBeenCalledWith({
+                name: fakeName,
+                phone: fakePhone,
+                teams: [fakeTeamID.toString()]
+            });
+
+            expect(fakeOnfleetClient.workers.create).toHaveBeenCalledTimes(1);
+        });
+    });
 });
