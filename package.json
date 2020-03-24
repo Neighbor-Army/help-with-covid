@@ -37,6 +37,7 @@
         "react-hook-form": "^5.1.1",
         "react-icons": "^3.9.0",
         "react-is": "^16.13.1",
+        "react-text-mask": "^5.4.3",
         "sass": "^1.26.3",
         "styled-components": "^5.0.1"
     },
