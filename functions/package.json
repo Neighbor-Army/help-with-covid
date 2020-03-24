@@ -18,6 +18,8 @@
         "@types/jest": "^25.1.4",
         "cross-env": "^7.0.2",
         "eslint": "^6.8.0",
+        "faker": "^4.1.0",
+        "firebase-functions-test": "^0.2.0",
         "eslint-plugin-jest": "^23.8.2",
         "firebase-mock": "^2.3.2",
         "firebase-tools": "^7.15.1",
