@@ -7,10 +7,30 @@ import Nav from "../components/layout/Nav";
 import "../styles/global.scss";
 import "../components/layout/Nav.scss";
 import HomeContent from "../components/HomeContent";
+import FirebaseAuth from "../components/FirebaseAuth";
+
+/*
+    Since there is already a sign up form, it makes
+    sense to create the account there.
+
+    I added a login button to the right nav that toggles
+    between the button and future user name on authTab. When the
+    button is clicked it sets authTab true.
+    When authTab is true the main content is replace with
+    the FirebaseAuth component for login.
+    todo: Add password reset flow
+*/
 
 const Index = () => {
-    const [authTab, setAuthTab] = useState("");
+    const [ authTab, setAuthTab ] = useState(false);
 
+    if (authTab)
+        return (
+            <div>
+                <Nav authTab={authTab} setAuthTab={setAuthTab} />
+                <FirebaseAuth />
+            </div>
+        );
     return (
         <div>
             <Nav authTab={authTab} setAuthTab={setAuthTab} />
@@ -34,10 +54,10 @@ const Index = () => {
 const mockFetchData = async userId => ({
     user: {
         ...(userId && {
-            id: userId
-        })
+            id: userId,
+        }),
     },
-    favoriteFood: "pizza"
+    favoriteFood: "pizza",
 });
 
 Index.getInitialProps = async ctx => {
@@ -53,7 +73,7 @@ Index.getInitialProps = async ctx => {
     const data = await mockFetchData(get(AuthUser, "id"));
 
     return {
-        data
+        data,
     };
 };
 
@@ -64,20 +84,20 @@ Index.propTypes = {
         AuthUser: PropTypes.shape({
             id: PropTypes.string.isRequired,
             email: PropTypes.string.isRequired,
-            emailVerified: PropTypes.bool.isRequired
+            emailVerified: PropTypes.bool.isRequired,
         }),
-        token: PropTypes.string
+        token: PropTypes.string,
     }),
     data: PropTypes.shape({
         user: PropTypes.shape({
-            id: PropTypes.string
+            id: PropTypes.string,
         }).isRequired,
-        favoriteFood: PropTypes.string.isRequired
-    }).isRequired
+        favoriteFood: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 Index.defaultProps = {
-    AuthUserInfo: null
+    AuthUserInfo: null,
 };
 
 // Use `withAuthUser` to get the authed user server-side, which
