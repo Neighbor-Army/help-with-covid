@@ -1,21 +1,16 @@
-const { addEmailToList } = require("./index");
-
 const faker = require("faker");
 
-jest.mock("@sendgrid/client");
-const client = require("@sendgrid/client");
-
 describe("SendgridService", () => {
-    const originalEnvs = {...(process.env)};
+    const originalEnvs = { ...process.env };
+
     beforeEach(() => {
-      process.env = {
-        SENDGRID_API_KEY: faker.random.uuid()
-      };
+        process.env.SENDGRID_API_KEY = faker.random.uuid();
+        jest.resetModules();
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
-      process.env = {...originalEnvs}
+        jest.clearAllMocks();
+        process.env = { ...originalEnvs };
     });
 
     describe("addEmailToList", () => {
@@ -24,23 +19,34 @@ describe("SendgridService", () => {
                 status: faker.random.number()
             }
         ];
+
+        let mockedSendgridClient = {
+            setApiKey: jest.fn(),
+            request: jest.fn().mockResolvedValueOnce(fakeResponse)
+        };
+
+        let addEmailToList;
         beforeEach(() => {
-            client.request = jest.fn().mockResolvedValueOnce(fakeResponse);
+            jest.mock("@sendgrid/client", () => mockedSendgridClient);
+
+            addEmailToList = require("./").addEmailToList;
         });
 
         it("adds the provided email to the list provided. Returns the response via a promise", async () => {
             const fakeEmail = faker.internet.email();
             const fakeListID = faker.random.number();
 
-            expect(addEmailToList(fakeEmail, fakeListID)).resolves.toBe(fakeResponse[0])
+            expect(addEmailToList(fakeEmail, fakeListID)).resolves.toBe(
+                fakeResponse[0]
+            );
 
             // Sendgrid client get initialized with the process.env variable
-            expect(client.setApiKey).toHaveBeenCalledWith(
+            expect(mockedSendgridClient.setApiKey).toHaveBeenCalledWith(
                 process.env.SENDGRID_API_KEY
             );
-            expect(client.setApiKey).toHaveBeenCalledTimes(1);
+            expect(mockedSendgridClient.setApiKey).toHaveBeenCalledTimes(1);
 
-            expect(client.request).toHaveBeenCalledWith({
+            expect(mockedSendgridClient.request).toHaveBeenCalledWith({
                 method: "PUT",
                 url: "/v3/marketing/contacts",
                 body: {
@@ -52,7 +58,7 @@ describe("SendgridService", () => {
                     ]
                 }
             });
-            expect(client.request).toHaveBeenCalledTimes(1);
+            expect(mockedSendgridClient.request).toHaveBeenCalledTimes(1);
         });
     });
 });
