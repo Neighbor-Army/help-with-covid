@@ -7,6 +7,7 @@ describe("OnFleetService#createTask", () => {
     let fakePerson;
     let fakeNotes;
     let fakeZip;
+    let fakeTeamId;
     beforeEach(() => {
         mockTaskCreator = jest.fn().mockName("mockTaskCreator");
         fakeAddress = "5909 Parkhaven Ln";
@@ -16,6 +17,7 @@ describe("OnFleetService#createTask", () => {
             phone: "+14133333333"
         };
         fakeNotes = "notes";
+        fakeTeamId = "abc132813823";
     });
 
     afterEach(() => {
@@ -23,6 +25,8 @@ describe("OnFleetService#createTask", () => {
         fakeAddress = null;
         fakePerson = null;
         fakeNotes = null;
+        fakeZip = null;
+        fakeTeamId = null;
     });
 
     it("is called with correct arguments", async () => {
@@ -31,6 +35,7 @@ describe("OnFleetService#createTask", () => {
             fakeZip,
             fakePerson,
             fakeNotes,
+            fakeTeamId,
             mockTaskCreator
         );
 
