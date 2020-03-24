@@ -1,7 +1,3 @@
-const client = require("@sendgrid/client");
-
-client.setApiKey(process.env.SENDGRID_API_KEY);
-
 const addEmailToList = async (email, listId) => {
     const request = {
         method: "PUT",
@@ -15,9 +11,18 @@ const addEmailToList = async (email, listId) => {
             ]
         }
     };
-    const [response] = await client.request(request);
+
+    const sendgridClient = getSendgridClient();
+    const [response] = await sendgridClient.request(request);
     return response;
 };
+
+function getSendgridClient() {
+  const client = require("@sendgrid/client");
+  client.setApiKey(process.env.SENDGRID_API_KEY);
+
+  return client;
+}
 
 module.exports = {
     addEmailToList
