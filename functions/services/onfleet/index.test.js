@@ -38,94 +38,93 @@ describe("OnFleetService", () => {
     });
 
     describe("createTask", () => {
-        let fakeApiResponse;
-        beforeAll(() => {
-            fakeApiResponse = { status: "fake-response" };
-            fakeOnfleetClient = {
-                tasks: {
-                    create: jest.fn().mockResolvedValueOnce(fakeApiResponse)
-                }
-            };
+      let fakeResponse = {status: 'fake-status-code'}
+
+      beforeAll(() => {
+        fakeOnfleetClient = {
+          tasks: {
+            create: jest.fn().mockResolvedValueOnce(fakeResponse)
+          }
+        };
+      });
+
+      it("given valid parameters it will call onfleet to create a task with the correct payload and return a promise", async () => {
+        const fakeAddress = faker.address.streetAddress();
+        const fakeZip = faker.address.zipCode();
+        const fakePerson = {
+          name: faker.name.findName(),
+          phone: faker.phone.phoneNumber()
+        };
+        const fakeNotes = faker.lorem.text();
+        const fakeTeamId = faker.random.number();
+
+        const response = await createTask(
+          fakeAddress,
+          fakeZip,
+          fakePerson,
+          fakeNotes,
+          fakeTeamId
+        );
+
+        expect(response).toBe(fakeResponse);
+
+        // Ensure that create tasks was called with the correct payload
+        expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledWith({
+          destination: {
+            address: {
+              unparsed: fakeAddress + " " + fakeZip
+            }
+          },
+          recipients: [fakePerson],
+          notes: fakeNotes,
+          container: {
+            type: "TEAM",
+            team: fakeTeamId
+          },
+          autoAssign: { mode: "load" }
         });
+        expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledTimes(1);
+      });
 
-        it("given valid parameters it will call onfleet to create a task with the correct payload and return the response", async () => {
-            const fakeAddress = faker.address.streetAddress();
-            const fakeZip = faker.address.zipCode();
-            const fakePerson = {
-                name: faker.name.findName(),
-                phone: faker.phone.phoneNumber()
-            };
-            const fakeNotes = faker.lorem.text();
-            const fakeTeamId = faker.random.number();
+      it("throws an Error if any required args are ommitted", async () => {
+        const argError = new Error(
+          "Missing required args: address, person and/or notes."
+        );
+        expect(() => {
+          createTask();
+        }).toThrow(argError);
 
-            const response = await createTask(
-                fakeAddress,
-                fakeZip,
-                fakePerson,
-                fakeNotes,
-                fakeTeamId
-            );
+        expect(() => {
+          createTask("address");
+        }).toThrow(argError);
 
-            expect(response).toBe(fakeApiResponse);
-
-            // Ensure that create tasks was called with the
-            // correct payload
-            expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledWith({
-                destination: {
-                    address: {
-                        unparsed: fakeAddress + " " + fakeZip
-                    }
-                },
-                recipients: [fakePerson],
-                notes: fakeNotes,
-                container: {
-                    type: "TEAM",
-                    team: fakeTeamId
-                },
-                autoAssign: { mode: "load" }
-            });
-            expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledTimes(1);
-        });
-
-        it("throws an Error if any required args are ommitted", async () => {
-            const argError = new Error(
-                "Missing required args: address, person and/or notes."
-            );
-            expect(() => {
-                createTask();
-            }).toThrow(argError);
-
-            expect(() => {
-                createTask("address");
-            }).toThrow(argError);
-
-            expect(() => {
-                createTask("address", "person");
-            }).toThrow(argError);
-        });
+        expect(() => {
+          createTask("address", "person");
+        }).toThrow(argError);
+      });
     });
 
     describe("deleteTask", () => {
-        let fakeApiResponse;
-        beforeAll(() => {
-            fakeApiResponse = { status: "fake-response" };
-            fakeOnfleetClient = {
-                tasks: {
-                    deleteOne: jest.fn().mockResolvedValueOnce(fakeApiResponse)
-                }
-            };
-        });
+      let fakeResponse = {status: 'fake-status-code'}
 
-        it("calls the deleteOne on onfleet tasks using the id provided and return the response", async () => {
-            const taskId = faker.random.number();
+      beforeAll(() => {
+        fakeOnfleetClient = {
+          tasks: {
+            deleteOne: jest.fn().mockResolvedValueOnce(fakeResponse)
+          }
+        };
+      });
 
-            const response = await deleteTask(taskId);
-            expect(response).toBe(fakeApiResponse);
+      it("calls the deleteOne on onfleet tasks using the id provided and returns a promise", async () => {
+        const taskId = faker.random.number();
 
-            expect(fakeOnfleetClient.tasks.deleteOne).toHaveBeenCalledWith(
-                taskId
-            );
-            expect(fakeOnfleetClient.tasks.deleteOne).toHaveBeenCalledTimes(1);
-        });
+        const response = await deleteTask(taskId);
+        expect(response).toBe(fakeResponse);
+
+        expect(fakeOnfleetClient.tasks.deleteOne).toHaveBeenCalledWith(
+          taskId
+        );
+        expect(fakeOnfleetClient.tasks.deleteOne).toHaveBeenCalledTimes(1);
+      });
     });
 });
