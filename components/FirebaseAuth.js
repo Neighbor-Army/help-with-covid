@@ -13,18 +13,25 @@ const firebaseAuthConfig = {
     // https://github.com/firebase/firebaseui-web#configure-oauth-providers
     signInOptions: [
         {
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            requireDisplayName: false
-        }
+            provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+            recaptchaParameters: {
+                type: "image", // 'audio'
+                size: "normal", // 'invisible' or 'compact'
+                badge: "bottomleft", //' bottomright' or 'inline' applies to invisible.
+            },
+            defaultCountry: "US",
+            whitelistedCountries: [ "US" ],
+            requireDisplayName: false,
+        },
     ],
     signInSuccessUrl: "/",
-    credentialHelper: "none"
+    credentialHelper: "none",
 };
 
 const FirebaseAuth = () => {
     // Do not SSR FirebaseUI, because it is not supported.
     // https://github.com/firebase/firebaseui-web/issues/213
-    const [renderAuth, setRenderAuth] = useState(false);
+    const [ renderAuth, setRenderAuth ] = useState(false);
     useEffect(() => {
         if (typeof window !== "undefined") {
             setRenderAuth(true);
@@ -33,10 +40,7 @@ const FirebaseAuth = () => {
     return (
         <div>
             {renderAuth ? (
-                <StyledFirebaseAuth
-                    uiConfig={firebaseAuthConfig}
-                    firebaseAuth={firebase.auth()}
-                />
+                <StyledFirebaseAuth uiConfig={firebaseAuthConfig} firebaseAuth={firebase.auth()} />
             ) : null}
         </div>
     );

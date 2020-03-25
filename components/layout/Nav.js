@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 // import { routes } from "@/constants";
 import Link from "next/link";
 import "./Nav.scss";
+import { useAuthUserInfo } from "../../utils/auth/hooks";
 
 /*
     authTab controls login display
@@ -16,6 +17,9 @@ import "./Nav.scss";
 */
 
 const Nav = ({ authTab, setAuthTab }) => {
+    const curUser = useAuthUserInfo();
+    console.log(curUser);
+
     return (
         <div className="nav">
             <div className="left-nav">
@@ -27,7 +31,7 @@ const Nav = ({ authTab, setAuthTab }) => {
                 {/* <a href={routes.LOG_IN}>
                     <button onClick={() => setAuthTab("login")}>Log In</button>
                  </a> */}
-                {!authTab ? (
+                {!authTab && !curUser.AuthUser.id ? (
                     <button
                         onClick={e => {
                             e.preventDefault();
@@ -36,6 +40,8 @@ const Nav = ({ authTab, setAuthTab }) => {
                     >
                         Log In
                     </button>
+                ) : curUser.AuthUser.id ? (
+                    <span>{curUser.AuthUser.id}</span>
                 ) : (
                     <button
                         onClick={e => {
