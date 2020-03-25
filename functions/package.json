@@ -12,7 +12,7 @@
         "test": "jest . --passWithNoTests"
     },
     "engines": {
-        "node": "10"
+        "node": ">= 10"
     },
     "devDependencies": {
         "@types/faker": "^4.1.10",
