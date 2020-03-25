@@ -5860,6 +5860,13 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
+parse-address@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/parse-address/-/parse-address-1.1.2.tgz#6c28c29de95d4c675c7ff450be6f60be49dcfe58"
+  integrity sha512-EnqetXieqyTlDzuuy+oT/pjjkWoI80MgFawDA/Z9LZBAMy+Iy6piURuX+Lr1iZNm7exD+V/B9IRjHaSj33adJw==
+  dependencies:
+    xregexp "^3.1.1"
+
 parse-json@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/parse-json/-/parse-json-5.0.0.tgz#73e5114c986d143efa3712d4ea24db9a4266f60f"
@@ -7785,6 +7792,11 @@ xmlhttprequest@1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz#67fe075c5c24fef39f9d65f5f7b7fe75171968fc"
   integrity sha1-Z/4HXFwk/vOfnWX197f+dRcZaPw=
+
+xregexp@^3.1.1:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/xregexp/-/xregexp-3.2.0.tgz#cb3601987bfe2695b584000c18f1c4a8c322878e"
+  integrity sha1-yzYBmHv+JpW1hAAMGPHEqMMih44=
 
 xtend@^4.0.1, xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.2"

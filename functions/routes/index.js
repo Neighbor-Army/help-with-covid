@@ -5,7 +5,7 @@ const express = require("express");
 const onFleetService = require("../services/onfleet");
 const firebaseService = require("../services/firebase");
 const sendgridService = require("../services/sendgrid");
-
+const googleCloudService = require("../services/google-cloud");
 const router = express.Router({ mergeParams: true });
 
 router.get("/task/:id", async function (req, res) {
@@ -35,10 +35,9 @@ router.post("/task", async function (req, res, next) {
         //If team doesn't exist in firebase, it must not exist anywhere
         //thus we create it.
         if (!teamData) {
-            res.status(500).send("Area not serviced");
-        } else {
-            onfleetTeamId = teamData.OnFleetID;
+            return res.status(500).send("Area not service");
         }
+        onfleetTeamId = teamData.OnFleetID;
 
         logger.debug(onfleetTeamId);
 
@@ -167,10 +166,35 @@ router.post("/email", async function (req, res, next) {
 });
 */
 router.post("/voicemail", async function (req, res, next) {
-    logger.debug(req.body.phone);
-    logger.debug(req.body.url);
+    const { phone, url, zipcode } = req.body;
+    logger.debug(phone);
+    logger.debug(url);
+    logger.debug(zipcode);
     try {
-        await firebaseService.writeVoicemail(req.body.phone, req.body.url);
+        const teamData = await firebaseService.getTeam(zipcode);
+        //If team doesn't exist in firebase, it must not exist anywhere
+        //thus we create it.
+        if (!teamData) {
+            return res.status(500).send("Area not serviced");
+        }
+        const onfleetTeamId = teamData.OnFleetID;
+
+        logger.debug(onfleetTeamId);
+
+        //await firebaseService.writeVoicemail(req.body.phone, req.body.url);
+        const transcribedAddress = await googleCloudService.speechToText(url);
+        logger.debug(transcribedAddress);
+        await onFleetService.createTask(
+            transcribedAddress,
+            zipcode,
+            {
+                name: "voicemail call in",
+                phone: phone
+            },
+            "notes",
+            onfleetTeamId
+        );
+
         res.status(200).send();
     } catch (error) {
         next(error);
