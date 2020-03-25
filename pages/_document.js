@@ -10,10 +10,27 @@ class CustomDocument extends Document {
         // https://github.com/zeit/next.js/issues/3043#issuecomment-334521241
         // https://github.com/zeit/next.js/issues/2252#issuecomment-353992669
         // Alternatively, you could use a store, like Redux.
-        const { AuthUserInfo } = this.props;
+        const { AuthUserInfo, pathName, hostName } = this.props;
         return (
             <Html>
                 <Head>
+                    <meta
+                        property="og:url"
+                        content={`${hostName}${pathName}`}
+                    />
+                    <meta property="og:type" content="article" />
+                    <meta
+                        property="og:title"
+                        content="Calling All Neighborhood Warriors"
+                    />
+                    <meta
+                        property="og:description"
+                        content="Let’s fight as a community. We will flatten the curve and work together to find those that are in the most of need."
+                    />
+                    <meta
+                        property="og:image"
+                        content={`${hostName}/static/images/logo.png`}
+                    />
                     <script
                         id="__MY_AUTH_USER_INFO"
                         type="application/json"
@@ -34,10 +51,12 @@ class CustomDocument extends Document {
 CustomDocument.getInitialProps = async ctx => {
     // Get the AuthUserInfo object. This is set if the server-rendered page
     // is wrapped in the `withAuthUser` higher-order component.
+    const pathName = ctx.pathname;
+    const hostName = ctx.req.headers.host;
     const AuthUserInfo = get(ctx, "myCustomData.AuthUserInfo", null);
 
     const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps, AuthUserInfo };
+    return { ...initialProps, AuthUserInfo, pathName, hostName };
 };
 
 export default CustomDocument;
