@@ -34,7 +34,7 @@ const Nav = ({ authTab, setAuthTab }) => {
                 </a>
             </div>
             <div className="right-nav">
-                {!authTab && !curUser.AuthUser.id ? (
+                {!authTab && !(curUser && curUser.AuthUser && curUser.AuthUser.id) ? (
                     <button
                         onClick={e => {
                             e.preventDefault();
@@ -43,7 +43,7 @@ const Nav = ({ authTab, setAuthTab }) => {
                     >
                         Log In
                     </button>
-                ) : curUser.AuthUser.id ? (
+                ) : (curUser && curUser.AuthUser && curUser.AuthUser.id) ? (
                     <>
                     <span>{curUser.AuthUser.id}</span>
                     <button
