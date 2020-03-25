@@ -77,9 +77,8 @@ const OfferHelp = ({ setSuccess }) => {
                 ></input>
                 {errors.phone && (
                     <p className="form__error">
-                        {errors.phone.message.length > 0
-                            ? errors.phone.message
-                            : "Please enter a valid phone number"}
+                        {errors.phone.message ||
+                            "Please enter a valid phone number"}
                     </p>
                 )}
                 <MaskedInput
