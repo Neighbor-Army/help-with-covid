@@ -1,3 +1,5 @@
+const faker = require("faker");
+
 describe("Validator", () => {
     describe("#assert", () => {
         /**
@@ -19,8 +21,8 @@ describe("Validator", () => {
         });
 
         it("should return nothing when args is valid", () => {
-            const id = "some-id";
-            const name = "some-name";
+            const id = faker.random.uuid();
+            const name = faker.name.findName();
 
             expect(() => {
                 return assertFn({
@@ -32,7 +34,7 @@ describe("Validator", () => {
 
         it("should throw args are invalid", () => {
             const id = undefined;
-            const name = "some-name";
+            const name = faker.name.findName();
 
             expect(() => {
                 return assertFn({
@@ -44,11 +46,9 @@ describe("Validator", () => {
 
         it("should throw custom error when args are invalid", () => {
             const id = undefined;
-            const name = "some-name";
+            const name = faker.name.findName();
 
-            const customError = {
-                message: "custom error"
-            };
+            const customError = new Error("custom error");
 
             expect(() => {
                 return assertFn({
@@ -56,12 +56,12 @@ describe("Validator", () => {
                     validateFn: item => Boolean(item),
                     errorGeneratorFn: () => customError
                 });
-            }).toThrow(customError);
+            }).toThrowError(customError);
         });
 
         it("should pass only the invalid arguments to errorGeneratorFn when args are invalid", () => {
             const id = undefined;
-            const name = "some-name";
+            const name = faker.name.findName();
 
             const errorGen = jest.fn(() => new Error("invalidArgs"));
 

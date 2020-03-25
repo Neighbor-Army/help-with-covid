@@ -1,5 +1,6 @@
 require("jest-extended");
 const { MockFirebaseSdk, MockFirestore } = require("firebase-mock");
+const faker = require("faker");
 
 function createMockSdk() {
     const mockFirestore = new MockFirestore();
@@ -18,6 +19,11 @@ function createMockSdk() {
 }
 
 describe("Firebase", () => {
+
+    const generateRandomTeam = (onFleetId = undefined, zipCode = undefined) => {
+        return { OnFleetID: onFleetId || faker.random.uuid(), zipcode: zipCode || faker.address.zipCode() };
+    };
+
     describe("#writeNewTeam", () => {
         let writeNewTeam;
         let mocksdk;
@@ -38,7 +44,7 @@ describe("Firebase", () => {
         it("should write new team when Firestore is empty", async () => {
             let firestoreTeamsData;
 
-            let teamData = { OnFleetID: "<some-fleet-id>", zipcode: "342897" };
+            let teamData = generateRandomTeam();
 
             const firestore = mocksdk.firestore();
 
@@ -65,14 +71,8 @@ describe("Firebase", () => {
         it("should write new team when Firestore already data", async () => {
             let firestoreTeamsData;
 
-            let existingTeam = {
-                OnFleetID: "<some-fleet-id-1>",
-                zipcode: "209345"
-            };
-            let teamData = {
-                OnFleetID: "<some-fleet-id-2>",
-                zipcode: "342897"
-            };
+            let existingTeam = generateRandomTeam();
+            let teamData = generateRandomTeam();
 
             const firestore = mocksdk.firestore();
 
@@ -113,14 +113,8 @@ describe("Firebase", () => {
         it("should be able to overwrite existing team", async () => {
             let firestoreTeamsData;
 
-            let existingTeam = {
-                OnFleetID: "<some-fleet-id-1>",
-                zipcode: "209345"
-            };
-            let teamData = {
-                OnFleetID: "<some-fleet-id-2>",
-                zipcode: existingTeam.zipcode
-            };
+            let existingTeam = generateRandomTeam();
+            let teamData = generateRandomTeam(undefined, existingTeam.zipcode);
 
             const firestore = mocksdk.firestore();
 
@@ -191,7 +185,7 @@ describe("Firebase", () => {
         it("should get undefined when there is no team", async () => {
             let firestoreTeamsData;
 
-            let zipcode = "342897";
+            let zipcode = faker.address.zipCode();
 
             const firestore = mocksdk.firestore();
 
@@ -210,14 +204,11 @@ describe("Firebase", () => {
             expect(team).toBeNull();
         });
 
-        it("should not get team when Firestore already different team", async () => {
+        it("should not get team when Firestore already has different team", async () => {
             let firestoreTeamsData;
 
-            let existingTeam = {
-                OnFleetID: "<some-fleet-id-1>",
-                zipcode: "209345"
-            };
-            let zipcode = "342897";
+            let existingTeam = generateRandomTeam();
+            let zipcode = faker.address.zipCode();
 
             const firestore = mocksdk.firestore();
 
@@ -256,10 +247,7 @@ describe("Firebase", () => {
         it("should be able to get existing team", async () => {
             let firestoreTeamsData;
 
-            let existingTeam = {
-                OnFleetID: "<some-fleet-id-1>",
-                zipcode: "209345"
-            };
+            let existingTeam = generateRandomTeam();
 
             let zipcode = existingTeam.zipcode;
 
