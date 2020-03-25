@@ -1,6 +1,7 @@
 import React from "react";
 import RequestHelp from "../components/HomeContent/RequestHelp";
 import Nav from "../components/layout/Nav";
+import withAuthUser from "../utils/pageWrappers/withAuthUser";
 
 const requestHelp = () => {
     return (
@@ -11,4 +12,4 @@ const requestHelp = () => {
     );
 };
 
-export default requestHelp;
+export default withAuthUser(requestHelp);

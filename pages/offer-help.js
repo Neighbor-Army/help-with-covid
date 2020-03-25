@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import OfferHelp from "../components/HomeContent/OfferHelp";
 import Nav from "../components/layout/Nav";
 import VolunteerConfirmation from "../components/HomeContent/VolunteerConfirmation";
+import withAuthUser from "../utils/pageWrappers/withAuthUser";
 
 const offerHelp = () => {
-    const [success, setSuccess] = useState(false);
-    const [neighborhood, setNeighborhood] = useState([]);
+    const [ success, setSuccess ] = useState(false);
+    const [ neighborhood, setNeighborhood ] = useState([]);
 
     return (
         <div>
@@ -23,4 +24,4 @@ const offerHelp = () => {
     );
 };
 
-export default offerHelp;
+export default withAuthUser(offerHelp);

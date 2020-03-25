@@ -104,4 +104,5 @@ Index.defaultProps = {
 // disables static rendering.
 // Use `withAuthUserInfo` to include the authed user as a prop
 // to your component.
-export default withAuthUser(withAuthUserInfo(Index));
+//export default withAuthUser(withAuthUserInfo(Index));
+export default withAuthUser(Index);

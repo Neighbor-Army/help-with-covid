@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import "./Nav.scss";
 import { useAuthUserInfo } from "../../utils/auth/hooks";
+import logMeOut from "../../utils/auth/logout";
 
 /*
     authTab controls login display
@@ -27,10 +28,12 @@ const Nav = ({ authTab, setAuthTab }) => {
                     <a>Neighbor Army</a>
                 </Link>
             </div>
+            <div className="center-nav">
+                <a href="mailto:support@neighborsupport.zendesk.com?subject=Neighbor Army Support - ">
+                    Support
+                </a>
+            </div>
             <div className="right-nav">
-                {/* <a href={routes.LOG_IN}>
-                    <button onClick={() => setAuthTab("login")}>Log In</button>
-                 </a> */}
                 {!authTab && !curUser.AuthUser.id ? (
                     <button
                         onClick={e => {
@@ -41,7 +44,17 @@ const Nav = ({ authTab, setAuthTab }) => {
                         Log In
                     </button>
                 ) : curUser.AuthUser.id ? (
+                    <>
                     <span>{curUser.AuthUser.id}</span>
+                    <button
+                        onClick={e => {
+                            e.preventDefault();
+                            logMeOut();
+                        }}
+                    >
+                        Log Out
+                    </button>
+                    </>
                 ) : (
                     <button
                         onClick={e => {
@@ -52,15 +65,6 @@ const Nav = ({ authTab, setAuthTab }) => {
                         Cancel
                     </button>
                 )}
-
-                {/* <a href={routes.SIGN_UP}>
-                    <button
-                        onClick={() => setAuthTab("register")}
-                        className="signup"
-                    >
-                        Sign Up
-                    </button>
-                </a> */}
             </div>
         </div>
     );
