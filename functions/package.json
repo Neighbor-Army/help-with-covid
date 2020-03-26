@@ -9,7 +9,8 @@
         "start": "npm run shell",
         "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
         "logs": "firebase functions:log",
-        "test": "jest . --passWithNoTests"
+        "test": "jest . --passWithNoTests",
+        "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     },
     "engines": {
         "node": ">= 10"
