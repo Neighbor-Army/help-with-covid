@@ -71,7 +71,7 @@ router.get("/team", async function (req, res, next) {
         return next(new Error("Team doesn't exist!"));
     }
 
-    return res.sendStatus(200);
+    return res.status(200).json(team);
 });
 
 router.post("/unsuccessful", async function (req, res, next) {
