@@ -1,11 +1,14 @@
 const logger = require("../utils/logger");
 const express = require("express");
+const VoiceResponse = require("twilio").twiml.VoiceResponse;
+const MessagingResponse = require("twilio").twiml.MessagingResponse;
 
 //const neighborhoodService = require("../services/neighborhood");
 const onFleetService = require("../services/onfleet");
 const firebaseService = require("../services/firebase");
 const sendgridService = require("../services/sendgrid");
 const googleCloudService = require("../services/google-cloud");
+
 const router = express.Router({ mergeParams: true });
 
 router.get("/task/:id", async function (req, res) {
@@ -32,8 +35,8 @@ router.post("/task", async function (req, res, next) {
         const teamData = await firebaseService.getTeam(req.body.zipcode);
         let onfleetTeamId = "";
 
-        //If team doesn't exist in firebase, it must not exist anywhere
-        //thus we create it.
+        // If team doesn't exist in firebase, it must not exist anywhere thus we create
+        // it.
         if (!teamData) {
             return res.status(500).send("Area not service");
         }
@@ -48,7 +51,7 @@ router.post("/task", async function (req, res, next) {
             req.body.notes,
             onfleetTeamId
         );
-        res.json(results);
+        return res.json(results);
     } catch (error) {
         next(error);
     }
@@ -56,12 +59,12 @@ router.post("/task", async function (req, res, next) {
 
 router.patch("/task/:id", async function (req, res) {
     const results = await onFleetService.updateTask(req.params.id, req.body);
-    res.json(results);
+    return res.json(results);
 });
 
 router.delete("/task/:id", async function (req, res) {
     const results = await onFleetService.deleteTask(req.params.id);
-    res.json(results);
+    return res.json(results);
 });
 
 /*
@@ -94,24 +97,36 @@ router.post("/neighborhood", async function (req, res, next) {
 */
 
 router.post("/team", async function (req, res, next) {
-    const zipcode = req.body.zipcode;
+    const zipcode = String(req.body.zipcode);
     try {
         const results = await onFleetService.createTeam(zipcode);
         await firebaseService.writeNewTeam(results.onFleetID, zipcode);
-        res.status(200).json(results);
+        return res.status(200).json(results);
     } catch (error) {
         next(error);
     }
 });
 
-router.get("/team/:id", async function (req, res, next) {
-    const team = await firebaseService.getTeam(req.params.id);
+router.get("/team", async function (req, res, next) {
+    const zipcode = String(req.query.zipcode);
+    console.log(zipcode);
+    const team = await firebaseService.getTeam(zipcode);
 
     if (!team) {
         return next(new Error("Team doesn't exist!"));
     }
 
-    return res.json(team);
+    return res.sendStatus(200);
+});
+
+router.post("/unsuccessful", async function (req, res, next) {
+    const { phone, zipcode } = req.body;
+    try {
+        firebaseService.writeUnsuccessful(phone, zipcode);
+        res.sendStatus(200);
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.post("/worker", async function (req, res, next) {
@@ -125,8 +140,8 @@ router.post("/worker", async function (req, res, next) {
         const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";
 
-        //If team doesn't exist in firebase, it must not exist anywhere
-        //thus we create it.
+        // If team doesn't exist in firebase, it must not exist anywhere thus we create
+        // it.
         if (!teamData) {
             const results = await onFleetService.createTeam(zipcode);
             await firebaseService.writeNewTeam(results.onFleetID, zipcode);
@@ -165,40 +180,66 @@ router.post("/email", async function (req, res, next) {
     }
 });
 */
-router.post("/voicemail", async function (req, res, next) {
-    const { phone, url, zipcode } = req.body;
-    logger.debug(phone);
+router.post("/transcribe", async function (req, res, next) {
+    const { url, zipcode } = req.body;
     logger.debug(url);
-    logger.debug(zipcode);
     try {
-        const teamData = await firebaseService.getTeam(zipcode);
-        //If team doesn't exist in firebase, it must not exist anywhere
-        //thus we create it.
-        if (!teamData) {
-            return res.status(500).send("Area not serviced");
-        }
-        const onfleetTeamId = teamData.OnFleetID;
-
-        logger.debug(onfleetTeamId);
-
         //await firebaseService.writeVoicemail(req.body.phone, req.body.url);
-        const transcribedAddress = await googleCloudService.speechToText(url);
-        logger.debug(transcribedAddress);
-        await onFleetService.createTask(
-            transcribedAddress,
-            zipcode,
-            {
-                name: "voicemail call in",
-                phone: phone
-            },
-            "notes",
-            onfleetTeamId
-        );
-
-        res.status(200).send();
+        googleCloudService.speechToText(url, async (transcribedAddress) => {
+            transcribedAddress = transcribedAddress + ", " + zipcode;
+            console.log("Transcribed address " + transcribedAddress);
+            const autocorrectedAddress = await googleCloudService.geocode(
+                transcribedAddress
+            );
+            logger.debug("Autocorrect address " + autocorrectedAddress);
+            if (autocorrectedAddress) {
+                return res
+                    .status(200)
+                    .send(
+                        "https://05ff1c0c.ngrok.io/neighbor-army/us-central1/widgets/twimlMessage?address=" +
+                            encodeURI(autocorrectedAddress)
+                    );
+            }
+            throw "Repeat";
+        });
     } catch (error) {
         next(error);
     }
+});
+
+router.post("/twimlNumber", async function (req, res, next) {
+    const { Caller } = req.body;
+    const phone = Caller.substring(2);
+
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    const resp = `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+<Say>
+Is
+<say-as interpret-as="digits">${phone}</say-as>  
+the best number we can reach you at?
+</Say>
+
+<Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect>
+</Response>`;
+    return res.end(resp.toString());
+});
+
+router.get("/twimlZipcode", async function (req, res, next) {
+    const { zipcode } = req.query;
+
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    const resp = `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+<Say>
+Is
+<say-as interpret-as="digits">${zipcode}</say-as>  
+your zipcode?
+</Say>
+
+<Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect>
+</Response>`;
+    return res.end(resp.toString());
 });
 
 module.exports = router;

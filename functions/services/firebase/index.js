@@ -22,15 +22,17 @@ const getTeam = async (zipcode) => {
     return document.data();
 };
 
-const writeVoicemail = (phone, url) => {
-    return realtime.ref("voicemails").push({
-        phone: phone,
-        url: url
+const writeUnsuccessful = (phone, zipcode) => {
+    const sZipcode = String(zipcode);
+    return firestore.collection(`unsuccessful/byzip/${sZipcode}`).add({
+        phone: phone
     });
 };
+
+console.log(writeUnsuccessful("4172655212", 19213));
 
 module.exports = {
     writeNewTeam,
     getTeam,
-    writeVoicemail
+    writeUnsuccessful
 };
