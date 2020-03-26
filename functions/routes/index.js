@@ -67,35 +67,6 @@ router.delete("/task/:id", async function (req, res) {
     return res.json(results);
 });
 
-/*
-router.post("/neighborhood", async function (req, res, next) {
-    const address = req.body.address;
-    const neighborhoodData = await neighborhoodService.getNeighborhood({
-        streetAddress: address.number + " " + address.street,
-        unit: address.apartment,
-        city: address.city,
-        state: address.state,
-        zipcode: address.postalCode
-    });
-    //also create the neighborhood while we are at it if it doesn't exist
-    const doesExist = firebaseService.getTeam(neighborhoodData.id.toString());
-    if (!doesExist.data) {
-        try {
-            const results = await onFleetService.createTeam(neighborhoodData);
-
-            await firebaseService.writeNewTeam(
-                results.name,
-                results.onFleetID,
-                results.neighborhoodID
-            );
-        } catch (error) {
-            next(error);
-        }
-    }
-    return res.json(neighborhoodData);
-});
-*/
-
 router.post("/team", async function (req, res, next) {
     const zipcode = String(req.body.zipcode);
     try {
@@ -166,20 +137,6 @@ router.post("/worker", async function (req, res, next) {
     }
 });
 
-/*
-router.post("/email", async function (req, res, next) {
-    logger.debug(req.body.email);
-    try {
-        const result = await sendgridService.addEmailToList(
-            req.body.email,
-            process.env.SENDGRID_MARKETING_LIST_ID
-        );
-        res.status(result.statusCode).send();
-    } catch (error) {
-        next(error);
-    }
-});
-*/
 router.post("/transcribe", async function (req, res, next) {
     const { url, zipcode } = req.body;
     logger.debug(url);
@@ -225,7 +182,7 @@ the best number we can reach you at?
     return res.end(resp.toString());
 });
 
-router.get("/twimlZipcode", async function (req, res, next) {
+router.get("/twimlZipcode", async function (req, res) {
     const { zipcode } = req.query;
 
     res.writeHead(200, { "Content-Type": "text/xml" });
@@ -243,3 +200,32 @@ your zipcode?
 });
 
 module.exports = router;
+
+/*
+router.post("/neighborhood", async function (req, res, next) {
+    const address = req.body.address;
+    const neighborhoodData = await neighborhoodService.getNeighborhood({
+        streetAddress: address.number + " " + address.street,
+        unit: address.apartment,
+        city: address.city,
+        state: address.state,
+        zipcode: address.postalCode
+    });
+    //also create the neighborhood while we are at it if it doesn't exist
+    const doesExist = firebaseService.getTeam(neighborhoodData.id.toString());
+    if (!doesExist.data) {
+        try {
+            const results = await onFleetService.createTeam(neighborhoodData);
+
+            await firebaseService.writeNewTeam(
+                results.name,
+                results.onFleetID,
+                results.neighborhoodID
+            );
+        } catch (error) {
+            next(error);
+        }
+    }
+    return res.json(neighborhoodData);
+});
+*/
