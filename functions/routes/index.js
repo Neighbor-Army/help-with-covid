@@ -64,7 +64,7 @@ router.post("/team", async function (req, res, next) {
 
 router.get("/team", async function (req, res, next) {
     const zipcode = String(req.query.zipcode);
-    console.log(zipcode);
+    logger.debug(zipcode);
     const team = await firebaseService.getTeam(zipcode);
 
     if (!team) {
@@ -86,9 +86,7 @@ router.post("/unsuccessful", async function (req, res, next) {
 
 router.post("/worker", async function (req, res, next) {
     const { phone, name, zipcode, email } = req.body;
-    logger.debug(phone);
-    logger.debug(name);
-    logger.debug(zipcode);
+    logger.debug({ phone, name, zipcode, email });
     try {
         const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";

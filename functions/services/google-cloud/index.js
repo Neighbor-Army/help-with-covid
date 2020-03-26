@@ -23,26 +23,26 @@ const speechToText = async (url, cb) => {
     const recognizeStream = client
         .streamingRecognize(request)
         .on("error", console.error)
-        .on("data", (data) => {
+        .on("data", data => {
             //console.log(data.results[0].alternatives[0].transcript);
             chonks = data.results[0].alternatives[0].transcript;
         })
         .on("end", () => {
             cb(chonks);
         });
-    axios.get(url, { responseType: "stream" }).then((res) => {
+    axios.get(url, { responseType: "stream" }).then(res => {
         res.data.pipe(recognizeStream);
     });
 };
 
-const geocode = async (address) => {
+const geocode = async address => {
     const encoded = encodeURI(address);
     console.log(encoded);
     return axios
         .get(
             `https://maps.googleapis.com/maps/api/geocode/json?address=${encoded}&key=`
         )
-        .then(function (response) {
+        .then(function(response) {
             console.log(response.data);
             return response.data.results[0].formatted_address;
         });
