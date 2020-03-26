@@ -18,7 +18,7 @@ const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
             team: onfleetTeamId
         }
     });
-    return getOnfleetClient().tasks.autoAssign({
+    await getOnfleetClient().tasks.autoAssign({
         tasks: [task.id],
         options: {
             mode: "load",
@@ -26,6 +26,7 @@ const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
             considerDependencies: true
         }
     });
+    return task;
 };
 
 const deleteTask = (id) => {

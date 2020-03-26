@@ -1,14 +1,11 @@
 const logger = require("../utils/logger");
 const express = require("express");
-const VoiceResponse = require("twilio").twiml.VoiceResponse;
-const MessagingResponse = require("twilio").twiml.MessagingResponse;
-
 //const neighborhoodService = require("../services/neighborhood");
 const onFleetService = require("../services/onfleet");
 const firebaseService = require("../services/firebase");
 const sendgridService = require("../services/sendgrid");
 const googleCloudService = require("../services/google-cloud");
-
+const twilioService = require("../services/twilio");
 const router = express.Router({ mergeParams: true });
 
 router.get("/task/:id", async function (req, res) {
@@ -137,65 +134,31 @@ router.post("/worker", async function (req, res, next) {
     }
 });
 
-router.post("/transcribe", async function (req, res, next) {
-    const { url, zipcode } = req.body;
-    logger.debug(url);
-    try {
-        //await firebaseService.writeVoicemail(req.body.phone, req.body.url);
-        googleCloudService.speechToText(url, async (transcribedAddress) => {
-            transcribedAddress = transcribedAddress + ", " + zipcode;
-            console.log("Transcribed address " + transcribedAddress);
-            const autocorrectedAddress = await googleCloudService.geocode(
-                transcribedAddress
-            );
-            logger.debug("Autocorrect address " + autocorrectedAddress);
-            if (autocorrectedAddress) {
-                return res
-                    .status(200)
-                    .send(
-                        "https://05ff1c0c.ngrok.io/neighbor-army/us-central1/widgets/twimlMessage?address=" +
-                            encodeURI(autocorrectedAddress)
-                    );
-            }
-            throw "Repeat";
-        });
-    } catch (error) {
-        next(error);
-    }
-});
-
 router.post("/twimlNumber", async function (req, res, next) {
     const { Caller } = req.body;
     const phone = Caller.substring(2);
 
     res.writeHead(200, { "Content-Type": "text/xml" });
-    const resp = `<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-<Say>
-Is
-<say-as interpret-as="digits">${phone}</say-as>  
-the best number we can reach you at?
-</Say>
-
-<Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect>
-</Response>`;
+    //const resp = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Is<say-as interpret-as="digits">${phone}</say-as>the best number we can reach you at?</Say><Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect></Response>`;
+    const resp = twilioService.generateTwiML(
+        "Is",
+        phone,
+        "the best number we can reach you at?",
+        "https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return"
+    );
     return res.end(resp.toString());
 });
 
 router.get("/twimlZipcode", async function (req, res) {
     const { zipcode } = req.query;
-
     res.writeHead(200, { "Content-Type": "text/xml" });
-    const resp = `<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-<Say>
-Is
-<say-as interpret-as="digits">${zipcode}</say-as>  
-your zipcode?
-</Say>
-
-<Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect>
-</Response>`;
+    //const resp = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Is<say-as interpret-as="digits">${zipcode}</say-as>your zipcode?</Say><Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect></Response>`;
+    const resp = twilioService.generateTwiML(
+        "Is",
+        zipcode,
+        "Your zipcode?",
+        "https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return"
+    );
     return res.end(resp.toString());
 });
 
@@ -227,5 +190,46 @@ router.post("/neighborhood", async function (req, res, next) {
         }
     }
     return res.json(neighborhoodData);
+});
+*/
+
+/*
+router.post("/email", async function (req, res, next) {
+    logger.debug(req.body.email);
+    try {
+        const result = await sendgridService.addEmailToList(
+            req.body.email,
+            process.env.SENDGRID_MARKETING_LIST_ID
+        );
+        res.status(result.statusCode).send();
+    } catch (error) {
+        next(error);
+    }
+});
+*/
+
+/*
+router.post("/transcribe", async function (req, res, next) {
+    const { url, zipcode } = req.body;
+    try {
+        //await firebaseService.writeVoicemail(req.body.phone, req.body.url);
+        googleCloudService.speechToText(url, async (transcribedAddress) => {
+            transcribedAddress = transcribedAddress + ", " + zipcode;
+            const autocorrectedAddress = await googleCloudService.geocode(
+                transcribedAddress
+            );
+            if (autocorrectedAddress) {
+                return res
+                    .status(200)
+                    .send(
+                        "https://05ff1c0c.ngrok.io/neighbor-army/us-central1/widgets/twimlMessage?address=" +
+                            encodeURI(autocorrectedAddress)
+                    );
+            }
+            throw "Repeat";
+        });
+    } catch (error) {
+        next(error);
+    }
 });
 */

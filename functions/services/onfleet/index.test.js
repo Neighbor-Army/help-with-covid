@@ -93,8 +93,7 @@ describe("OnFleetService", () => {
                 container: {
                     type: "TEAM",
                     team: fakeTeamId
-                },
-                autoAssign: { mode: "load" }
+                }
             });
             expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledTimes(1);
         });
