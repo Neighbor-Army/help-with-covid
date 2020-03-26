@@ -19,9 +19,11 @@ function createMockSdk() {
 }
 
 describe("Firebase", () => {
-
     const generateRandomTeam = (onFleetId = undefined, zipCode = undefined) => {
-        return { OnFleetID: onFleetId || faker.random.uuid(), zipcode: zipCode || faker.address.zipCode() };
+        return {
+            OnFleetID: onFleetId || faker.random.uuid(),
+            zipcode: zipCode || faker.address.zipCode()
+        };
     };
 
     describe("#writeNewTeam", () => {

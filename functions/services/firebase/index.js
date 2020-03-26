@@ -11,7 +11,6 @@ firebase.initializeApp({
 const firestore = firebase.firestore();
 //const realtime = firebase.database();
 
-
 /**
  * Write new teem
  * @param onfleetID OnFleet ID
@@ -52,16 +51,15 @@ const getTeam = async zipcode => {
     return document.data();
 };
 
-/*
-const writeVoicemail = (phone, url) => {
-    return realtime.ref("voicemails").push({
-        phone: phone,
-        url: url
+const writeUnsuccessful = (phone, zipcode) => {
+    const sZipcode = String(zipcode);
+    return firestore.collection(`unsuccessful/byzip/${sZipcode}`).add({
+        phone: phone
     });
 };
-*/
+
 module.exports = {
     writeNewTeam,
-    getTeam
-    //writeVoicemail
+    getTeam,
+    writeUnsuccessful
 };
