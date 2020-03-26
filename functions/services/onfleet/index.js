@@ -2,7 +2,7 @@ const logger = require("../../utils/logger");
 const Onfleet = require("@onfleet/node-onfleet");
 
 const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
-    if (!address || !person || !notes) {
+    if (!address || !zipcode || !person || !notes) {
         throw new Error("Missing required args: address, person and/or notes.");
     }
     const task = await getOnfleetClient().tasks.create({

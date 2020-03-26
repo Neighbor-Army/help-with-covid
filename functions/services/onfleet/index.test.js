@@ -56,7 +56,8 @@ describe("OnFleetService", () => {
         beforeAll(() => {
             fakeOnfleetClient = {
                 tasks: {
-                    create: jest.fn().mockResolvedValueOnce(fakeResponse)
+                    create: jest.fn().mockResolvedValueOnce(fakeResponse),
+                    autoAssign: jest.fn().mockResolvedValueOnce(fakeResponse)
                 }
             };
         });
@@ -102,17 +103,9 @@ describe("OnFleetService", () => {
             const argError = new Error(
                 "Missing required args: address, person and/or notes."
             );
-            expect(() => {
-                createTask();
-            }).toThrow(argError);
-
-            expect(() => {
-                createTask("address");
-            }).toThrow(argError);
-
-            expect(() => {
-                createTask("address", "person");
-            }).toThrow(argError);
+            await expect(createTask()).rejects.toThrow();
+            await expect(createTask("address")).rejects.toThrow();
+            await expect(createTask("address", "person")).rejects.toThrow();
         });
     });
 
