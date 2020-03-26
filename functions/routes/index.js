@@ -17,31 +17,28 @@ router.get("/task/:id", async function(req, res, next) {
     }
 });
 
-router.post("/task", async function (req, res, next) {
-    const {address, zipcode, person, notes} = req.body;
+router.post("/task", async function(req, res, next) {
+    const { address, zipcode, person, notes } = req.body;
     try {
-        logger.debug({address, zipcode, person, notes});
+        logger.debug({ address, zipcode, person, notes });
         const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";
 
-        // If team doesn't exist in firebase, it must not exist anywhere
-        // thus we create it.
         if (!teamData) {
             res.status(500).send("Area not serviced");
 
             // Return here to avoid trying to resend which will throw an error
             return;
-        } else {
-            onfleetTeamId = teamData.OnFleetID;
         }
+        onfleetTeamId = teamData.OnFleetID;
 
-        logger.debug({onfleetTeamId});
+        logger.debug({ onfleetTeamId });
 
         const results = await onFleetService.createTask(
-            address,
-            zipcode,
-            person,
-            notes,
+            req.body.address,
+            req.body.zipcode,
+            req.body.person,
+            req.body.notes,
             onfleetTeamId
         );
         res.json(results);
@@ -52,7 +49,10 @@ router.post("/task", async function (req, res, next) {
 
 router.patch("/task/:id", async function(req, res, next) {
     try {
-        const results = await onFleetService.updateTask(req.params.id, req.body);
+        const results = await onFleetService.updateTask(
+            req.params.id,
+            req.body
+        );
         res.json(results);
     } catch (e) {
         next(e);
@@ -97,7 +97,7 @@ router.post("/neighborhood", async function (req, res, next) {
 });
 */
 
-router.post("/team", async function (req, res, next) {
+router.post("/team", async function(req, res, next) {
     const zipcode = req.body.zipcode;
     try {
         const results = await onFleetService.createTeam(zipcode);
@@ -108,7 +108,7 @@ router.post("/team", async function (req, res, next) {
     }
 });
 
-router.get("/team/:id", async function (req, res, next) {
+router.get("/team/:id", async function(req, res, next) {
     const team = await firebaseService.getTeam(req.params.id);
 
     if (!team) {
@@ -118,15 +118,15 @@ router.get("/team/:id", async function (req, res, next) {
     return res.json(team);
 });
 
-router.post("/worker", async function (req, res, next) {
-    const {phone, name, zipcode} = req.body;
-    logger.debug({phone, name, zipcode});
+router.post("/worker", async function(req, res, next) {
+    const { phone, name, zipcode } = req.body;
+    logger.debug({ phone, name, zipcode });
     try {
         const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";
 
-        //If team doesn't exist in firebase, it must not exist anywhere
-        //thus we create it.
+        // If team doesn't exist in firebase, it must not exist anywhere
+        // thus we create it.
         if (!teamData) {
             const results = await onFleetService.createTeam(zipcode);
             await firebaseService.writeNewTeam(results.onFleetID, zipcode);
