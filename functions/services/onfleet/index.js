@@ -29,11 +29,11 @@ const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
     return task;
 };
 
-const deleteTask = id => {
+const deleteTask = (id) => {
     return getOnfleetClient().tasks.deleteOne(id);
 };
 
-const getTask = id => {
+const getTask = (id) => {
     return getOnfleetClient().tasks.get(id);
 };
 
@@ -41,7 +41,7 @@ const updateTask = (id, body) => {
     return getOnfleetClient().tasks.update(id, body);
 };
 
-const createTeam = async zipcode => {
+const createTeam = async (zipcode) => {
     const response = await getOnfleetClient().teams.create({
         name: zipcode
     });
