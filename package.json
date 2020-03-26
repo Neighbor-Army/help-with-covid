@@ -10,8 +10,7 @@
         "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
         "lint": "eslint .",
         "postinstall": "cd functions && yarn install",
-        "test": "jest .",
-        "test:all": "jest ."
+        "test": "jest ."
     },
     "lint-staged": {
         "*.{json,md}": [

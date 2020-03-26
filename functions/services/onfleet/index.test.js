@@ -100,9 +100,6 @@ describe("OnFleetService", () => {
         });
 
         it("throws an Error if any required args are ommitted", async () => {
-            const argError = new Error(
-                "Missing required args: address, person and/or notes."
-            );
             await expect(createTask()).rejects.toThrow();
             await expect(createTask("address")).rejects.toThrow();
             await expect(createTask("address", "person")).rejects.toThrow();
