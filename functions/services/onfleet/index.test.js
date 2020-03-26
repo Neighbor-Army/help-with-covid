@@ -56,12 +56,13 @@ describe("OnFleetService", () => {
         beforeAll(() => {
             fakeOnfleetClient = {
                 tasks: {
-                    create: jest.fn().mockResolvedValueOnce(fakeResponse)
+                    create: jest.fn().mockResolvedValueOnce(fakeResponse),
+                    autoAssign: jest.fn().mockResolvedValueOnce(fakeResponse)
                 }
             };
         });
 
-        it("creates a onfleet task with the correct payload. Returns the response via a promis", async () => {
+        it("creates a onfleet task with the correct payload. Returns the response via a promise", async () => {
             const fakeAddress = faker.address.streetAddress();
             const fakeZip = faker.address.zipCode();
             const fakePerson = {
@@ -93,8 +94,7 @@ describe("OnFleetService", () => {
                 container: {
                     type: "TEAM",
                     team: fakeTeamId
-                },
-                autoAssign: { mode: "load" }
+                }
             });
             expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledTimes(1);
         });
@@ -103,17 +103,9 @@ describe("OnFleetService", () => {
             const argError = new Error(
                 "Missing required args: address, person and/or notes."
             );
-            expect(() => {
-                createTask();
-            }).toThrow(argError);
-
-            expect(() => {
-                createTask("address");
-            }).toThrow(argError);
-
-            expect(() => {
-                createTask("address", "person");
-            }).toThrow(argError);
+            await expect(createTask()).rejects.toThrow();
+            await expect(createTask("address")).rejects.toThrow();
+            await expect(createTask("address", "person")).rejects.toThrow();
         });
     });
 

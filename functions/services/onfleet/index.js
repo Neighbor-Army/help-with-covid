@@ -1,11 +1,11 @@
 const logger = require("../../utils/logger");
 const Onfleet = require("@onfleet/node-onfleet");
 
-const createTask = (address, zipcode, person, notes, onfleetTeamId) => {
-    if (!address || !person || !notes) {
+const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
+    if (!address || !zipcode || !person || !notes) {
         throw new Error("Missing required args: address, person and/or notes.");
     }
-    return getOnfleetClient().tasks.create({
+    const task = await getOnfleetClient().tasks.create({
         destination: {
             address: {
                 unparsed: address + " " + zipcode
@@ -16,16 +16,24 @@ const createTask = (address, zipcode, person, notes, onfleetTeamId) => {
         container: {
             type: "TEAM",
             team: onfleetTeamId
-        },
-        autoAssign: { mode: "load" }
+        }
     });
+    await getOnfleetClient().tasks.autoAssign({
+        tasks: [task.id],
+        options: {
+            mode: "load",
+            teams: [onfleetTeamId],
+            considerDependencies: true
+        }
+    });
+    return task;
 };
 
-const deleteTask = id => {
+const deleteTask = (id) => {
     return getOnfleetClient().tasks.deleteOne(id);
 };
 
-const getTask = id => {
+const getTask = (id) => {
     return getOnfleetClient().tasks.get(id);
 };
 
@@ -33,7 +41,7 @@ const updateTask = (id, body) => {
     return getOnfleetClient().tasks.update(id, body);
 };
 
-const createTeam = async zipcode => {
+const createTeam = async (zipcode) => {
     const response = await getOnfleetClient().teams.create({
         name: zipcode
     });
