@@ -20,16 +20,13 @@ const firestore = firebase.firestore();
 const writeNewTeam = async (onfleetID, zipcode) => {
     Validator.assert({
         args: [{ onfleetID }, { zipcode }],
-        validateFn: arg => arg && typeof arg === "string"
+        validateFn: (arg) => arg && typeof arg === "string"
     });
 
-    return firestore
-        .collection("teams")
-        .doc(zipcode)
-        .set({
-            OnFleetID: onfleetID,
-            zipcode: zipcode
-        });
+    return firestore.collection("teams").doc(zipcode).set({
+        OnFleetID: onfleetID,
+        zipcode: zipcode
+    });
 };
 
 /**
@@ -37,17 +34,13 @@ const writeNewTeam = async (onfleetID, zipcode) => {
  * @param zipcode
  * @return {Promise<DocumentData>}
  */
-const getTeam = async zipcode => {
+const getTeam = async (zipcode) => {
     Validator.assert({
         args: [{ zipcode }],
-        validateFn: arg => arg && typeof arg === "string"
+        validateFn: (arg) => arg && typeof arg === "string"
     });
 
-    const document = await firestore
-        .collection("teams")
-        .doc(zipcode)
-        .get();
-
+    const document = await firestore.collection("teams").doc(zipcode).get();
     return document.data();
 };
 

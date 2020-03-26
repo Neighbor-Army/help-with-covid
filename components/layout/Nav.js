@@ -13,6 +13,9 @@ const Nav = () => {
                 </Link>
             </div>
             <div className="right-nav">
+                <a href="mailto:support@neighborsupport.zendesk.com?subject=Neighbor Army Support - ">
+                    Support
+                </a>
                 {/* <a href={routes.LOG_IN}>
                     <button onClick={() => setAuthTab("login")}>Log In</button>
                 </a>
