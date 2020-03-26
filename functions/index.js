@@ -1,4 +1,5 @@
 require("dotenv").config();
+const logger = require("./utils/logger");
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
@@ -42,7 +43,7 @@ app.use("/", router);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, _req, res, _next) => {
-    console.log(err);
+    logger.error(err);
     return res.status(err.statusCode || 500).json({
         message: err.message || "Something went wrong"
     });
