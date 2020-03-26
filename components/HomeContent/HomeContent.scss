@@ -16,14 +16,14 @@
         padding-bottom: 60px;
         margin-top: 150px;
 
-        h1{
+        h1 {
             font-size: 36px;
             @media (max-width: 840px) {
                 font-size: 28px;
-             }
-             @media (max-width: 480px) {
+            }
+            @media (max-width: 480px) {
                 font-size: 19px;
-             }
+            }
         }
 
         p {
@@ -34,11 +34,11 @@
             @media (max-width: 800px) {
                 font-size: 14px;
                 max-width: 400px;
-             }
-             @media (max-width: 480px) {
+            }
+            @media (max-width: 480px) {
                 font-size: 12px;
                 max-width: 300px;
-             }
+            }
         }
     }
 
@@ -65,15 +65,15 @@
                     font-size: 14px;
                     max-width: 400px;
                     min-width: 130px;
-                 }
-                 @media (max-width: 480px) {
+                }
+                @media (max-width: 480px) {
                     font-size: 12px;
                     max-width: 300px;
                     min-width: 120px;
-                 }
+                }
             }
 
-            .offer-help-button{
+            .offer-help-button {
                 @include button($background, black);
                 font-weight: 400;
                 padding: 10px 15px;
@@ -84,12 +84,12 @@
                     font-size: 14px;
                     max-width: 400px;
                     min-width: 130px;
-                 }
-                 @media (max-width: 480px) {
+                }
+                @media (max-width: 480px) {
                     font-size: 12px;
                     max-width: 300px;
                     min-width: 120px;
-                 }
+                }
             }
         }
     }
@@ -102,23 +102,30 @@
         left: 0;
         text-align: center;
         @media (max-width: 800px) {
-            font-size: .9rem;
-
-         }
-         @media (max-width: 480px) {
-            font-size: .4rem;
-
-         }
+            font-size: 0.9rem;
+        }
+        @media (max-width: 480px) {
+            font-size: 0.4rem;
+        }
         a {
             text-decoration: underline;
             @media (max-width: 800px) {
-                font-size: .9rem;
-    
-             }
-             @media (max-width: 480px) {
-                font-size: .4rem;
-    
-             }
+                font-size: 0.9rem;
+            }
+            @media (max-width: 480px) {
+                font-size: 0.4rem;
+            }
+        }
+
+        &-social-media {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+
+            img {
+                cursor: pointer;
+                margin: 5px;
+            }
         }
     }
 }
