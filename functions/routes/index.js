@@ -14,18 +14,16 @@ router.get("/task/:id", async function (req, res) {
 router.post("/task", async function (req, res, next) {
     const { address, zipcode, person, notes } = req.body;
     try {
-        logger.debug(address);
-        logger.debug(zipcode);
-        logger.debug(person);
-        logger.debug(notes);
+        logger.debug({ address, zipcode, person, notes });
         const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";
 
-        // If team doesn't exist in firebase, it must not exist anywhere thus we create
-        // it.
         if (!teamData) {
-            return res.status(500).send("Area not service");
+            res.status(500).send("Area not serviced");
+            return;
         }
+        onfleetTeamId = teamData.OnFleetID;
+
         onfleetTeamId = teamData.OnFleetID;
 
         logger.debug(onfleetTeamId);
@@ -94,8 +92,9 @@ router.post("/worker", async function (req, res, next) {
     try {
         const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";
-        // If team doesn't exist in firebase, it must not exist anywhere thus we create
-        // it.
+
+        // If team doesn't exist in firebase, it must not exist anywhere
+        // thus we create it.
         if (!teamData) {
             const results = await onFleetService.createTeam(zipcode);
             await firebaseService.writeNewTeam(results.onFleetID, zipcode);
