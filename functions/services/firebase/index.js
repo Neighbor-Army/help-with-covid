@@ -8,7 +8,7 @@ firebase.initializeApp({
 });
 
 const firestore = firebase.firestore();
-const realtime = firebase.database();
+//const realtime = firebase.database();
 
 const writeNewTeam = (onfleetID, zipcode) => {
     return firestore.collection("teams").doc(zipcode).set({

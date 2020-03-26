@@ -40,7 +40,7 @@ const geocode = async (address) => {
     console.log(encoded);
     return axios
         .get(
-            `https://maps.googleapis.com/maps/api/geocode/json?address=${encoded}&key=AIzaSyDWU36xdRndPnLVCd8oDXtlfCxO8I-86Cg`
+            `https://maps.googleapis.com/maps/api/geocode/json?address=${encoded}&key=`
         )
         .then(function (response) {
             console.log(response.data);

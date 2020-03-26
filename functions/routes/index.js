@@ -1,10 +1,8 @@
 const logger = require("../utils/logger");
 const express = require("express");
-//const neighborhoodService = require("../services/neighborhood");
 const onFleetService = require("../services/onfleet");
 const firebaseService = require("../services/firebase");
 const sendgridService = require("../services/sendgrid");
-const googleCloudService = require("../services/google-cloud");
 const twilioService = require("../services/twilio");
 const router = express.Router({ mergeParams: true });
 
@@ -14,22 +12,13 @@ router.get("/task/:id", async function (req, res) {
 });
 
 router.post("/task", async function (req, res, next) {
+    const { address, zipcode, person, notes } = req.body;
     try {
-        // eslint-disable-next-line no-unused-vars
-        /*
-        const neighborhoodName = await neighborhoodService.getNeighborhood({
-            streetAddress: address.number + " " + address.street,
-            unit: address.apartment,
-            city: address.city,
-            state: address.state,
-            zipcode: address.postalCode
-        });
-        */
-        logger.debug(req.body.address);
-        logger.debug(req.body.zipcode);
-        logger.debug(req.body.person);
-        logger.debug(req.body.notes);
-        const teamData = await firebaseService.getTeam(req.body.zipcode);
+        logger.debug(address);
+        logger.debug(zipcode);
+        logger.debug(person);
+        logger.debug(notes);
+        const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";
 
         // If team doesn't exist in firebase, it must not exist anywhere thus we create
@@ -42,10 +31,10 @@ router.post("/task", async function (req, res, next) {
         logger.debug(onfleetTeamId);
 
         const results = await onFleetService.createTask(
-            req.body.address,
-            req.body.zipcode,
-            req.body.person,
-            req.body.notes,
+            address,
+            zipcode,
+            person,
+            notes,
             onfleetTeamId
         );
         return res.json(results);
@@ -98,16 +87,13 @@ router.post("/unsuccessful", async function (req, res, next) {
 });
 
 router.post("/worker", async function (req, res, next) {
-    const phone = req.body.phone;
-    const name = req.body.name;
-    const zipcode = req.body.zipcode;
+    const { phone, name, zipcode, email } = req.body;
     logger.debug(phone);
     logger.debug(name);
     logger.debug(zipcode);
     try {
         const teamData = await firebaseService.getTeam(zipcode);
         let onfleetTeamId = "";
-
         // If team doesn't exist in firebase, it must not exist anywhere thus we create
         // it.
         if (!teamData) {
@@ -125,7 +111,7 @@ router.post("/worker", async function (req, res, next) {
         );
 
         await sendgridService.addEmailToList(
-            req.body.email,
+            email,
             process.env.SENDGRID_VOLUNTEERS_LIST_ID
         );
         res.status(200).json(results);
@@ -134,7 +120,7 @@ router.post("/worker", async function (req, res, next) {
     }
 });
 
-router.post("/twimlNumber", async function (req, res, next) {
+router.post("/twimlNumber", async function (req, res) {
     const { Caller } = req.body;
     const phone = Caller.substring(2);
 
@@ -144,7 +130,7 @@ router.post("/twimlNumber", async function (req, res, next) {
         "Is",
         phone,
         "the best number we can reach you at?",
-        "https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return"
+        process.env.TWILIO_STUDIO_RETURN_URL
     );
     return res.end(resp.toString());
 });
@@ -157,7 +143,7 @@ router.get("/twimlZipcode", async function (req, res) {
         "Is",
         zipcode,
         "Your zipcode?",
-        "https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return"
+        process.env.TWILIO_STUDIO_RETURN_URL
     );
     return res.end(resp.toString());
 });
