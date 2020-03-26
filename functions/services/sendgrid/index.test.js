@@ -36,7 +36,7 @@ describe("SendgridService", () => {
             const fakeEmail = faker.internet.email();
             const fakeListID = faker.random.number();
 
-            expect(addEmailToList(fakeEmail, fakeListID)).resolves.toBe(
+            await expect(addEmailToList(fakeEmail, fakeListID)).resolves.toBe(
                 fakeResponse[0]
             );
 

@@ -61,7 +61,7 @@ describe("OnFleetService", () => {
             };
         });
 
-        it("creates a onfleet task with the correct payload. Returns the response via a promis", async () => {
+        it("creates a onfleet task with the correct payload. Returns the response via a promise", async () => {
             const fakeAddress = faker.address.streetAddress();
             const fakeZip = faker.address.zipCode();
             const fakePerson = {
