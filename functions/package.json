@@ -13,7 +13,7 @@
         "format": "prettier --write \"**/*.{js,jsx,json,md}\""
     },
     "engines": {
-        "node": ">= 10"
+        "node": "10"
     },
     "devDependencies": {
         "@types/faker": "^4.1.10",
@@ -42,6 +42,7 @@
         "firebase-functions": "^3.5.0",
         "morgan": "^1.10.0",
         "parse-address": "^1.1.2",
+        "privacy-api": "^0.1.3",
         "twilio": "^3.41.1"
     }
 }

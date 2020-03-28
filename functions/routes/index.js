@@ -4,6 +4,7 @@ const onFleetService = require("../services/onfleet");
 const firebaseService = require("../services/firebase");
 const sendgridService = require("../services/sendgrid");
 const twilioService = require("../services/twilio");
+
 const router = express.Router({ mergeParams: true });
 
 router.get("/task/:id", async function(req, res, next) {
@@ -137,6 +138,19 @@ router.post("/twimlNumber", async function(req, res) {
 });
 
 router.get("/twimlZipcode", async function(req, res) {
+    const { zipcode } = req.query;
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    //const resp = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Is<say-as interpret-as="digits">${zipcode}</say-as>your zipcode?</Say><Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect></Response>`;
+    const resp = twilioService.generateTwiML(
+        "Is",
+        zipcode,
+        "Your zipcode?",
+        process.env.TWILIO_STUDIO_RETURN_URL
+    );
+    return res.end(resp.toString());
+});
+
+router.post("/test", async function(req, res) {
     const { zipcode } = req.query;
     res.writeHead(200, { "Content-Type": "text/xml" });
     //const resp = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Is<say-as interpret-as="digits">${zipcode}</say-as>your zipcode?</Say><Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect></Response>`;
