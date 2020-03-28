@@ -48,7 +48,7 @@ const VolunteerOfferHelp = ({ setSuccess }) => {
                 <h1 className="hero-text">Volunteer Sign Up Form</h1>
                 <p>
                     Thank you for volunteering during these troubled times.
-                    Please fill out this form to become a volunteer in your
+                    Please fill out this form to become a driver in your
                     neighborhood.
                 </p>
             </div>

@@ -9,7 +9,7 @@ const OfferHelp = ({ setDispatch }) => {
     return (
         <div style={{ display: `${clicked}` }} className="offer-help">
             <h1>Thank you for offering to help</h1>
-            <h3>Please choose which type of volunteer</h3>
+            <h3>Please choose the type of volunteer</h3>
             <div className="offer-help__cta">
                 <div
                     className="offer-help__cta__dispatch"
@@ -18,7 +18,7 @@ const OfferHelp = ({ setDispatch }) => {
                     }}
                 >
                     <img src="static/images/Dispatcher.png"></img>
-                    <button>Dispatch</button>
+                    <button>Dispatcher</button>
                 </div>
                 <div
                     className="offer-help__cta__volunteer"
@@ -28,7 +28,7 @@ const OfferHelp = ({ setDispatch }) => {
                 >
                     <img src="static/images/Volunteer.png"></img>
                     <button className="volunteer-offer-help-button">
-                        Volunteer
+                        Driver
                     </button>
                 </div>
             </div>

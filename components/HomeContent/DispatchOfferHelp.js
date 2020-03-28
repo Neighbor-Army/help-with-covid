@@ -19,6 +19,7 @@ const DispatchOfferHelp = ({ setSuccess }) => {
                 phone: data.phone,
                 name: data.name,
                 email: data.email,
+                password: data.password,
                 zipcode: String(data.zipcode)
             };
             console.log(dispatch);
@@ -118,6 +119,21 @@ const DispatchOfferHelp = ({ setSuccess }) => {
                     ref={register({
                         required: true
                         // pattern: /\d{1,5}\s\w.\s(\b\w*\b\s){1,2}\w*\./
+                    })}
+                ></input>
+                {errors.password && (
+                    <p className="form__error">
+                        Password must be at least 8 characters
+                    </p>
+                )}
+                <input
+                    placeholder="Password"
+                    name="password"
+                    type="password"
+                    ref={register({
+                        required: true,
+                        maxLength: 20,
+                        minLength: 8
                     })}
                 ></input>
 

@@ -8,7 +8,6 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap");
 
 
-
 h1 {
     font-size: $h1;
     font-weight: 600;
@@ -79,3 +78,11 @@ a::selection {
         color: $link-hover-color;
     }
 }
+
+@import "../components/HomeContent/HomeContent.scss";
+@import "../components/HomeContent/OfferHelp.scss";
+@import "../components/HomeContent/VolunteerOfferHelp.scss";
+@import "../components/HomeContent/DispatchOfferHelp.scss";
+@import "../components/HomeContent/RequestHelp.scss";
+@import "../components/HomeContent/VolunteerConfirmation.scss";
+@import "../components/HomeContent/OfferHelp.scss";
