@@ -1,6 +1,5 @@
 import React from "react";
 import "./VolunteerConfirmation.scss";
-import PropTypes from "prop-types";
 
 const VolunteerConfirmation = () => {
     return (
@@ -33,12 +32,6 @@ const VolunteerConfirmation = () => {
     );
 };
 
-VolunteerConfirmation.propTypes = {
-    neighborhood: PropTypes.arrayOf(
-        PropTypes.shape({
-            short_name: PropTypes.string
-        })
-    )
-};
+VolunteerConfirmation.propTypes = {};
 
 export default VolunteerConfirmation;

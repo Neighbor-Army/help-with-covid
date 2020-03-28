@@ -11,8 +11,7 @@
     overflow-y: hidden;
 
     .left-nav {
-        width: 600px;
-        margin-left: 15px;
+        margin-left: 10px;
 
         a {
             font-size: 1.4rem;
@@ -21,31 +20,12 @@
         }
 
         &__word-logo {
-            width: 255px;
+            // width: 255px;
         }
     }
-    .center-nav {
-        width: 350px;
 
-        ul {
-            display: flex;
-            justify-content: space-between;
-            height: 100px;
-            align-items: center;
-
-            li {
-                color: rgb(109, 109, 109);
-                margin-right: 35px;
-                a {
-                    text-decoration: none;
-                    font-size: 2.1rem;
-                    font-weight: 400;
-                }
-            }
-        }
-    }
     .right-nav {
-        width: 350px;
+        // width: 350px;
         text-align: right;
 
         button {

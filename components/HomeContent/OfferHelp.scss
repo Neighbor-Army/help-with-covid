@@ -1,145 +1,153 @@
 @import "../../styles/variables";
 @import "../../styles/mixins";
 
-
 .offer-help {
     height: calc(100vh - #{$header-nav-height});
     background: $background;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    position: relative;
+    justify-content: center;
 
-    &__header-wrap {
-        max-width: 700px;
-        margin: 0 auto;
+    h1 {
         text-align: center;
-        padding-bottom: 60px;
-        margin-top: 50px;
-
-
-        h1{
-            font-size: 36px;
-            @media (max-width: 840px) {
-                font-size: 28px;
-             }
-             @media (max-width: 480px) {
-                font-size: 19px;
-             }
+        margin-bottom: 5px;
+        @media (max-width: 800px) {         
+            font-size: 1.5rem;
         }
-
-        p {
-            padding-top: 10px;
-            margin: 0 auto;
-            max-width: 500px;
-
-            @media (max-width: 800px) {
-                font-size: 14px;
-                max-width: 400px;
-             }
-             @media (max-width: 480px) {
-                font-size: 12px;
-                max-width: 300px;
-             }
+        @media (max-width: 480px) {
+            font-size: 1.25rem;
         }
     }
 
-    &__form {
-        display: flex;
-        flex-direction: column;
-        margin: 0 auto;
-        width: 500px;
-        @media (max-width: 800px) {
-            width: 400px;
-         }
-         @media (max-width: 480px) {
-            width: 300px;
+    h3 {
+        text-align: center;
+        margin-bottom: 45px;
+        @media (max-width: 800px) {         
+            font-size: 1.4rem;
+            margin-bottom: 35px;
+        }
+        @media (max-width: 480px) {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+    }
 
-         }
-        input{
-            @include text-field();
-            margin-bottom: 15px;
-            color: #333;
-            @include rounded(0.07em);
-            padding: 9px 10px;
-            width: 100%;
-            font-size: 0.8rem;
-            font-weight: 300;
-            font-family: $font-family;
-            @include box-shadow(0, 0px, 3px, rgba(0, 0, 0, 0.2));
+    &__cta {
+        display: flex;
+        margin: 0 auto;
+        margin-bottom: 40px;
+        justify-content: space-between;
+        width: 62%;
+        max-width: 550px;
+        @media (max-width: 800px) {
+            width: 83%;
+        }
+        @media (max-width: 480px) {
+            width: 95%;
+        }
+
+        &__dispatch {
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+            padding: 10px;
             border-radius: 6px;
-            &::placeholder {
-                font-size: 0.9rem;
-                font-weight: 200;
-                font-family: $font-family;
-                color: gray;
+            background: white;
+            -webkit-box-shadow: 0px 1px 5px -1px rgba(0, 0, 0, 0.47);
+            -moz-box-shadow: 0px 1px 5px -1px rgba(0, 0, 0, 0.47);
+            box-shadow: 0px 1px 5px -1px rgba(0, 0, 0, 0.47);
+            &:hover {
+                cursor: pointer;
+            }
+            @media (max-width: 480px) {
+                padding: 8px;
+                width: 45%;
+            }
+
+            img {
+                margin: 0 auto 5px auto;
+                width: 105px;
+                height: 150px;
+                @media (max-width: 800px) {         
+                    width: 95px;
+                    height: 133px;
+                }
+                @media (max-width: 480px) {
+                    width: 75px;
+                    height: 113px;
+                }
+            }
+            button {
+                font-size: 1.2rem;
+                @include button($primary-color, $snow-white);
+                margin: 0 auto;
+                font-weight: 400;
+                padding: 10px 15px;
+                background: $primary-color;
+                width: 180px;
+                border-radius: 6px;
+                height: unset;
+                text-align: center;
+                border: none;
+                @media (max-width: 800px) {
+                    font-size: 14px;
+                    width: 140px;
+                }
+                @media (max-width: 480px) {
+                    font-size: 12px;
+                    width: 120px;
+                }
             }
         }
-        button {
-            @include button($primary-color, $snow-white);
-            background: $primary-color;
-            margin: 0 auto;
-            margin-top: 15px;
-            font-weight: 400;
-            padding: 7px 11px;
-            font-size: .8rem;
-            border-radius: 0;
-            border-radius: 6px;  
-            font-size: 1rem;
-            width: 100px;          
-            // line-height: .5;
-          }
-          .address-divider{
-              display:flex;
-              width: 520px;
-              @media (max-width: 800px) {
-                width: 420px;
-             }
-             @media (max-width: 480px) {
-                width: 320px;
-    
-             }
-              .address{
-                  width: 84%;
-                  margin-right: 20px;
-              }
+        &__volunteer {
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+            padding: 10px;
+            border-radius: 6px;
+            background: white;
+            -webkit-box-shadow: 0px 1px 5px -1px rgba(0, 0, 0, 0.47);
+            -moz-box-shadow: 0px 1px 5px -1px rgba(0, 0, 0, 0.47);
+            box-shadow: 0px 1px 5px -1px rgba(0, 0, 0, 0.47);
+            @media (max-width: 480px) {
+                padding: 8px;
+                width: 45%;
+            }
+            &:hover {
+                cursor: pointer;
+            }
+            img {
+                margin: 0 auto 5px auto;
+                width: 125px;
+                height: 150px;
 
-              .unit-number{
-                  width: 16%;
-              }
-          }
-
-          .form__error{
-              color: red;
-              font-size: .8rem;
-          }
-    }
-
-    &__footnote {
-        position: absolute;
-        bottom: 10px;
-        font-size: 1rem;
-        width: 100%;
-        left: 0;
-        text-align: center;
-        @media (max-width: 800px) {
-            font-size: .9rem;
-
-         }
-         @media (max-width: 480px) {
-            font-size: .4rem;
-
-         }
-        a {
-            text-decoration: underline;
-            @media (max-width: 800px) {
-                font-size: .9rem;
-    
-             }
-             @media (max-width: 480px) {
-                font-size: .4rem;
-    
-             }
+                @media (max-width: 800px) {         
+                    width: 105px;
+                    height: 133px;
+                }
+                @media (max-width: 480px) {
+                    width: 85px;
+                    height: 113px;
+                }
+            }
+            .volunteer-offer-help-button {
+                @include button(#e01e5a, white);
+                font-weight: 400;
+                padding: 10px 15px;
+                margin: 0 auto;
+                width: 180px;
+                background: #e01e5a;
+                border-radius: 6px;
+                border: none;
+                @media (max-width: 800px) {
+                    font-size: 14px;
+                    width: 140px;
+                }
+                @media (max-width: 480px) {
+                    font-size: 12px;
+                    width: 120px;
+                }
+            }
         }
     }
 }

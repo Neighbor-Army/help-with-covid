@@ -1,10 +1,18 @@
 import React from "react";
-import RequestForm from "../components/layout/RequestForm";
 
 const form = () => {
     return (
-        <div>
-            <RequestForm />
+        <div style={{ margin: "0 auto", textAlign: "center" }}>
+            <div
+                style={{
+                    height: "100px",
+                    width: "100px",
+                    justifyContent: "center",
+                    backgroundColor: "blue",
+                    margin: "0 auto"
+                }}
+            ></div>
+            <input></input>
         </div>
     );
 };
