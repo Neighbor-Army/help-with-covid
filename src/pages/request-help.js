@@ -12,7 +12,7 @@ const requestHelp = () => {
 
 export async function getStaticProps() {
     return {
-        props: { title: "Contact Us" } // will be passed to the page component as props
+        props: { title: "Contact Us" }
     };
 }
 
