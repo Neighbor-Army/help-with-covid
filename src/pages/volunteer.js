@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import MaskedInput from "react-text-mask";
 import { useRouter } from "next/router";
 import axios from "axios";
 
 import CtaButton from "../components/CtaButton";
+import FormField from "../components/FormField";
 
 const OfferHelpPage = () => {
     const router = useRouter();
-
-    const { register, handleSubmit, errors, setError } = useForm({
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [serverError, setServerError] = useState("");
+    const { register, handleSubmit, errors } = useForm({
         mode: "onBlur"
     });
 
     const onSubmit = async data => {
+        setIsSubmitting(true);
+        setServerError("");
         try {
             const volunteer = {
                 phone: data.phone,
@@ -29,10 +32,9 @@ const OfferHelpPage = () => {
 
             router.push("/volunteer-success");
         } catch (err) {
+            setIsSubmitting(false);
             if (err.response && err.response.status === 500) {
-                setError(
-                    "phone",
-                    "notMatch",
+                setServerError(
                     "There is already a volunteer with this phone number"
                 );
             }
@@ -40,39 +42,53 @@ const OfferHelpPage = () => {
     };
 
     return (
-        <div>
-            <h1>Sign up to be a Volunteer</h1>
-            <p>We appreciate your interest. How may we get in touch?</p>
+        <main>
+            <header>
+                <h1>Sign up to be a Volunteer</h1>
+                <p>We appreciate your interest. How may we get in touch?</p>
+            </header>
+            {serverError && (
+                <section className="server-error">
+                    <h2>{serverError}</h2>
+                </section>
+            )}
             <form
                 className="offer-help__form"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                {errors.name && (
-                    <p className="form__error">Please enter a name</p>
-                )}
-                <input
-                    placeholder="Name"
+                <FormField
+                    labelText="Full Name"
+                    errorMsg={errors.name && "Please enter your full name"}
+                    placeholder="e.g. Jane Smith"
                     name="name"
-                    ref={register({ required: true, maxLength: 30 })}
-                ></input>
-                {errors.email && (
-                    <p className="form__error">Please enter a valid email</p>
-                )}
-                <input
-                    placeholder="Email"
+                    ref={register({
+                        required: true
+                    })}
+                />
+                <FormField
+                    labelText="Email Address"
+                    errorMsg={errors.email && "Please enter your email"}
+                    placeholder="e.g. jane.smith@gmail.com"
                     name="email"
+                    type="email"
                     ref={register({
                         required: true,
                         pattern: /^\S+@\S+\.\S+$/
                     })}
-                ></input>
-                {errors.phone && (
-                    <p className="form__error">
-                        {errors.phone.message ||
-                            "Please enter a valid phone number"}
-                    </p>
-                )}
-                <MaskedInput
+                />
+                <FormField
+                    labelText="Phone Number"
+                    errorMsg={errors.phone && "Please enter your phone number"}
+                    placeholder="e.g. (425) 555-2323"
+                    name="phone"
+                    type="tel"
+                    ref={ref =>
+                        ref &&
+                        register(ref.inputElement, {
+                            required: true,
+                            pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+                        })
+                    }
                     mask={[
                         "(",
                         /[1-9]/,
@@ -89,32 +105,38 @@ const OfferHelpPage = () => {
                         /\d/,
                         /\d/
                     ]}
-                    name="phone"
-                    type="tel"
-                    placeholder="Phone Number"
-                    ref={ref =>
-                        ref &&
-                        register(ref.inputElement, {
-                            required: true,
-                            pattern: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
-                        })
-                    }
                 />
-
-                <input
-                    placeholder="Zip Code"
+                <FormField
+                    labelText="Zip Code"
+                    errorMsg={errors.zipcode && "Please enter your zip code"}
+                    placeholder="e.g. 98263"
                     name="zipcode"
-                    type="numeric"
-                    maxLength="5"
                     ref={register({
                         required: true
-                        // pattern: /\d{1,5}\s\w.\s(\b\w*\b\s){1,2}\w*\./
                     })}
-                ></input>
+                />
 
-                <CtaButton type="submit">Sign Up</CtaButton>
+                <CtaButton
+                    type="submit"
+                    disabled={isSubmitting || Object.keys(errors).length > 0}
+                >
+                    {isSubmitting ? "One sec..." : "Sign Up"}
+                </CtaButton>
             </form>
-        </div>
+
+            <style jsx>
+                {`
+                    header {
+                        margin-bottom: 2.4rem;
+                    }
+
+                    .server-error {
+                        color: #e33451;
+                        margin-bottom: 1.6rem;
+                    }
+                `}
+            </style>
+        </main>
     );
 };
 
