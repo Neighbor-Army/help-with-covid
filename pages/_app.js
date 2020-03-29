@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Head from "next/head";
 
 import "../styles/global.scss";
 
@@ -9,6 +10,9 @@ import Footer from "../components/Footer";
 const MyApp = ({ Component, pageProps }) => {
     return (
         <div>
+            <Head>
+                <title> {pageProps.title} 🚁 Neighbor Army</title>
+            </Head>
             <Header></Header>
             <main>
                 <Component {...pageProps} />
