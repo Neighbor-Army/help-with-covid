@@ -9,34 +9,36 @@ import Footer from "../components/Footer";
 
 const MyApp = ({ Component, pageProps }) => {
     return (
-        <div>
+        <div className="container">
             <Head>
                 <title> {pageProps.title} 🚁 Neighbor Army</title>
             </Head>
             <Header></Header>
-            <main>
+            <div className="content">
                 <Component {...pageProps} />
                 <style jsx>{`
-                    main {
+                    .content {
+                        display: flex;
                         padding: 3.2rem 0;
                         max-width: calc(100vw - 3.2rem);
                         margin: auto;
+                        flex-grow: 1;
                     }
 
                     @media screen and (min-width: 480px) {
-                        main {
+                        .content {
                             padding: 3.2rem 0;
                             max-width: calc(100vw - 7.2rem);
                         }
                     }
 
                     @media screen and (min-width: 768px) {
-                        main {
+                        .content {
                             max-width: 70%;
                         }
                     }
                 `}</style>
-            </main>
+            </div>
             <Footer></Footer>
         </div>
     );

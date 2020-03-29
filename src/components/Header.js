@@ -22,6 +22,7 @@ const Header = () => {
                     justify-content: space-between;
                     align-items: flex-start;
                     padding: 3.2rem 0;
+                    width: 100%;
                     max-width: calc(100vw - 3.2rem);
                     margin: auto;
                 }

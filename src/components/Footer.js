@@ -52,6 +52,7 @@ const Footer = () => {
                     justify-content: space-between;
                     font-size: 1.3rem;
                     padding: 3.2rem 0;
+                    width: 100%;
                     max-width: calc(100vw - 3.2rem);
                     margin: auto;
                 }

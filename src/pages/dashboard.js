@@ -2,7 +2,7 @@ import React from "react";
 
 const Dashboard = () => {
     return (
-        <div>
+        <>
             <h1>Dashboard</h1>
             {/* GET /users {id: string;  spendingLimit: number;} */}
             {/* GET /requests {id: string; phoneNumber: string; zipcode: string; created_at: timestamp; last_attempted: timestamp;} */}
@@ -12,7 +12,7 @@ const Dashboard = () => {
 
             {/* PATCH /privacy { dispatcherId: string; amount: number (in pennies);} -> {cardNumber: string; cvv: string; expirationDate: string; }*/}
             {/* POST /orders {requestId: string; restaurantAddress: string; amount: number; vendorId: string; } } throws [task could not be created;] -> 200*/}
-        </div>
+        </>
     );
 };
 
