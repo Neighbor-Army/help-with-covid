@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { routes } from "@/constants";
+import { routes } from "../../constants";
 
 const HomeContent = () => {
     return (
