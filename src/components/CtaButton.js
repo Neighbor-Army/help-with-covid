@@ -35,6 +35,10 @@ const CtaButton = ({ onClick, children, isSecondaryBtn = false, ...rest }) => (
                 transform: scale(1);
             }
 
+            .btn-primary:disabled {
+                background: #6c6c99;
+            }
+
             .btn-secondary {
                 background: transparent;
                 border: 2px solid #18164e;
@@ -52,6 +56,11 @@ const CtaButton = ({ onClick, children, isSecondaryBtn = false, ...rest }) => (
                 border-color: #6c6c99;
                 color: #6c6c99;
                 transform: scale(1);
+            }
+
+            .btn-secondary:disabled {
+                border-color: #6c6c99;
+                color: #6c6c99;
             }
 
             @media screen and (min-width: 480px) {
