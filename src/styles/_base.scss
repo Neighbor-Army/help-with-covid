@@ -38,6 +38,13 @@ button {
     border-radius: none;
 }
 
+input {
+    border: none;
+    background: transparent;
+    color: inherit;
+    display: block;
+}
+
 .container {
     display: flex;
     flex-direction: column;
