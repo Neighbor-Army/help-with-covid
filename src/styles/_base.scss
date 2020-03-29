@@ -31,6 +31,13 @@ h1 {
     margin-bottom: 0.8rem;
 }
 
+button {
+    display: block;
+    border: none;
+    cursor: pointer;
+    border-radius: none;
+}
+
 .container {
     display: flex;
     flex-direction: column;
