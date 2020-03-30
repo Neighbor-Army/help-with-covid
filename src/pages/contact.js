@@ -4,7 +4,7 @@ const RequestHelpPage = () => {
     return (
         <main>
             <h1>
-                Text NEIGHBOR to <a href="tel:+19176344426">(917) 634-4426</a>
+                Text HELLO to <a href="tel:+19176344426">(917) 634-4426</a>
             </h1>
             <p>
                 Please call or text us. You will be prompted with a few short
