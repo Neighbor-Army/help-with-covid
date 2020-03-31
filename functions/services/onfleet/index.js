@@ -3,6 +3,14 @@ const Onfleet = require("@onfleet/node-onfleet");
 const HttpStatus = require("http-status-codes");
 const { addDebugID } = require("../../utils/error-helper");
 
+/**
+ * The Onfleet API Documentation
+ * @see https://docs.onfleet.com/reference The Onfleet API Documentation
+ */
+
+/**
+ * Error name to HTTP status code
+ */
 const errorNamesToHttpCode = {
     /**
      * TODO - Need to orchestrate our request rate for avoid getting into the rate limit
