@@ -1021,6 +1021,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.59.tgz#9e34261f30183f9777017a13d185dfac6b899e04"
   integrity sha512-8RkBivJrDCyPpBXhVZcjh7cQxVBSmRk9QM7hOketZzp6Tg79c0N8kkpAIito9bnJ3HCVCHVYz+KHTEbfQNfeVQ==
 
+"@types/onfleet__node-onfleet@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/onfleet__node-onfleet/-/onfleet__node-onfleet-1.0.0.tgz#3893c7fb76f08d113ebe91c00460a204de2848f1"
+  integrity sha512-vFNXIUXDRer5v9XrGUb6USSINRdgB6FqMPSAvMWNWDYiewfZrtWHvLDbmlabASkEKM+tdj+er1nqrYA05Lic3w==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -3967,6 +3972,11 @@ http-signature@~1.2.0:
     assert-plus "^1.0.0"
     jsprim "^1.2.2"
     sshpk "^1.7.0"
+
+http-status-codes@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/http-status-codes/-/http-status-codes-1.4.0.tgz#6e4c15d16ff3a9e2df03b89f3a55e1aae05fb477"
+  integrity sha512-JrT3ua+WgH8zBD3HEJYbeEgnuQaAnUeRRko/YojPAJjGmIfGD3KPU/asLdsLwKjfxOmQe5nXMQ0pt/7MyapVbQ==
 
 https-proxy-agent@^2.2.1:
   version "2.2.4"
@@ -7954,7 +7964,7 @@ uuid@^3.0.0, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
-uuid@^7.0.0:
+uuid@^7.0.0, uuid@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
   integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==

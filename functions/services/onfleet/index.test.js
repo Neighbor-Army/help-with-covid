@@ -99,10 +99,16 @@ describe("OnFleetService", () => {
             expect(fakeOnfleetClient.tasks.create).toHaveBeenCalledTimes(1);
         });
 
-        it("throws an Error if any required args are ommitted", async () => {
-            await expect(createTask()).rejects.toThrow();
-            await expect(createTask("address")).rejects.toThrow();
-            await expect(createTask("address", "person")).rejects.toThrow();
+        it("throws an Error if missing args", async () => {
+            await expect(createTask()).rejects.toThrow(
+                expect.objectContaining({ statusCode: 400 })
+            );
+            await expect(createTask("address")).rejects.toThrow(
+                expect.objectContaining({ statusCode: 400 })
+            );
+            await expect(createTask("address", "person")).rejects.toThrow(
+                expect.objectContaining({ statusCode: 400 })
+            );
         });
     });
 

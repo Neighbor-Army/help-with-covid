@@ -1,5 +1,8 @@
 const firebase = require("firebase");
-const Validator = require("../../utils/validator/");
+const HttpStatus = require("http-status-codes");
+const validator = require("../../utils/validator/");
+const logger = require("../../utils/logger");
+const { addDebugID } = require("../../utils/error-helper");
 
 firebase.initializeApp({
     apiKey: process.env.FIREBASE_PUBLIC_API_KEY,
@@ -11,6 +14,25 @@ firebase.initializeApp({
 const firestore = firebase.firestore();
 //const realtime = firebase.database();
 
+const generateErrorGenerator = args => {
+    return invalidArgs => {
+        const err = new Error(
+            `Arguments ${invalidArgs
+                .map(({ name }) => name)
+                .join(", ")} are invalid`
+        );
+
+        err.statusCode = HttpStatus.BAD_REQUEST;
+        addDebugID(undefined, err);
+        logger.error(err.message, {
+            debugId: err.debugId,
+            args: { ...args },
+            invalidArgs
+        });
+        throw err;
+    };
+};
+
 /**
  * Write new teem
  * @param onfleetID OnFleet ID
@@ -18,15 +40,19 @@ const firestore = firebase.firestore();
  * @return {Promise<void>}
  */
 const writeNewTeam = async (onfleetID, zipcode) => {
-    Validator.assert({
+    validator.assert({
         args: [{ onfleetID }, { zipcode }],
-        validateFn: (arg) => arg && typeof arg === "string"
+        validateFn: arg => arg && typeof arg === "string",
+        errorGeneratorFn: generateErrorGenerator({ onfleetID, zipcode })
     });
 
-    return firestore.collection("teams").doc(zipcode).set({
-        OnFleetID: onfleetID,
-        zipcode: zipcode
-    });
+    return firestore
+        .collection("teams")
+        .doc(zipcode)
+        .set({
+            OnFleetID: onfleetID,
+            zipcode: zipcode
+        });
 };
 
 /**
@@ -34,13 +60,17 @@ const writeNewTeam = async (onfleetID, zipcode) => {
  * @param zipcode
  * @return {Promise<DocumentData>}
  */
-const getTeam = async (zipcode) => {
-    Validator.assert({
+const getTeam = async zipcode => {
+    validator.assert({
         args: [{ zipcode }],
-        validateFn: (arg) => arg && typeof arg === "string"
+        validateFn: arg => arg && typeof arg === "string",
+        errorGeneratorFn: generateErrorGenerator({ zipcode })
     });
 
-    const document = await firestore.collection("teams").doc(zipcode).get();
+    const document = await firestore
+        .collection("teams")
+        .doc(zipcode)
+        .get();
     return document.data();
 };
 
