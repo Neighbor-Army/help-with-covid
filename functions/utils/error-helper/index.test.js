@@ -1,5 +1,5 @@
 require("jest-extended");
-const { addDebugID } = require("./index");
+const { addDebugID, createServiceErrorCreator } = require("./index");
 const faker = require("faker");
 
 describe("Error Helper", () => {
@@ -60,5 +60,22 @@ describe("Error Helper", () => {
             expect(error).toHaveProperty(DEBUG_ID_KEY, existId);
             expect(internalError).toHaveProperty(DEBUG_ID_KEY, existId);
         });
+    });
+
+    describe("#createServiceErrorCreator", () => {
+        it("should be defined", () => {
+            expect(createServiceErrorCreator).toBeDefined();
+        });
+
+        it("should be a function", () => {
+            expect(createServiceErrorCreator).toBeFunction();
+        });
+
+        it("should return a function", () => {
+            const result = createServiceErrorCreator({});
+            expect(result).toBeFunction();
+        });
+
+        // TODO - test the function behavior
     });
 });

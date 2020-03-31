@@ -1,7 +1,10 @@
 const logger = require("../../utils/logger");
 const Onfleet = require("@onfleet/node-onfleet");
 const HttpStatus = require("http-status-codes");
-const { addDebugID } = require("../../utils/error-helper");
+const {
+    createServiceErrorCreator,
+    addDebugID
+} = require("../../utils/error-helper");
 
 /**
  * The Onfleet API Documentation
@@ -39,21 +42,10 @@ const onFleetErrorCodeToHttpErrorCodeConverter = error => {
         : HttpStatus.INTERNAL_SERVER_ERROR;
 };
 
-function createError(
-    e,
-    errorMsg = "There was an error with the Onfleet service"
-) {
-    const err = new Error(errorMsg);
-    err.statusCode = onFleetErrorCodeToHttpErrorCodeConverter(e);
-
-    // If the error is user fault he should get all the data that may help for solving the error
-    if (400 <= err.statusCode && err.statusCode <= 499) {
-        err.internalError = e;
-    }
-
-    addDebugID(e, err);
-    return err;
-}
+const createError = createServiceErrorCreator({
+    serviceName: "Onfleet",
+    getStatusCodeFromError: e => onFleetErrorCodeToHttpErrorCodeConverter(e)
+});
 
 const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
     if (!address || !zipcode || !person || !notes) {
