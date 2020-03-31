@@ -1,4 +1,5 @@
 import React from "react";
+import NoSSR from "react-no-ssr";
 import ExternalLink from "../components/ExternalLink";
 import { isAndroid, isIOS } from "react-device-detect";
 
@@ -19,7 +20,11 @@ const VolunteerSuccessPage = () => {
             <p>You will receive a text message shortly.</p> <br />
             <p>
                 Please download{" "}
-                <ExternalLink to={onFleetLink}>OnFleet</ExternalLink>.
+                {/* Add No Server Side Rendering because it depend on the client that render it 😉 */}
+                <NoSSR onSSR="OnFleet">
+                    <ExternalLink to={onFleetLink}>OnFleet</ExternalLink>
+                </NoSSR>
+                .
             </p>
             <style jsx>{`
                 main {
