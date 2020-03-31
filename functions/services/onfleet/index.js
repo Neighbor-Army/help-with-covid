@@ -36,10 +36,10 @@ function createError(
     errorMsg = "There was an error with the Onfleet service"
 ) {
     const err = new Error(errorMsg);
-    err.code = onFleetErrorCodeToHttpErrorCodeConverter(e);
+    err.statusCode = onFleetErrorCodeToHttpErrorCodeConverter(e);
 
     // If the error is user fault he should get all the data that may help for solving the error
-    if (400 <= err.code && err.code <= 499) {
+    if (400 <= err.statusCode && err.statusCode <= 499) {
         err.internalError = e;
     }
 
@@ -52,7 +52,7 @@ const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
         const err = new Error(
             "Missing required args: address, person and/or notes."
         );
-        err.code = HttpStatus.BAD_REQUEST;
+        err.statusCode = HttpStatus.BAD_REQUEST;
         addDebugID(undefined, err);
         logger.error(err.message, {
             debugId: err.debugId,
