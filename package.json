@@ -41,6 +41,7 @@
         "next": "latest",
         "prop-types": "15.7.2",
         "react": "^16.13.1",
+        "react-device-detect": "^1.11.14",
         "react-dom": "^16.13.1",
         "react-firebaseui": "4.1.0",
         "react-hook-form": "^5.1.1",
