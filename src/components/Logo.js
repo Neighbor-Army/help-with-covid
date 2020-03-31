@@ -2,7 +2,12 @@ import React from "react";
 
 const Logo = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 497.1 67.4">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 497.1 67.4"
+            width="295"
+            height="40"
+        >
             <path
                 fill="#2d3079"
                 fillRule="evenodd"
