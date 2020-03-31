@@ -149,20 +149,28 @@ describe("Firebase", () => {
         });
 
         describe("Input validation", () => {
-            it("should throw an error when passing no args", () => {
-                expect(writeNewTeam()).toReject();
+            it("should throw an error when passing no args", async () => {
+                await expect(writeNewTeam()).rejects.toThrow(
+                    expect.objectContaining({ statusCode: 400 })
+                );
             });
 
-            it("should throw an error when passing only 1 argument", () => {
-                expect(writeNewTeam("some-value")).toReject();
+            it("should throw an error when passing only 1 argument", async () => {
+                await expect(writeNewTeam("some-value")).rejects.toThrow(
+                    expect.objectContaining({ statusCode: 400 })
+                );
             });
 
-            it("should throw an error when passing undefined argument", () => {
-                expect(writeNewTeam(undefined, undefined)).toReject();
+            it("should throw an error when passing undefined argument", async () => {
+                await expect(
+                    writeNewTeam(undefined, undefined)
+                ).rejects.toThrow(expect.objectContaining({ statusCode: 400 }));
             });
 
-            it("should throw an error when passing object and undefined arguments", () => {
-                expect(writeNewTeam({}, undefined)).toReject();
+            it("should throw an error when passing object and undefined arguments", async () => {
+                await expect(writeNewTeam({}, undefined)).rejects.toThrow(
+                    expect.objectContaining({ statusCode: 400 })
+                );
             });
         });
     });
@@ -280,19 +288,21 @@ describe("Firebase", () => {
 
         describe("Input validation", () => {
             it("should throw an error when passing no args", async () => {
-                expect(getTeam()).toReject();
+                await expect(getTeam()).rejects.toThrow(
+                    expect.objectContaining({ statusCode: 400 })
+                );
             });
 
             it("should throw an error when passing undefined argument", async () => {
-                const team = getTeam(undefined);
-
-                expect(team).toReject();
+                await expect(getTeam(undefined)).rejects.toThrow(
+                    expect.objectContaining({ statusCode: 400 })
+                );
             });
 
             it("should throw an error when passing object argument", async () => {
-                const team = getTeam({});
-
-                expect(team).toReject();
+                await expect(getTeam({})).rejects.toThrow(
+                    expect.objectContaining({ statusCode: 400 })
+                );
             });
         });
     });
