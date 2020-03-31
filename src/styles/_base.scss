@@ -1,0 +1,52 @@
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, Helvetica Neue,
+        Helvetica, Arial, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.5;
+    min-width: 32rem;
+    color: #18164e;
+    background: #f2f2fa;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, Helvetica Neue,
+        Helvetica, Arial, sans-serif;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 3.2rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+}
+
+button {
+    display: block;
+    border: none;
+    cursor: pointer;
+    border-radius: none;
+}
+
+input {
+    border: none;
+    background: transparent;
+    color: inherit;
+    display: block;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}

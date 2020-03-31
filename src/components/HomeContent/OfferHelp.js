@@ -1,10 +1,8 @@
 import React from "react";
-import "./OfferHelp.scss";
 import { useForm } from "react-hook-form";
 import MaskedInput from "react-text-mask";
 import PropTypes from "prop-types";
 import axios from "axios";
-import * as logger from "../../utils/logger";
 
 const OfferHelp = ({ setSuccess }) => {
     const { register, handleSubmit, errors, reset, setError } = useForm({
@@ -12,8 +10,6 @@ const OfferHelp = ({ setSuccess }) => {
     });
 
     const onSubmit = async data => {
-        logger.debug({ data });
-
         try {
             const volunteer = {
                 phone: data.phone,
@@ -21,17 +17,14 @@ const OfferHelp = ({ setSuccess }) => {
                 email: data.email,
                 zipcode: String(data.zipcode)
             };
-            console.log(volunteer);
-            logger.debug(volunteer);
-            const res = await axios.post(
+
+            await axios.post(
                 "https://us-central1-neighbor-army.cloudfunctions.net/widgets/worker",
                 volunteer
             );
             reset();
             setSuccess(true);
-            logger.debug(res);
         } catch (err) {
-            logger.error(err);
             if (err.response && err.response.status === 500) {
                 setError(
                     "phone",
@@ -123,26 +116,6 @@ const OfferHelp = ({ setSuccess }) => {
 
                 <button>Submit</button>
             </form>
-
-            <p className="offer-help__footnote">
-                Powered by the generosity of{" "}
-                <a
-                    href="https://www.notion.so"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Notion
-                </a>
-                {", "}
-                <a
-                    href="https://www.onfleet.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    OnFleet
-                </a>
-                , and amazing volunteers
-            </p>
         </div>
     );
 };

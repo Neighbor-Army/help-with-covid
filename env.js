@@ -4,7 +4,7 @@
 // else you wish – but it's a convenient way to make sure the private
 // key doesn't end up in source control.
 
-const logger = require("./utils/logger");
+const logger = require("./src/utils/logger");
 
 const fs = require("fs");
 
