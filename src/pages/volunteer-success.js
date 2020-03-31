@@ -21,7 +21,13 @@ const VolunteerSuccessPage = () => {
             <p>
                 Please download{" "}
                 {/* Add No Server Side Rendering because it depend on the client that render it 😉 */}
-                <NoSSR onSSR="OnFleet">
+                <NoSSR
+                    onSSR={
+                        <ExternalLink to={OnFleetLinks.DESKTOP}>
+                            OnFleet
+                        </ExternalLink>
+                    }
+                >
                     <ExternalLink to={onFleetLink}>OnFleet</ExternalLink>
                 </NoSSR>
                 .
