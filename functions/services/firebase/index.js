@@ -1,6 +1,8 @@
 const firebase = require("firebase");
 const Validator = require("../../utils/validator/");
 
+console.log("This is the firebase project id", process.env.FIREBASE_PROJECT_ID);
+
 firebase.initializeApp({
     apiKey: process.env.FIREBASE_PUBLIC_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,

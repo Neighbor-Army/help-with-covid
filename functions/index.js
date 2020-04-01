@@ -6,6 +6,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const router = require("./routes");
 const app = express();
+const commonMiddleware = require("../src/utils/middleware/commonMiddleware");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -15,6 +16,7 @@ app.use(
         skip: () => process.env.NODE_ENV === "production"
     })
 );
+// app.use(commonMiddleware);
 
 /*
 address: {

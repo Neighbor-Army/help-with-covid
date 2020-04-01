@@ -1,6 +1,6 @@
-import cookieSession from "cookie-session";
+const cookieSession = require("cookie-session");
 
-export const addSession = (req, res) => {
+const addSession = (req, res) => {
     // Ensure that session secrets are set.
     if (
         !(
@@ -34,11 +34,11 @@ export const addSession = (req, res) => {
     includeSession(req, res, () => {});
 };
 
-export default handler => (req, res) => {
+module.exports = (req, res, next) => {
     try {
         addSession(req, res);
     } catch (e) {
         return res.status(500).json({ error: "Could not get user session." });
     }
-    return handler(req, res);
+    next();
 };
