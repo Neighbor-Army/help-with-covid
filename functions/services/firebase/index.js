@@ -14,8 +14,8 @@ firebase.initializeApp({
 const firestore = firebase.firestore();
 //const realtime = firebase.database();
 
-const generateErrorGenerator = args => {
-    return invalidArgs => {
+const generateErrorGenerator = (args) => {
+    return (invalidArgs) => {
         const err = new Error(
             `Arguments ${invalidArgs
                 .map(({ name }) => name)
@@ -42,17 +42,14 @@ const generateErrorGenerator = args => {
 const writeNewTeam = async (onfleetID, zipcode) => {
     validator.assert({
         args: [{ onfleetID }, { zipcode }],
-        validateFn: arg => arg && typeof arg === "string",
+        validateFn: (arg) => arg && typeof arg === "string",
         errorGeneratorFn: generateErrorGenerator({ onfleetID, zipcode })
     });
 
-    return firestore
-        .collection("teams")
-        .doc(zipcode)
-        .set({
-            OnFleetID: onfleetID,
-            zipcode: zipcode
-        });
+    return firestore.collection("teams").doc(zipcode).set({
+        OnFleetID: onfleetID,
+        zipcode: zipcode
+    });
 };
 
 /**
@@ -60,17 +57,14 @@ const writeNewTeam = async (onfleetID, zipcode) => {
  * @param zipcode
  * @return {Promise<DocumentData>}
  */
-const getTeam = async zipcode => {
+const getTeam = async (zipcode) => {
     validator.assert({
         args: [{ zipcode }],
-        validateFn: arg => arg && typeof arg === "string",
+        validateFn: (arg) => arg && typeof arg === "string",
         errorGeneratorFn: generateErrorGenerator({ zipcode })
     });
 
-    const document = await firestore
-        .collection("teams")
-        .doc(zipcode)
-        .get();
+    const document = await firestore.collection("teams").doc(zipcode).get();
     return document.data();
 };
 

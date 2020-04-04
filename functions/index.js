@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 const logger = require("./utils/logger");
 const functions = require("firebase-functions");
 const express = require("express");

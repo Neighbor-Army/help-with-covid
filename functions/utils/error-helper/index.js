@@ -20,7 +20,7 @@ const addDebugID = (internalError, newError, idGen = generateUID) => {
  * @param {string} [config.defaultErrorMsg=`There was an error with the ${serviceName} service`] config.defaultErrorMsg Default error message
  * @return {function(e: Error | any, errorMsg: string = defaultErrorMsg): Error} The error generator for that
  */
-const createServiceErrorCreator = config => {
+const createServiceErrorCreator = (config) => {
     let { serviceName, getStatusCodeFromError, defaultErrorMsg } = config;
     defaultErrorMsg =
         defaultErrorMsg || `There was an error with the ${serviceName} service`;
