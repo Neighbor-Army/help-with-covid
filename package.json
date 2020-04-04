@@ -1,0 +1,30 @@
+{
+    "name": "firebase",
+    "description": "Firebase Cloud Functions for neighborarmy.com",
+    "version": "1.0.1",
+    "repository": "git@github.com:Neighbor-Army/help-with-covid.git",
+    "license": "MIT",
+    "devDependencies": {
+        "eslint": "^6.8.0",
+        "eslint-plugin-jest": "^23.8.2",
+        "husky": "^4.2.3",
+        "lint-staged": ">=10.1.1",
+        "prettier": "^2.0.2"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged && yarn test"
+        }
+    },
+    "lint-staged": {
+        "*.js": "eslint --cache --fix",
+        "*.{js,json,md}": "prettier --write"
+    },
+    "scripts": {
+        "format": "prettier --write \"**/*.{js,json,md}\"",
+        "lint": "eslint .",
+        "postinstall": "cd functions && yarn install",
+        "start": "cd functions && yarn start",
+        "test": "cd functions && yarn test"
+    }
+}

@@ -8,22 +8,20 @@ git clone https://github.com/Neighbor-Army/help-with-covid
 
 ## Environment Variables
 
-- Ask for an invitation to the `#engineering-data` channel in Slack and find the `.env` file.
-- Check the `.env.example` file in the repo as reference
-- Add your `.env` file to the root directory of the repo
+-   Ask for an invitation to the `#engineering-data` channel in Slack and find the `.env` file.
+-   Check the `.env.example` file in the repo as reference
+-   Add your `.env` file to the root directory of the repo
 
 ## Installation
 
 ```bash
-cd functions && yarn install
+yarn install
 ```
-
-This will install the dependencies for both the front-end & backend.
 
 ## Run the Firebase Functions emulator
 
 ```bash
-cd functions && yarn start
+yarn start
 ```
 
 ## Architecture

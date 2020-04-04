@@ -1,43 +1,25 @@
 {
-    "name": "backend",
-    "description": "Cloud Functions for Firebase",
+    "name": "firebase",
+    "main": "index.js",
     "license": "MIT",
     "scripts": {
         "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
-        "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-        "lint": "eslint .",
         "logs": "firebase functions:log",
-        "start": "firebase emulators:start --only functions",
         "shell": "firebase functions:shell",
+        "start": "firebase emulators:start --only functions",
         "test": "jest ."
     },
     "engines": {
         "node": ">=10"
     },
-    "lint-staged": {
-        "*.{json,md}": [
-            "prettier --write"
-        ],
-        "*.{js,jsx}": [
-            "prettier --write",
-            "eslint"
-        ]
-    },
     "devDependencies": {
-        "@types/faker": "^4.1.10",
-        "@types/jest": "^25.1.4",
-        "@types/onfleet__node-onfleet": "^1.0.0",
         "cross-env": "^7.0.2",
-        "eslint": "^6.8.0",
-        "eslint-plugin-jest": "^23.8.2",
         "faker": "^4.1.0",
         "firebase-functions-test": "^0.2.0",
         "firebase-mock": "^2.3.2",
         "firebase-tools": "^7.15.1",
-        "husky": "^4.2.3",
-        "jest": "^25.1.0",
-        "jest-extended": "^0.11.5",
-        "prettier": "^2.0.2"
+        "jest": "^25.2.7",
+        "jest-extended": "^0.11.5"
     },
     "dependencies": {
         "@onfleet/node-onfleet": "^1.0.5",
@@ -54,7 +36,5 @@
         "parse-address": "^1.1.2",
         "twilio": "^3.41.1",
         "uuid": "^7.0.2"
-    },
-    "version": "1.0.0",
-    "main": "index.js"
+    }
 }
