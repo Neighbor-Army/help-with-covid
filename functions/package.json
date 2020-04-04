@@ -3,17 +3,25 @@
     "description": "Cloud Functions for Firebase",
     "license": "MIT",
     "scripts": {
-        "lint": "eslint .",
-        "serve": "firebase emulators:start --only functions",
-        "shell": "firebase functions:shell",
-        "start": "npm run shell",
         "deploy": "cross-env NODE_ENV=production firebase deploy --only functions",
+        "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+        "lint": "eslint .",
         "logs": "firebase functions:log",
-        "test": "jest . --passWithNoTests",
-        "format": "prettier --write \"**/*.{js,jsx,json,md}\""
+        "start": "firebase emulators:start --only functions",
+        "shell": "firebase functions:shell",
+        "test": "jest ."
     },
     "engines": {
-        "node": ">= 10"
+        "node": ">=10"
+    },
+    "lint-staged": {
+        "*.{json,md}": [
+            "prettier --write"
+        ],
+        "*.{js,jsx}": [
+            "prettier --write",
+            "eslint"
+        ]
     },
     "devDependencies": {
         "@types/faker": "^4.1.10",
@@ -46,5 +54,7 @@
         "parse-address": "^1.1.2",
         "twilio": "^3.41.1",
         "uuid": "^7.0.2"
-    }
+    },
+    "version": "1.0.0",
+    "main": "index.js"
 }
