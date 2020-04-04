@@ -30,7 +30,7 @@ const errorNamesToHttpCode = {
  * @return {number} HTTP status code for that provided error
  * @see https://gist.github.com/euskode/8a34b2152cb35ddeb659 Onfleet API Errors
  */
-const onFleetErrorCodeToHttpErrorCodeConverter = error => {
+const onFleetErrorCodeToHttpErrorCodeConverter = (error) => {
     const { status: errorCode, name } = error;
 
     if (name in errorNamesToHttpCode) {
@@ -44,7 +44,7 @@ const onFleetErrorCodeToHttpErrorCodeConverter = error => {
 
 const createError = createServiceErrorCreator({
     serviceName: "Onfleet",
-    getStatusCodeFromError: e => onFleetErrorCodeToHttpErrorCodeConverter(e)
+    getStatusCodeFromError: (e) => onFleetErrorCodeToHttpErrorCodeConverter(e)
 });
 
 const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
@@ -110,10 +110,10 @@ const createTask = async (address, zipcode, person, notes, onfleetTeamId) => {
     return task;
 };
 
-const deleteTask = id => {
+const deleteTask = (id) => {
     return getOnfleetClient()
         .tasks.deleteOne(id)
-        .catch(e => {
+        .catch((e) => {
             const err = createError(e);
             logger.error("Failed when trying to delete task with Onfleet", {
                 debugId: err.debugId,
@@ -124,10 +124,10 @@ const deleteTask = id => {
         });
 };
 
-const getTask = id => {
+const getTask = (id) => {
     return getOnfleetClient()
         .tasks.get(id)
-        .catch(e => {
+        .catch((e) => {
             const err = createError(e);
             logger.error("Failed when trying to get task with Onfleet", {
                 debugId: err.debugId,
@@ -141,7 +141,7 @@ const getTask = id => {
 const updateTask = (id, body) => {
     return getOnfleetClient()
         .tasks.update(id, body)
-        .catch(e => {
+        .catch((e) => {
             const err = createError(e);
             logger.error("Failed when trying to update task with Onfleet", {
                 debugId: err.debugId,
@@ -152,7 +152,7 @@ const updateTask = (id, body) => {
         });
 };
 
-const createTeam = async zipcode => {
+const createTeam = async (zipcode) => {
     let response;
 
     try {
@@ -184,7 +184,7 @@ const createWorker = async (teamId, name, phone) => {
             phone: phone,
             teams: [teamId.toString()]
         })
-        .catch(e => {
+        .catch((e) => {
             const err = createError(e);
             logger.error("Failed when trying to create worker with Onfleet", {
                 debugId: err.debugId,

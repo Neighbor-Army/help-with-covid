@@ -37,7 +37,7 @@
         "husky": "^4.2.3",
         "jest": "^25.1.0",
         "jest-extended": "^0.11.5",
-        "prettier": "^2.0.1"
+        "prettier": "^2.0.2"
     },
     "dependencies": {
         "@onfleet/node-onfleet": "^1.0.5",

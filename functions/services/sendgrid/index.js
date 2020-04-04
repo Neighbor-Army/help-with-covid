@@ -12,7 +12,7 @@ client.setApiKey(process.env.SENDGRID_API_KEY);
 
 const createError = createServiceErrorCreator({
     serviceName: "SendGrid",
-    getStatusCodeFromError: e => {
+    getStatusCodeFromError: (e) => {
         let status = e.code || HttpStatus.INTERNAL_SERVER_ERROR;
 
         if (status === HttpStatus.UNAUTHORIZED) {
