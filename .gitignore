@@ -45,3 +45,6 @@ pubsub-debug.log
 # https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 .env.*
 !.env.example
+
+# eslint
+.eslintcache

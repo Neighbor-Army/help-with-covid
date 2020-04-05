@@ -1,6 +1,6 @@
-const defaultErrorGeneratorFn = invalidArgs =>
+const defaultErrorGeneratorFn = (invalidArgs) =>
     new Error(
-        `${invalidArgs.map(arg => `'${arg.name}'`).join(" and ")} are invalid`
+        `${invalidArgs.map((arg) => `'${arg.name}'`).join(" and ")} are invalid`
     );
 
 /**
@@ -33,10 +33,10 @@ const defaultErrorGeneratorFn = invalidArgs =>
  *     "message": "'id' and 'grade' are invalid"
  * }
  */
-const assert = assertIn => {
+const assert = (assertIn) => {
     const invalidArgs = assertIn.args
         // Convert to name value object
-        .map(arg => {
+        .map((arg) => {
             const entries = Object.entries(arg);
             return {
                 name: entries[0][0],

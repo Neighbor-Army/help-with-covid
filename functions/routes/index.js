@@ -7,7 +7,7 @@ const twilioService = require("../services/twilio");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/task/:id", async function(req, res, next) {
+router.get("/task/:id", async function (req, res, next) {
     try {
         const result = await onFleetService.getTask(req.params.id);
         res.json(result);
@@ -16,7 +16,7 @@ router.get("/task/:id", async function(req, res, next) {
     }
 });
 
-router.post("/task", async function(req, res, next) {
+router.post("/task", async function (req, res, next) {
     const { address, zipcode, person, notes } = req.body;
     try {
         logger.debug({ address, zipcode, person, notes });
@@ -46,17 +46,17 @@ router.post("/task", async function(req, res, next) {
     }
 });
 
-router.patch("/task/:id", async function(req, res) {
+router.patch("/task/:id", async function (req, res) {
     const results = await onFleetService.updateTask(req.params.id, req.body);
     return res.json(results);
 });
 
-router.delete("/task/:id", async function(req, res) {
+router.delete("/task/:id", async function (req, res) {
     const results = await onFleetService.deleteTask(req.params.id);
     return res.json(results);
 });
 
-router.post("/team", async function(req, res, next) {
+router.post("/team", async function (req, res, next) {
     const zipcode = String(req.body.zipcode);
     try {
         const results = await onFleetService.createTeam(zipcode);
@@ -67,7 +67,7 @@ router.post("/team", async function(req, res, next) {
     }
 });
 
-router.get("/team", async function(req, res, next) {
+router.get("/team", async function (req, res, next) {
     const zipcode = String(req.query.zipcode);
     logger.debug(zipcode);
     const team = await firebaseService.getTeam(zipcode);
@@ -79,7 +79,7 @@ router.get("/team", async function(req, res, next) {
     return res.status(200).json(team);
 });
 
-router.post("/unsuccessful", async function(req, res, next) {
+router.post("/unsuccessful", async function (req, res, next) {
     const { phone, zipcode } = req.body;
     try {
         firebaseService.writeUnsuccessful(phone, zipcode);
@@ -89,7 +89,7 @@ router.post("/unsuccessful", async function(req, res, next) {
     }
 });
 
-router.post("/worker", async function(req, res, next) {
+router.post("/worker", async function (req, res, next) {
     const { phone, name, zipcode, email } = req.body;
     logger.debug({ phone, name, zipcode, email });
     try {
@@ -122,7 +122,7 @@ router.post("/worker", async function(req, res, next) {
     }
 });
 
-router.post("/twimlNumber", async function(req, res) {
+router.post("/twimlNumber", async function (req, res) {
     const { Caller } = req.body;
     const phone = Caller.substring(2);
 
@@ -137,7 +137,7 @@ router.post("/twimlNumber", async function(req, res) {
     return res.end(resp.toString());
 });
 
-router.get("/twimlZipcode", async function(req, res) {
+router.get("/twimlZipcode", async function (req, res) {
     const { zipcode } = req.query;
     res.writeHead(200, { "Content-Type": "text/xml" });
     //const resp = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Is<say-as interpret-as="digits">${zipcode}</say-as>your zipcode?</Say><Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect></Response>`;
@@ -150,7 +150,7 @@ router.get("/twimlZipcode", async function(req, res) {
     return res.end(resp.toString());
 });
 
-router.post("/test", async function(req, res) {
+router.post("/test", async function (req, res) {
     const { zipcode } = req.query;
     res.writeHead(200, { "Content-Type": "text/xml" });
     //const resp = `<?xml version="1.0" encoding="UTF-8"?><Response><Say>Is<say-as interpret-as="digits">${zipcode}</say-as>your zipcode?</Say><Redirect>https://webhooks.twilio.com/v1/Accounts/ACb228c71773482b13000655101442e779/Flows/FWf23aac20d25b198078c9b6c98957da34?FlowEvent=return</Redirect></Response>`;

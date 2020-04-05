@@ -27,7 +27,7 @@ describe("Validator", () => {
             expect(() => {
                 return assertFn({
                     args: [{ id }, { name }],
-                    validateFn: item => Boolean(item)
+                    validateFn: (item) => Boolean(item)
                 });
             }).not.toThrow();
         });
@@ -39,7 +39,7 @@ describe("Validator", () => {
             expect(() => {
                 return assertFn({
                     args: [{ id }, { name }],
-                    validateFn: item => Boolean(item)
+                    validateFn: (item) => Boolean(item)
                 });
             }).toThrow();
         });
@@ -53,7 +53,7 @@ describe("Validator", () => {
             expect(() => {
                 return assertFn({
                     args: [{ id }, { name }],
-                    validateFn: item => Boolean(item),
+                    validateFn: (item) => Boolean(item),
                     errorGeneratorFn: () => customError
                 });
             }).toThrowError(customError);
@@ -73,7 +73,7 @@ describe("Validator", () => {
                 try {
                     return assertFn({
                         args,
-                        validateFn: item => Boolean(item),
+                        validateFn: (item) => Boolean(item),
                         errorGeneratorFn: errorGen
                     });
                 } catch (e) {
